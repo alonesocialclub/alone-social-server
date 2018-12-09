@@ -12,7 +12,8 @@ public class EventValidator {
   public void validate(EventDto eventDto, Errors errors) {
     if (eventDto.getBasePrice() > eventDto.getMaxPrice() && eventDto.getMaxPrice() > 0) {
       // 무제한 경매 ( 높은 금액 낸 살마이 등록 ) 인 경우라 할 지어도, 0 원이면 안된다.
-      errors.rejectValue("basePrice", "wrong", " 무제한 경매 ( 높은 금액 낸 살마이 등록 ) 인 경우라 할 지어도, 0 원이면 안된다.");
+      // 필드에러가 아닌 글로벌 에러
+      errors.reject("Wrong base/max price", " 무제한 경매 ( 높은 금액 낸 살마이 등록 ) 인 경우라 할 지어도, 0 원이면 안된다.");
     }
 
     LocalDateTime endEventDateTime = eventDto.getEndEventDateTime();
