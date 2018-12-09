@@ -1,6 +1,7 @@
 package com.freestudy.api.event;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class EventControllerTest {
             .andDo(print())
             .andExpect(status().isCreated())
             .andExpect(jsonPath("id").exists())
+            .andExpect(jsonPath("id").value(Matchers.not(10)))
             .andExpect(header().exists(HttpHeaders.LOCATION))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE));
 
