@@ -1,6 +1,7 @@
 package com.freestudy.api.event;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.freestudy.api.common.DisplayName;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class EventControllerTest {
   ObjectMapper objectMapper;
 
   @Test
+  @DisplayName("정상적으로 이벤트를 사용할 때")
   public void createEvent() throws Exception {
 
     EventDto event = EventDto.builder()
@@ -61,9 +63,38 @@ public class EventControllerTest {
   }
 
   @Test
+  @DisplayName("입력값이 없는 경우에")
   public void createEvent_Bad_Request_Empty_Input() throws Exception {
 
     EventDto eventDto = EventDto.builder().build();
+
+    mockMvc
+            .perform(
+                    post("/api/events/")
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaTypes.HAL_JSON)
+                            .content(objectMapper.writeValueAsString(eventDto))
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @DisplayName("입력값이 있으나 잘못되 경우일 때")
+  public void createEvent_Bad_Request_Invalid_Input() throws Exception {
+
+    EventDto eventDto = EventDto.builder()
+            .name("SpringBootIsFun")
+            .description("Rest")
+            .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .beginEventDateTime(LocalDateTime.of(2018, 11, 15, 0, 0))
+            .endEventDateTime(LocalDateTime.of(2018, 11, 10, 0, 0))
+            .basePrice(1000)
+            .maxPrice(10000)
+            .limitOfEnrollment(5)
+            .location("낙성대")
+            .build();
 
     mockMvc
             .perform(
