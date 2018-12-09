@@ -31,6 +31,7 @@ public class Event {
 
   private int basePrice;
   private int maxPrice;
+  private boolean free;
 
   private Date createdAt;
   private Date updatedAt;
@@ -38,4 +39,8 @@ public class Event {
   @Enumerated(EnumType.STRING)
   @Builder.Default
   private EventStatus statusStatus = EventStatus.DRAFT;
+
+  public void update() {
+    this.free = (this.basePrice == 0 && this.maxPrice == 0);
+  }
 }
