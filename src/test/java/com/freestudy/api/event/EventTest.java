@@ -23,3 +23,4 @@ public class EventTest {
     event.setDescription("노트북 두고 화장실은 가야하니까.");
     assertThat(event).isNotNull();
   }
+}
