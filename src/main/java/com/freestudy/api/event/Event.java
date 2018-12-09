@@ -24,8 +24,8 @@ public class Event {
 
   private LocalDateTime beginEnrollmentDateTime;
   private LocalDateTime closeEnrollmentDateTime;
-  private LocalDateTime beginEventDatetime;
-  private LocalDateTime endEventDatetime;
+  private LocalDateTime beginEventDateTime;
+  private LocalDateTime endEventDateTime;
   private String location;
   private int limitOfEnrollment;
 
@@ -36,5 +36,6 @@ public class Event {
   private Date updatedAt;
 
   @Enumerated(EnumType.STRING)
+  @Builder.Default
   private EventStatus statusStatus = EventStatus.DRAFT;
 }

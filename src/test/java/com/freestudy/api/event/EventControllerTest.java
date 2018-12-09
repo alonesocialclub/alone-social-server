@@ -1,7 +1,6 @@
 package com.freestudy.api.event;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +32,13 @@ public class EventControllerTest {
   @Test
   public void createEvent() throws Exception {
 
-    Event event = Event.builder()
-            .id(10)
+    EventDto event = EventDto.builder()
             .name("SpringBootIsFun")
             .description("Rest")
             .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
             .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .beginEventDatetime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .endEventDatetime(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .beginEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .endEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
             .basePrice(1000)
             .maxPrice(10000)
             .limitOfEnrollment(5)
@@ -56,8 +54,39 @@ public class EventControllerTest {
             )
             .andDo(print())
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("id").exists())
-            .andExpect(jsonPath("id").value(Matchers.not(10)))
+            .andExpect(jsonPath("id").isNumber())
+            .andExpect(header().exists(HttpHeaders.LOCATION))
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE));
+
+  }
+
+  @Test
+  public void createEvent_BadRequest() throws Exception {
+
+    Event event = Event.builder()
+            .name("SpringBootIsFun")
+            .description("Rest")
+            .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .beginEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .endEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .basePrice(1000)
+            .maxPrice(10000)
+            .limitOfEnrollment(5)
+            .location("낙성대")
+            .statusStatus(EventStatus.PUBLISHED)
+            .build();
+
+    mockMvc
+            .perform(
+                    post("/api/events/")
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaTypes.HAL_JSON)
+                            .content(objectMapper.writeValueAsString(event))
+            )
+            .andDo(print())
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("id").isNumber())
             .andExpect(header().exists(HttpHeaders.LOCATION))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE));
 
