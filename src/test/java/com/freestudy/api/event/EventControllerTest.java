@@ -3,10 +3,9 @@ package com.freestudy.api.event;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,14 +16,12 @@ import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 public class EventControllerTest {
-
 
   @Autowired
   MockMvc mockMvc;
@@ -32,13 +29,11 @@ public class EventControllerTest {
   @Autowired
   ObjectMapper objectMapper;
 
-  @MockBean
-  EventRepository eventRepository;
-
   @Test
   public void createEvent() throws Exception {
 
     Event event = Event.builder()
+            .id(10)
             .name("SpringBootIsFun")
             .description("Rest")
             .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
@@ -50,9 +45,6 @@ public class EventControllerTest {
             .limitOfEnrollment(5)
             .location("낙성대")
             .build();
-
-    event.setId(10);
-    Mockito.when(eventRepository.save(event)).thenReturn(event);
 
     mockMvc
             .perform(

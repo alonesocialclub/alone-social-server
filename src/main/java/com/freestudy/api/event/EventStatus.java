@@ -2,5 +2,6 @@ package com.freestudy.api.event;
 
 public enum EventStatus {
 
-  DRAFT,
+  DRAFT, PUBLISHED, BEGAN_ENROLLMENT;
+
 }

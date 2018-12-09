@@ -1,12 +1,8 @@
 package com.freestudy.api.event;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -20,7 +16,8 @@ import java.util.Date;
 @Entity
 public class Event {
 
-  @Id @GeneratedValue
+  @Id
+  @GeneratedValue
   private Integer id;
   private String name;
   private String description;
@@ -39,5 +36,5 @@ public class Event {
   private Date updatedAt;
 
   @Enumerated(EnumType.STRING)
-  private EventStatus statusStatus;
+  private EventStatus statusStatus = EventStatus.DRAFT;
 }
