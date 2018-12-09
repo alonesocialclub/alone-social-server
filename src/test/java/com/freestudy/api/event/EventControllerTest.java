@@ -61,35 +61,20 @@ public class EventControllerTest {
   }
 
   @Test
-  public void createEvent_BadRequest() throws Exception {
+  public void createEvent_Bad_Request_Empty_Input() throws Exception {
 
-    Event event = Event.builder()
-            .name("SpringBootIsFun")
-            .description("Rest")
-            .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .beginEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .endEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .basePrice(1000)
-            .maxPrice(10000)
-            .limitOfEnrollment(5)
-            .location("낙성대")
-            .statusStatus(EventStatus.PUBLISHED)
-            .build();
+    EventDto eventDto = EventDto.builder().build();
 
     mockMvc
             .perform(
                     post("/api/events/")
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaTypes.HAL_JSON)
-                            .content(objectMapper.writeValueAsString(event))
+                            .content(objectMapper.writeValueAsString(eventDto))
             )
             .andDo(print())
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath("id").isNumber())
-            .andExpect(header().exists(HttpHeaders.LOCATION))
-            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE));
-
+            .andExpect(status().isBadRequest());
   }
+
 
 }
