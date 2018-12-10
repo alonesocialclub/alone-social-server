@@ -54,6 +54,6 @@ public class EventTest {
     event.update();
 
     // then
-    assertThat(event.isFree()).isTrue();
+    assertThat(event.isFree()).isFalse();
   }
 }
