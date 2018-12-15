@@ -16,7 +16,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -62,7 +69,33 @@ public class EventControllerTest {
             .andExpect(jsonPath("id").isNumber())
             .andExpect(header().exists(HttpHeaders.LOCATION))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
-            .andDo(document("create-event"));
+            .andDo(
+                    document("create-event",
+                            links(
+                                    linkWithRel("self").description("link to self"),
+                                    linkWithRel("query-events").description("query")
+                            ),
+                            requestHeaders(
+                                    headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                    headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                            ),
+                            requestFields(
+                                    fieldWithPath("name").description("Name of new event"),
+                                    fieldWithPath("description").description("Description of new event"),
+                                    fieldWithPath("location").description("Location of new event"),
+                                    fieldWithPath("beginEnrollmentDateTime").description("Description of new event"),
+                                    fieldWithPath("closeEnrollmentDateTime").description("모임 등록 마감 시간"),
+                                    fieldWithPath("beginEventDateTime").description("beginEventDateTime"),
+                                    fieldWithPath("endEventDateTime").description("endEventDateTime"),
+                                    fieldWithPath("basePrice").description("basePrice"),
+                                    fieldWithPath("maxPrice").description("maxPrice"),
+                                    fieldWithPath("limitOfEnrollment").description("limitOfEnrollment")
+                            ),
+                            relaxedResponseFields(
+                                    fieldWithPath("id").description("event id")
+                            )
+                    )
+            );
 
   }
 
