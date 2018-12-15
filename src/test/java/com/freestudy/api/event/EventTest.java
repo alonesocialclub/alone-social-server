@@ -1,6 +1,6 @@
 package com.freestudy.api.event;
 
-import com.freestudy.api.common.DisplayName;
+import com.freestudy.api.DisplayName;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

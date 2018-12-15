@@ -1,7 +1,7 @@
 package com.freestudy.api.event;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.freestudy.api.common.DisplayName;
+import com.freestudy.api.DisplayName;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
