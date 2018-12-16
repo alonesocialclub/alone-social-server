@@ -31,7 +31,11 @@ public class EventController {
 
   private final EventValidator eventValidator;
 
-  public EventController(EventRepository eventRepository, ModelMapper modelMapper, EventValidator eventValidator) {
+  public EventController(
+          EventRepository eventRepository,
+          ModelMapper modelMapper,
+          EventValidator eventValidator
+  ) {
     this.eventRepository = eventRepository;
     this.modelMapper = modelMapper;
     this.eventValidator = eventValidator;
