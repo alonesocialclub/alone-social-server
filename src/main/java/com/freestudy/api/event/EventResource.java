@@ -10,6 +10,7 @@ public class EventResource extends Resource<Event> {
   public EventResource(Event event, Link... links) {
     super(event, links);
     add(linkTo(EventController.class).slash(event.getId()).withSelfRel());
+
   }
 }
 
