@@ -192,12 +192,15 @@ public class EventControllerTest {
     IntStream.range(0, 30).forEach(this::generateEvent);
 
     // When
-    this.mockMvc.perform(
+    var perform = this.mockMvc.perform(
             get("/api/events")
                     .param("page", "1")
                     .param("size", "10")
                     .param("sort", "name,desc")
-    )
+    );
+
+    // Then
+    perform
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("page").exists())
@@ -205,16 +208,44 @@ public class EventControllerTest {
             .andExpect(jsonPath("_links.self").exists())
             .andExpect(jsonPath("_links.profile").exists())
             .andDo(document("query-events"));
-
   }
 
-  private void generateEvent(int i) {
+  @Test
+  @DisplayName("기존 이벤트 하나 조회")
+  public void getEvent() throws Exception {
+    // Given
+    Event event = this.generateEvent(100);
+
+    // When
+    var perform = this.mockMvc.perform(get("/api/events/{id}", event.getId()));
+
+    // Then
+    perform.andExpect(status().isOk());
+    perform.andExpect(jsonPath("id").exists());
+    perform.andExpect(jsonPath("name").exists());
+    perform.andExpect(jsonPath("description").exists());
+    perform.andExpect(jsonPath("_links.self").exists());
+    perform.andExpect(jsonPath("_links.profile").exists());
+    perform.andDo(document("get-an-event"));
+  }
+
+
+  @Test
+  @DisplayName("기존 이벤트 하나 조회, 이벤트가 없을 때")
+  public void getEvent_Not_Found() throws Exception {
+    // When
+    var perform = this.mockMvc.perform(get("/api/events/{id}", 12345));
+
+    // Then
+    perform.andExpect(status().isNotFound());
+  }
+
+  private Event generateEvent(int i) {
     Event event = Event.builder()
             .name("evnet" + i)
             .description("test event")
             .build();
-    this.eventRepository.save(event);
+    return this.eventRepository.save(event);
   }
-
 
 }
