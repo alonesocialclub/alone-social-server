@@ -1,5 +1,6 @@
 package com.freestudy.api.event;
 
+import com.freestudy.api.account.Account;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,6 +36,9 @@ public class Event {
 
   private Date createdAt;
   private Date updatedAt;
+
+  @ManyToOne
+  private Account manager;
 
   @Enumerated(EnumType.STRING)
   @Builder.Default
