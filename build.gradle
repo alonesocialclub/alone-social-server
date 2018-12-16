@@ -13,6 +13,10 @@ buildscript {
 }
 
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
@@ -42,10 +46,13 @@ dependencies {
 }
 
 
+test {
+    outputs.dir snippetsDir
+}
 
 asciidoctor {
+    dependsOn test
     sourceDir 'src/main/asciidoc'
-    attributes 'snippets': file('build/generated-snippets')
 }
 
 bootJar {
