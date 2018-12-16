@@ -118,7 +118,8 @@ public class EventControllerTest {
                             .content(objectMapper.writeValueAsString(eventDto))
             )
             .andDo(print())
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("_links.index").exists());
   }
 
   @Test
@@ -146,7 +147,8 @@ public class EventControllerTest {
                             .content(objectMapper.writeValueAsString(eventDto))
             )
             .andDo(print())
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("_links.index").exists());
   }
 
   @Test
@@ -174,9 +176,10 @@ public class EventControllerTest {
                             .content(objectMapper.writeValueAsString(eventDto))
             )
             .andDo(print())
-            .andExpect(jsonPath("$[0].objectName").exists())
-            .andExpect(jsonPath("$[0].defaultMessage").exists())
-            .andExpect(status().isBadRequest());
+            .andExpect(jsonPath("content[0].objectName").exists())
+            .andExpect(jsonPath("content[0].defaultMessage").exists())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("_links.index").exists());
   }
 
 

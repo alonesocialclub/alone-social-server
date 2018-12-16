@@ -1,5 +1,6 @@
 package com.freestudy.api.event;
 
+import com.freestudy.api.common.ErrorsResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
@@ -38,13 +39,13 @@ public class EventController {
           Errors errors
   ) {
     if (errors.hasErrors()) {
-      return ResponseEntity.badRequest().body(errors);
+      return BadRequest(errors);
     }
 
     eventValidator.validate(eventDto, errors);
 
     if (errors.hasErrors()) {
-      return ResponseEntity.badRequest().body(errors);
+      return BadRequest(errors);
     }
 
     Event event = modelMapper.map(eventDto, Event.class);
@@ -55,7 +56,12 @@ public class EventController {
     URI createdUri = selfLinkBuilder.toUri();
     EventResource eventResource = new EventResource(event);
     eventResource.add(linkTo(EventController.class).withRel("query-events"));
+
     return ResponseEntity.created(createdUri).body(eventResource);
+  }
+
+  private ResponseEntity BadRequest(Errors errors) {
+    return ResponseEntity.badRequest().body(new ErrorsResource(errors));
   }
 
 
