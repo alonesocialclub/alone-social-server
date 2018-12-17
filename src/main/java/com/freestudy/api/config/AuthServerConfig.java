@@ -28,9 +28,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   @Autowired
   TokenStore tokenStore;
 
-//  @Autowired
-//  AppProperties appProperties;
-
   @Override
   public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
     security.passwordEncoder(passwordEncoder);
