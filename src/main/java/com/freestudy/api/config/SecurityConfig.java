@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,8 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(WebSecurity web) throws Exception {
-    // 방법 1, 웹 필터자체에서 거르기
-
     // docs
     web.ignoring().mvcMatchers("/docs/index.html");
 
@@ -54,10 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    // 방법 2, 시큐리티까지 내려가서
-//    http.authorizeRequests()
-//            .mvcMatchers("/docs/index.html").anonymous()
-//            .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    http
+            .anonymous()
+            .and()
+            .formLogin()
+            .and()
+            .authorizeRequests()
+            .mvcMatchers(HttpMethod.GET, "/api/**").authenticated().anyRequest().authenticated();
   }
-
 }
