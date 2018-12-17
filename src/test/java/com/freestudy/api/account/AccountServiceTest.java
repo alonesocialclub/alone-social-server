@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 
 @RunWith(SpringRunner.class)
@@ -43,6 +45,22 @@ public class AccountServiceTest {
 
     // Then
     assertThat(userDetails.getPassword()).isEqualTo(password);
+  }
+
+  @Test
+  public void findByUsername_Fail() {
+    // Given
+    String notFoundUserName = "fooo@testest.com";
+
+    // When
+    try {
+      UserDetailsService userDetailsService = accountService;
+      userDetailsService.loadUserByUsername(notFoundUserName); // username
+      fail("supposed to be failed");
+    } catch (UsernameNotFoundException e) {
+      // Then
+      assertThat(e.getMessage()).contains(notFoundUserName);
+    }
   }
 
 }
