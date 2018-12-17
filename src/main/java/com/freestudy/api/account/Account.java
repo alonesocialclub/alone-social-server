@@ -21,6 +21,9 @@ public class Account {
   @Column
   private String email;
 
+  @Column
+  private String password;
+
   @Enumerated(EnumType.STRING)
   @ElementCollection(fetch = FetchType.EAGER)
   private Set<AccountRole> roles;
