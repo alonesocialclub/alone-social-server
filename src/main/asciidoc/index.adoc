@@ -91,6 +91,10 @@ include::{snippets}/errors/http-response.adoc[]
 
 operation::index[snippets='response-body,http-response,links']
 
+operation::index[]
+
+
+
 [[resources-events]]
 == 이벤트
 
@@ -101,7 +105,13 @@ operation::index[snippets='response-body,http-response,links']
 
 `GET` 요청을 사용하여 서비스의 모든 이벤트를 조회할 수 있다.
 
-operation::get-events[snippets='response-fields,curl-request,http-response,links']
+operation::query-events[snippets='response-fields']
+operation::query-events[]
+
+fooo
+
+include::{snippets}/query-events/curl-request.adoc[]
+
 
 [[resources-events-create]]
 === 이벤트 생성

@@ -218,6 +218,33 @@ public class EventControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @DisplayName("인증정보가 있을 때 이벤트 생성 링크를 내려준다.")
+  public void queryEventsWithAuth() throws Exception {
+    // Given
+    IntStream.range(0, 30).forEach(this::generateEvent);
+
+    // When
+    var perform = this.mockMvc.perform(
+            get("/api/events")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
+                    .param("page", "1")
+                    .param("size", "10")
+                    .param("sort", "name,desc")
+    );
+
+    // Then
+    perform
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("page").exists())
+            .andExpect(jsonPath("_embedded.eventList[0]._links.self").exists())
+            .andExpect(jsonPath("_links.self").exists())
+            .andExpect(jsonPath("_links.profile").exists())
+            .andExpect(jsonPath("_links.create-event").exists())
+            .andDo(document("query-events"));
+  }
+
+  @Test
   @DisplayName("기존 이벤트 하나 조회")
   public void getEvent() throws Exception {
     // Given
