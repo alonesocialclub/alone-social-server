@@ -25,9 +25,10 @@ public class AuthServerConfigTest extends BaseControllerTest {
   @DisplayName("get auth token with password grant type")
   public void getAuthTokenTest() throws Exception {
     // Given
+    String email = "jh2222@token-test.com";
     String password = "1234";
     Account account = Account.builder()
-            .email("jh@test.com")
+            .email(email)
             .password(password)
             .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
             .build();
@@ -36,11 +37,15 @@ public class AuthServerConfigTest extends BaseControllerTest {
     String clientId = "myApp";
     String clientSecret = "pass";
 
-    this.mockMvc.perform(post("/oauth/token")
+    // Then
+    var perform = this.mockMvc.perform(post("/oauth/token")
             .with(httpBasic(clientId, clientSecret))
-            .param("username", account.getEmail())
+            .param("username", email)
             .param("password", password)
-            .param("grant_type", "password"))
+            .param("grant_type", "password"));
+
+    // Then
+    perform
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("access_token").exists());

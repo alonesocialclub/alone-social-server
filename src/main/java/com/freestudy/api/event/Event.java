@@ -1,6 +1,8 @@
 package com.freestudy.api.event;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.freestudy.api.account.Account;
+import com.freestudy.api.account.AccountSerializer;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,6 +40,7 @@ public class Event {
   private Date updatedAt;
 
   @ManyToOne
+  @JsonSerialize(using = AccountSerializer.class)
   private Account manager;
 
   @Enumerated(EnumType.STRING)
