@@ -22,32 +22,35 @@ public class Event {
   @Id
   @GeneratedValue
   private Integer id;
+
+  @Column
   private String name;
+
+  @Column
   private String description;
 
-  private LocalDateTime beginEnrollmentDateTime;
-  private LocalDateTime closeEnrollmentDateTime;
-  private LocalDateTime beginEventDateTime;
-  private LocalDateTime endEventDateTime;
+  @Column
+  private LocalDateTime startedAt;
+
+  @Column
+  private LocalDateTime endedAt;
+
+  @Column
   private String location;
-  private int limitOfEnrollment;
 
-  private int basePrice;
-  private int maxPrice;
-  private boolean free;
+  @Column
+  private Integer limitOfEnrollment;
 
+  @Column
   private Date createdAt;
+
+  @Column
   private Date updatedAt;
 
   @ManyToOne
   @JsonSerialize(using = AccountSerializer.class)
-  private Account manager;
+  private Account owner;
 
-  @Enumerated(EnumType.STRING)
-  @Builder.Default
-  private EventStatus statusStatus = EventStatus.DRAFT;
+  private EventStatus statusStatus; // TODO, startedAt, endedAt 기반으로 getter 만
 
-  public void update() {
-    this.free = (this.basePrice == 0 && this.maxPrice == 0);
-  }
 }

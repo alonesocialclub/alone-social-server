@@ -10,15 +10,8 @@ import java.time.LocalDateTime;
 public class EventValidator {
 
   public void validate(EventDto eventDto, Errors errors) {
-    if (eventDto.getBasePrice() > eventDto.getMaxPrice() && eventDto.getMaxPrice() > 0) {
-      // 무제한 경매 ( 높은 금액 낸 살마이 등록 ) 인 경우라 할 지어도, 0 원이면 안된다.
-      // 필드에러가 아닌 글로벌 에러
-      errors.reject("Wrong base/max price", " 무제한 경매 ( 높은 금액 낸 살마이 등록 ) 인 경우라 할 지어도, 0 원이면 안된다.");
-    }
-
-    LocalDateTime endEventDateTime = eventDto.getEndEventDateTime();
-    if (endEventDateTime.isBefore(eventDto.getBeginEventDateTime())) {
-      errors.rejectValue("endEventDateTime", "wrong", "invalid endEventDateTime");
+    if (eventDto.getStartedAt().isAfter(eventDto.getEndedAt())) {
+      errors.reject("Wrong event.startedAt with endedAt", "이벤트 시작 시간은 종료시간보다 뒤 일 수 없습니다.");
     }
 
   }

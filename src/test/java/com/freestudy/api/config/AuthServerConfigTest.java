@@ -3,8 +3,12 @@ package com.freestudy.api.config;
 import com.freestudy.api.BaseControllerTest;
 import com.freestudy.api.DisplayName;
 import com.freestudy.api.account.Account;
+import com.freestudy.api.account.AccountRepository;
 import com.freestudy.api.account.AccountRole;
 import com.freestudy.api.account.AccountService;
+import com.freestudy.api.common.AppProperties;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,11 +25,23 @@ public class AuthServerConfigTest extends BaseControllerTest {
   @Autowired
   AccountService accountService;
 
+  @Autowired
+  AccountRepository accountRepository;
+
+  @Autowired
+  AppProperties appProperties;
+
+  @Before
+  @After
+  public void setUpAndTearDown() {
+    accountRepository.deleteAll();
+  }
+
   @Test
   @DisplayName("get auth token with password grant type")
   public void getAuthTokenTest() throws Exception {
     // Given
-    String email = "jh2222@token-test.com";
+    String email = "jh@test.com";
     String password = "1234";
     Account account = Account.builder()
             .email(email)
@@ -34,12 +50,9 @@ public class AuthServerConfigTest extends BaseControllerTest {
             .build();
     accountService.saveAccount(account);
 
-    String clientId = "myApp";
-    String clientSecret = "pass";
-
     // Then
     var perform = this.mockMvc.perform(post("/oauth/token")
-            .with(httpBasic(clientId, clientSecret))
+            .with(httpBasic(appProperties.getOauthClientId(), appProperties.getOauthClientSecret()))
             .param("username", email)
             .param("password", password)
             .param("grant_type", "password"));
