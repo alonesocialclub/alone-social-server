@@ -4,6 +4,7 @@ import com.freestudy.api.account.Account;
 import com.freestudy.api.account.AccountRepository;
 import com.freestudy.api.account.AccountRole;
 import com.freestudy.api.account.AccountService;
+import com.freestudy.api.common.AppProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -22,10 +23,15 @@ public class AdminCreateRunner implements ApplicationRunner {
   @Autowired
   AccountRepository accountRepository;
 
+  @Autowired
+  AppProperties appProperties;
+
   @Override
   public void run(ApplicationArguments args) throws Exception {
+
+    System.out.println(appProperties.getAdminUsername());
     Account account = Account.builder()
-            .email("jh@test.com")
+            .email(appProperties.getAdminUsername())
             .password("admin")
             .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
             .build();
