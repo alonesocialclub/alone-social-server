@@ -46,7 +46,8 @@ public class EventControllerTest extends BaseControllerTest {
   private AccountService accountService;
 
   @Before
-  public void setUp() {
+  @After
+  public void setUpAndTearDown() {
     this.eventRepository.deleteAll();
     this.accountRepository.deleteAll();
   }
