@@ -8,6 +8,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 
 @TestConfiguration
 public class RestDocsConfiguration {
+  // TODO
   @Bean
   public RestDocsMockMvcConfigurationCustomizer restDocsMockMvcConfigurationCustomizer() {
     return configurer -> configurer.operationPreprocessors()

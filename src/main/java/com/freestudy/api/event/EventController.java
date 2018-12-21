@@ -1,5 +1,7 @@
 package com.freestudy.api.event;
 
+import com.freestudy.api.account.Account;
+import com.freestudy.api.account.CurrentUser;
 import com.freestudy.api.common.ErrorsResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -67,10 +69,17 @@ public class EventController {
   }
 
   @GetMapping
-  public ResponseEntity queryEvents(Pageable pageable, PagedResourcesAssembler<Event> assembler) {
+  public ResponseEntity queryEvents(
+          Pageable pageable,
+          PagedResourcesAssembler<Event> assembler,
+          @CurrentUser Account currentUser
+  ) {
     Page<Event> page = this.eventRepository.findAll(pageable);
     var pagedResources = assembler.toResource(page, e -> new EventResource(e));
     pagedResources.add(new Link("/docs/index.html#resources-events-list").withRel("profile"));
+    if (currentUser != null) {
+      pagedResources.add(linkTo(EventController.class).withRel("create-event"));
+    }
     return ResponseEntity.ok(pagedResources);
 
   }
