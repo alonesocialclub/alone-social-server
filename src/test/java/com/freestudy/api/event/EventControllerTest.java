@@ -6,6 +6,7 @@ import com.freestudy.api.account.Account;
 import com.freestudy.api.account.AccountRepository;
 import com.freestudy.api.account.AccountRole;
 import com.freestudy.api.account.AccountService;
+import com.freestudy.api.common.AppProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +45,9 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Autowired
   private AccountService accountService;
+
+  @Autowired
+  private AppProperties appProperties;
 
   @Before
   @After
@@ -365,11 +369,9 @@ public class EventControllerTest extends BaseControllerTest {
             .build();
     accountService.saveAccount(account);
 
-    String clientId = "myApp";
-    String clientSecret = "pass";
 
     var perform = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/oauth/token")
-            .with(httpBasic(clientId, clientSecret))
+            .with(httpBasic(appProperties.getOauthClientId(), appProperties.getOauthClientSecret()))
             .param("username", account.getEmail())
             .param("password", password)
             .param("grant_type", "password"));
