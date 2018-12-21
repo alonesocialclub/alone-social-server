@@ -39,7 +39,7 @@ public class Event {
   private String location;
 
   @Column
-  private Integer limitOfEnrollment;
+  private int limitOfEnrollment;
 
   @Column
   private Date createdAt;
