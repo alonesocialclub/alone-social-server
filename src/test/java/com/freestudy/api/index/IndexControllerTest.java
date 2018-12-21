@@ -4,7 +4,9 @@ import com.freestudy.api.BaseControllerTest;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class IndexControllerTest extends BaseControllerTest {
@@ -19,8 +21,12 @@ public class IndexControllerTest extends BaseControllerTest {
 
   @Test
   public void apiIndexTest() throws Exception {
-    this.mockMvc
-            .perform((get("/api")))
+    var perform = this.mockMvc
+            .perform((get("/api")));
+
+    perform
+            .andDo(print())
+            .andDo(document("index"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("_links.events").exists());
   }

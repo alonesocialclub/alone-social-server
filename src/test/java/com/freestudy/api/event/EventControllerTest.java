@@ -261,7 +261,7 @@ public class EventControllerTest extends BaseControllerTest {
     perform.andExpect(jsonPath("description").exists());
     perform.andExpect(jsonPath("_links.self").exists());
     perform.andExpect(jsonPath("_links.profile").exists());
-    perform.andDo(document("get-an-event"));
+    perform.andDo(document("get-event"));
   }
 
 
