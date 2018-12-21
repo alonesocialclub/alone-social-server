@@ -3,8 +3,11 @@ package com.freestudy.api.config;
 import com.freestudy.api.BaseControllerTest;
 import com.freestudy.api.DisplayName;
 import com.freestudy.api.account.Account;
+import com.freestudy.api.account.AccountRepository;
 import com.freestudy.api.account.AccountRole;
 import com.freestudy.api.account.AccountService;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,11 +24,20 @@ public class AuthServerConfigTest extends BaseControllerTest {
   @Autowired
   AccountService accountService;
 
+  @Autowired
+  AccountRepository accountRepository;
+
+  @Before
+  @After
+  public void setUpAndTearDown() {
+    accountRepository.deleteAll();
+  }
+
   @Test
   @DisplayName("get auth token with password grant type")
   public void getAuthTokenTest() throws Exception {
     // Given
-    String email = "jh2222@token-test.com";
+    String email = "jh@test.com";
     String password = "1234";
     Account account = Account.builder()
             .email(email)
