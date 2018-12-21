@@ -23,18 +23,11 @@ public class EventDto {
   private String location;
 
   @NotNull
-  private LocalDateTime beginEnrollmentDateTime;
+  private LocalDateTime startedAt;
+  
   @NotNull
-  private LocalDateTime closeEnrollmentDateTime;
-  @NotNull
-  private LocalDateTime beginEventDateTime;
-  @NotNull
-  private LocalDateTime endEventDateTime;
+  private LocalDateTime endedAt;
 
-  @Min(0)
-  private int basePrice; // (optional)
-  @Min(0)
-  private int maxPrice; // (optional)
   @Min(0)
   private int limitOfEnrollment;
 }

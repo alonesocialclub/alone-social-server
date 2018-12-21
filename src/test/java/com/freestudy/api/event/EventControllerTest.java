@@ -57,30 +57,29 @@ public class EventControllerTest extends BaseControllerTest {
   }
 
   @Test
-  @DisplayName("정상적으로 이벤트를 사용할 때")
-  public void createEvent() throws Exception {
-
+  public void createEvent__happy() throws Exception {
+    // Given
     EventDto event = EventDto.builder()
             .name("SpringBootIsFun")
             .description("Rest")
-            .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .beginEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .endEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .basePrice(1000)
-            .maxPrice(10000)
+            .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
             .location("낙성대")
             .build();
 
-    mockMvc
+    // When
+    var perfrom = mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(event))
-            )
+            );
+
+    // Then
+    perfrom
             .andDo(print())
             .andExpect(status().isCreated())
             .andExpect(jsonPath("id").isNumber())
@@ -97,16 +96,12 @@ public class EventControllerTest extends BaseControllerTest {
                                     headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
                             ),
                             requestFields(
-                                    fieldWithPath("name").description("Name of new event"),
-                                    fieldWithPath("description").description("Description of new event"),
-                                    fieldWithPath("location").description("Location of new event"),
-                                    fieldWithPath("beginEnrollmentDateTime").description("Description of new event"),
-                                    fieldWithPath("closeEnrollmentDateTime").description("모임 등록 마감 시간"),
-                                    fieldWithPath("beginEventDateTime").description("beginEventDateTime"),
-                                    fieldWithPath("endEventDateTime").description("endEventDateTime"),
-                                    fieldWithPath("basePrice").description("basePrice"),
-                                    fieldWithPath("maxPrice").description("maxPrice"),
-                                    fieldWithPath("limitOfEnrollment").description("limitOfEnrollment")
+                                    fieldWithPath("name").description("모임 이름"),
+                                    fieldWithPath("description").description("모임 설명"),
+                                    fieldWithPath("location").description("모임 장소"),
+                                    fieldWithPath("startedAt").description("모임 시작 시간"),
+                                    fieldWithPath("endedAt").description("모임 종료 시간"),
+                                    fieldWithPath("limitOfEnrollment").description("모임 정원")
                             ),
                             relaxedResponseFields(
                                     fieldWithPath("id").description("event id")
@@ -118,88 +113,63 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Test
   @DisplayName("입력값이 없는 경우에")
-  public void createEvent_Bad_Request_Empty_Input() throws Exception {
-
+  public void createEvent__empty_input() throws Exception {
+    // Given
     EventDto eventDto = EventDto.builder().build();
 
-    mockMvc
+    // When
+    var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(eventDto))
-            )
+            );
+
+    // Then
+    perform
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("_links.index").exists());
   }
 
   @Test
-  @DisplayName("입력값이 있으나 잘못되 경우일 때, 이벤트 시작일은 종료일보다 이전이여야 한다.")
-  public void createEvent_Bad_Request_Invalid_Input() throws Exception {
-
+  @DisplayName("이벤트 시작일은 종료일보다 이전이여야 한다.")
+  public void createEvent_invalid_input() throws Exception {
+    // Given
     EventDto eventDto = EventDto.builder()
             .name("SpringBootIsFun")
             .description("Rest")
-            .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .beginEventDateTime(LocalDateTime.of(2018, 11, 15, 0, 0))
-            .endEventDateTime(LocalDateTime.of(2018, 11, 10, 0, 0))
-            .basePrice(1000)
-            .maxPrice(10000)
+            .startedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
+            .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
             .location("낙성대")
             .build();
 
-    mockMvc
+    // When
+    var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(eventDto))
-            )
+            );
+
+    // Then
+    perform
             .andDo(print())
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("_links.index").exists());
-  }
-
-  @Test
-  @DisplayName("입력값이 있으나 잘못되 경우일 때, 이에 대한 정보가 응답에 담겨야한다.")
-  public void createEvent_Bad_Request_Invalid_Input_With_Response() throws Exception {
-
-    EventDto eventDto = EventDto.builder()
-            .name("SpringBootIsFun")
-            .description("Rest")
-            .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .beginEventDateTime(LocalDateTime.of(2018, 11, 15, 0, 0))
-            .endEventDateTime(LocalDateTime.of(2018, 11, 10, 0, 0))
-            .basePrice(1000)
-            .maxPrice(10000)
-            .limitOfEnrollment(5)
-            .location("낙성대")
-            .build();
-
-    mockMvc
-            .perform(
-                    post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
-                            .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .accept(MediaTypes.HAL_JSON)
-                            .content(objectMapper.writeValueAsString(eventDto))
-            )
-            .andDo(print())
             .andExpect(jsonPath("content[0].objectName").exists())
             .andExpect(jsonPath("content[0].defaultMessage").exists())
-            .andExpect(status().isBadRequest())
             .andExpect(jsonPath("_links.index").exists());
   }
+
 
   @Test
   @DisplayName("30개의 이벤트를 10개씩 두번째 페이지 조회 이벤트 이름순 정렬")
-  public void queryEvents() throws Exception {
+  public void queryEvents__hapy() throws Exception {
     // Given
     IntStream.range(0, 30).forEach(this::generateEvent);
 
@@ -232,7 +202,7 @@ public class EventControllerTest extends BaseControllerTest {
     // When
     var perform = this.mockMvc.perform(
             get("/api/events")
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getToken())
                     .param("page", "1")
                     .param("size", "10")
                     .param("sort", "name,desc")
@@ -272,9 +242,9 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Test
   @DisplayName("기존 이벤트 하나 조회, 이벤트가 없을 때")
-  public void getEvent_Not_Found() throws Exception {
+  public void getEvent__not_found() throws Exception {
     // When
-    var perform = this.mockMvc.perform(get("/api/events/{id}", 12345));
+    var perform = this.mockMvc.perform(get("/api/events/{id}", 0));
 
     // Then
     perform.andExpect(status().isNotFound());
@@ -282,7 +252,7 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Test
   @DisplayName("이벤트 수정")
-  public void updateEvent() throws Exception {
+  public void updateEvent__happy() throws Exception {
     // Given
     Event event = generateEvent(200);
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
@@ -292,7 +262,7 @@ public class EventControllerTest extends BaseControllerTest {
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -304,15 +274,15 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Test
   @DisplayName("이벤트 수정, 없는 이벤트에 대해서")
-  public void updateEvent_Not_found() throws Exception {
+  public void updateEvent__not_found() throws Exception {
     // Given
     Event event = generateEvent(123);
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 
     // When
     var perform = this.mockMvc.perform(
-            put("/api/events/999999999")
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
+            put("/api/events/0")
+                    .header(HttpHeaders.AUTHORIZATION, getToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -322,20 +292,20 @@ public class EventControllerTest extends BaseControllerTest {
   }
 
   @Test
-  @DisplayName("이벤트 수정, 입력값이 잘못된 경우")
-  public void updateEvent_Invalid_Input() throws Exception {
+  @DisplayName("이벤트 수정, 시작시간을 종료시간 이후의 값을 넣는 경우")
+  public void updateEvent__invalid_startedAt_endedAt() throws Exception {
     // Given
     Event event = generateEvent(200);
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
-    eventDto.setEndEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0));
-    eventDto.setBeginEventDateTime(LocalDateTime.of(2018, 11, 15, 0, 0));
+    eventDto.setStartedAt(LocalDateTime.of(2018, 11, 16, 0, 0));
+    eventDto.setEndedAt(LocalDateTime.of(2018, 11, 15, 0, 0));
 
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getToken())
     );
 
     // Then
@@ -347,12 +317,8 @@ public class EventControllerTest extends BaseControllerTest {
     Event event = Event.builder()
             .name("event" + i)
             .description("Rest")
-            .beginEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .beginEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .endEventDateTime(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .basePrice(1000)
-            .maxPrice(10000)
+            .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
             .location("낙성대")
             .build();
@@ -377,7 +343,7 @@ public class EventControllerTest extends BaseControllerTest {
             .param("grant_type", "password"));
     String response = perform.andReturn().getResponse().getContentAsString();
     Jackson2JsonParser parser = new Jackson2JsonParser();
-    return parser.parseMap(response).get("access_token").toString();
+    return "Bearer " + parser.parseMap(response).get("access_token").toString();
   }
 
 }
