@@ -29,6 +29,9 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -62,8 +65,8 @@ public class EventControllerTest extends BaseControllerTest {
     EventDto event = EventDto.builder()
             .name("SpringBootIsFun")
             .description("Rest")
-            .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .startedAt(LocalDateTime.of(2018, 11, 11, 12, 0))
+            .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
             .location("낙성대")
             .build();
@@ -129,6 +132,7 @@ public class EventControllerTest extends BaseControllerTest {
 
     // Then
     perform
+            .andDo(document("create-event-invalid"))
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("_links.index").exists());
@@ -168,16 +172,17 @@ public class EventControllerTest extends BaseControllerTest {
 
 
   @Test
-  @DisplayName("30개의 이벤트를 10개씩 두번째 페이지 조회 이벤트 이름순 정렬")
-  public void queryEvents__hapy() throws Exception {
+  @DisplayName("30개의 이벤트를 페이징 조회")
+  public void queryEvents__happy() throws Exception {
     // Given
     IntStream.range(0, 30).forEach(this::generateEvent);
 
     // When
     var perform = this.mockMvc.perform(
             get("/api/events")
-                    .param("page", "1")
-                    .param("size", "10")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .param("page", "2")
+                    .param("size", "5")
                     .param("sort", "name,desc")
     );
 
@@ -190,7 +195,14 @@ public class EventControllerTest extends BaseControllerTest {
             .andExpect(jsonPath("_links.self").exists())
             .andExpect(jsonPath("_links.profile").exists())
             .andExpect(jsonPath("_links.create-event").doesNotExist())
-            .andDo(document("query-events"));
+            .andDo(
+                    document("query-events",
+                            requestParameters(
+                                    parameterWithName("page").description("페이지"),
+                                    parameterWithName("size").description("페이지의 크기"),
+                                    parameterWithName("sort").description(":field,:sort 를 URL encoding 하여 보낸다.")
+                            )
+                    ));
   }
 
   @Test
@@ -236,7 +248,13 @@ public class EventControllerTest extends BaseControllerTest {
     perform.andExpect(jsonPath("description").exists());
     perform.andExpect(jsonPath("_links.self").exists());
     perform.andExpect(jsonPath("_links.profile").exists());
-    perform.andDo(document("get-event"));
+    perform.andDo(
+            document("get-event",
+                    pathParameters(
+                            parameterWithName("id").description("event id")
+
+                    )
+            ));
   }
 
 
@@ -268,6 +286,7 @@ public class EventControllerTest extends BaseControllerTest {
     );
 
     perform.andDo(print());
+    perform.andDo(document("events-update"));
     perform.andExpect(status().isOk());
     perform.andExpect(jsonPath("name").value(updatedName));
   }

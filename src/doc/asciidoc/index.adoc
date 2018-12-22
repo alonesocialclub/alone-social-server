@@ -1,19 +1,18 @@
-= REST API Guide
-
+= REST API Documentation
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
 :toclevels: 4
 :sectlinks:
-:operation-curl-request-title: Example request
-:operation-http-response-title: Example response
+:snippets: ../../../build/generated-snippets
+
 
 [[overview]]
-= 개요
+== 개요
 
 [[overview-http-verbs]]
-== HTTP 동사
+=== HTTP 동사
 
 본 REST API에서 사용하는 HTTP 동사(verbs)는 가능한한 표준 HTTP와 REST 규약을 따릅니다.
 
@@ -34,7 +33,7 @@
 |===
 
 [[overview-http-status-codes]]
-== HTTP 상태 코드
+=== HTTP 상태 코드
 
 본 REST API에서 사용하는 HTTP 상태 코드는 가능한한 표준 HTTP와 REST 규약을 따릅니다.
 
@@ -58,78 +57,85 @@
 |===
 
 [[overview-errors]]
-== 오류
+=== 오류
 
-에러 응답이 발생했을 때 (상태 코드 >= 400), 본문에 해당 문제를 기술한 JSON 객체가 담겨있다. 에러 객체는 다음의 구조를 따른다.
+에러 응답이 발생했을 때 (상태 코드 >= 400), 본문에 해당 문제를 기술한 JSON 객체가 담겨있다.
 
-include::{snippets}/errors/response-fields.adoc[]
+아래는 이벤트를 생겅하는 API 응답의 `400 Bad Request` 에시다. 에러 객체는 다음의 구조를 따른다.
 
-예를 들어, 잘못된 요청으로 이벤트를 만들려고 했을 때 다음과 같은 `400 Bad Request` 응답을 받는다.
+.request
+include::{snippets}/create-event-invalid/http-request.adoc[]
 
-include::{snippets}/errors/http-response.adoc[]
+.response
+include::{snippets}/create-event-invalid/http-response.adoc[]
 
 [[overview-hypermedia]]
-== 하이퍼미디어
+=== 하이퍼미디어
 
 본 REST API는 하이퍼미디어와 사용하며 응답에 담겨있는 리소스는 다른 리소스에 대한 링크를 가지고 있다.
 응답은 http://stateless.co/hal_specification.html[Hypertext Application from resource to resource. Language (HAL)] 형식을 따른다.
 링크는 `_links`라는 키로 제공한다. 본 API의 사용자(클라이언트)는 URI를 직접 생성하지 않아야 하며, 리소스에서 제공하는 링크를 사용해야 한다.
 
 [[resources]]
-= 리소스
+== API 리소스
 
-[[resources-index]]
-== 인덱스
+인덱스는 서비스 진입점을 제공한다. `https://freestudy-api.ordinarysimple.com/api` `GET` 요청을 사용하여 api endpoint를 나열한 인덱스에 접근할 수 있다.
 
-인덱스는 서비스 진입점을 제공한다.
-
-
-[[resources-index-access]]
-=== 인덱스 조회
-
-`GET` 요청을 사용하여 인덱스에 접근할 수 있다.
-
-operation::index[snippets='response-body,http-response,links']
-
-operation::index[]
-
+include::{snippets}/index/response-body.adoc[]
 
 
 [[resources-events]]
-== 이벤트
+== 이벤트 (/api/events)
 
-이벤트 리소스는 이벤트를 만들거나 조회할 때 사용한다.
-
-[[resources-events-list]]
-=== 이벤트 목록 조회
-
-`GET` 요청을 사용하여 서비스의 모든 이벤트를 조회할 수 있다.
-
-operation::query-events[snippets='response-fields']
-operation::query-events[]
-
-fooo
-
-include::{snippets}/query-events/curl-request.adoc[]
-
+모임 단위를 이벤트라 합니다. 모임의 이름, 설명, 장소, 시작/종료 시간, 최대 허용 인원의 정보를 담고 있습니다.
 
 [[resources-events-create]]
 === 이벤트 생성
 
 `POST` 요청을 사용해서 새 이벤트를 만들 수 있다.
 
-operation::create-event[snippets='request-fields,curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+include::{snippets}/create-event/request-body.adoc[]
+
+.request
+include::{snippets}/create-event/http-request.adoc[]
+.response
+include::{snippets}/create-event/response-body.adoc[]
+
+[[resources-events-list]]
+=== 이벤트 목록 조회
+
+`GET` 요청을 사용하여 서비스의 모든 이벤트를 조회할 수 있다.
+
+include::{snippets}/query-events/request-parameters.adoc[]
+
+.request
+include::{snippets}/query-events/http-request.adoc[]
+.response
+include::{snippets}/query-events/response-body.adoc[]
+
 
 [[resources-events-get]]
-=== 이벤트 조회
+=== 이벤트 단일 조회
 
 `Get` 요청을 사용해서 기존 이벤트 하나를 조회할 수 있다.
 
-operation::get-event[snippets='request-fields,curl-request,http-response,links']
+include::{snippets}/get-event/path-parameters.adoc[]
+
+.request
+include::{snippets}/get-event/http-request.adoc[]
+.response
+include::{snippets}/get-event/response-body.adoc[]
 
 [[resources-events-update]]
 === 이벤트 수정
 
 `PUT` 요청을 사용해서 기존 이벤트를 수정할 수 있다.
 
-operation::update-event[snippets='request-fields,curl-request,http-response,links']
+include::{snippets}/get-event/path-parameters.adoc[]
+
+include::{snippets}/create-event/request-fields.adoc[]
+
+.request
+include::{snippets}/get-event/http-request.adoc[]
+.response
+include::{snippets}/get-event/response-body.adoc[]]

@@ -19,6 +19,7 @@ public class IndexController {
   public ResourceSupport apiIndex() {
     var index = new ResourceSupport();
     index.add(ControllerLinkBuilder.linkTo(EventController.class).withRel("events"));
+    index.add(ControllerLinkBuilder.linkTo(EventController.class).slash(":id").withRel("events/:id"));
     return index;
   }
 

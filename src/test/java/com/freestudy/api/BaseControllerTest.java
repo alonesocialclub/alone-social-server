@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "study-api.ordinarysimple.com", uriPort = 443)
 @Import(RestDocsConfiguration.class)
 @ActiveProfiles("test")
 @Ignore
