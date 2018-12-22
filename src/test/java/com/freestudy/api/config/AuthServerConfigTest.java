@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -59,6 +60,7 @@ public class AuthServerConfigTest extends BaseControllerTest {
 
     // Then
     perform
+            .andDo(document("oauth"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("access_token").exists());

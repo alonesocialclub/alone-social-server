@@ -47,6 +47,7 @@ dependencies {
     testImplementation('com.h2database:h2')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+    testImplementation('org.springframework.restdocs:spring-restdocs-asciidoctor')
     testImplementation('org.springframework.security:spring-security-test')
 
     // TODO ADD spring-restdocs-asciidoctor for documentation
@@ -59,7 +60,8 @@ test {
 
 asciidoctor {
     dependsOn test
-    sourceDir 'src/main/asciidoc'
+    inputs.dir snippetsDir
+    sourceDir 'src/doc/asciidoc'
 }
 
 bootJar {
