@@ -1,0 +1,77 @@
+server:
+  use-forward-headers: true
+
+spring:
+  profiles:
+    active: default
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        use_jdbc_metadata_defaults: false # https://github.com/pgjdbc/pgjdbc/issues/1102
+        jdbc.lob.non_contextual_creation: true
+
+  hateoas:
+    use-hal-as-default-json-media-type:false
+  security:
+    oauth2:
+      client:
+        registration:
+          local:
+            clinetId: foo
+            clinetSecret: bar
+          google:
+            clientId: 5014057553-8gm9um6vnli3cle5rgigcdjpdrid14m9.apps.googleusercontent.com
+            clientSecret: tWZKVLxaD_ARWsriiiUFYoIk
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+            - email
+            - profile
+          facebook:
+            clientId: 292671931607093
+            clientSecret: e9abe9c68aba2eca0604025cc47097a6
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+            - email
+            - public_profile
+          github:
+            clientId: d3e47fc2ddd966fa4352
+            clientSecret: 3bc0f6b8332f93076354c2a5bada2f5a05aea60d
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+            - user:email
+            - read:user
+        provider:
+          facebook:
+            authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+            tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+            userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
+
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    # TODO FIX with product setup
+    authorizedRedirectUris:
+    - http://localhost:3000/oauth2/redirect
+    - myandroidapp://oauth2/redirect
+    - myiosapp://oauth2/redirect
+
+logging:
+  level:
+    org.springframework.security: info
