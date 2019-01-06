@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "study-api.ordinarysimple.com", uriPort = 443)
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "server.money-whip.com", uriPort = 443)
 @Import(RestDocsConfiguration.class)
 @ActiveProfiles("test")
 @Ignore
