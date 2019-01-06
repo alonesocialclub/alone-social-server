@@ -1,4 +1,4 @@
-package com.freestudy.api.account;
+package com.freestudy.api.user;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,54 +8,48 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Set;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-
+import static org.assertj.core.api.Fail.fail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("test")
-public class AccountServiceTest {
+public class UserServiceTest {
 
   @Autowired
-  private AccountService accountService;
+  UserService userService;
 
   @Autowired
-  private PasswordEncoder passwordEncoder;
+  PasswordEncoder passwordEncoder;
 
   @Test
-  public void findByUsername() {
+  public void createLocalAuthUserTest() {
     // Given
-    String username = "test@test.com";
+    String name = "findByUsername";
+    String email = "findByUsername@test.com";
     String password = "test";
-    Account account = Account.builder()
-            .email(username)
-            .password(password)
-            .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
-            .build();
-    accountService.saveAccount(account);
+    userService.createLocalAuthUser(
+            name, email, password
+    );
 
     // When
-    UserDetailsService userDetailsService = accountService;
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    UserDetailsService userDetailsService = userService;
+    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
     // Then
     assertThat(this.passwordEncoder.matches(password, userDetails.getPassword())).isTrue();
+    assertThat(userDetails.getUsername()).isEqualTo(email);
   }
 
   @Test
-  public void findByUsername_Fail() {
+  public void findByUsernameTest_not_found() {
     // Given
-    String notFoundUserName = "fooo@testest.com";
+    String notFoundUserName = "failfailfailnotexists@fail.com";
 
     // When
     try {
-      UserDetailsService userDetailsService = accountService;
+      UserDetailsService userDetailsService = userService;
       userDetailsService.loadUserByUsername(notFoundUserName); // username
       fail("supposed to be failed");
     } catch (UsernameNotFoundException e) {
@@ -63,5 +57,4 @@ public class AccountServiceTest {
       assertThat(e.getMessage()).contains(notFoundUserName);
     }
   }
-
 }

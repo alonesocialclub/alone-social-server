@@ -37,20 +37,18 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-hateoas')
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.1.RELEASE")
+    implementation('org.springframework.security:spring-security-oauth2-client')
 
-    // TODO ADD VERSION FREEZE
-    implementation('org.postgresql:postgresql')
+    implementation('io.jsonwebtoken:jjwt:0.5.1')
+    implementation('com.h2database:h2')
     implementation('org.modelmapper:modelmapper:2.3.2')
 
     compileOnly('org.projectlombok:lombok')
-    testImplementation('com.h2database:h2')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
     testImplementation('org.springframework.restdocs:spring-restdocs-asciidoctor')
     testImplementation('org.springframework.security:spring-security-test')
 
-    // TODO ADD spring-restdocs-asciidoctor for documentation
 }
 
 

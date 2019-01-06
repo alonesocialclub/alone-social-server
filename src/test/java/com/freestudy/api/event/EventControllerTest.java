@@ -2,11 +2,6 @@ package com.freestudy.api.event;
 
 import com.freestudy.api.BaseControllerTest;
 import com.freestudy.api.DisplayName;
-import com.freestudy.api.account.Account;
-import com.freestudy.api.account.AccountRepository;
-import com.freestudy.api.account.AccountRole;
-import com.freestudy.api.account.AccountService;
-import com.freestudy.api.common.AppProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.security.oauth2.common.util.Jackson2JsonParser;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -29,10 +21,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,21 +31,10 @@ public class EventControllerTest extends BaseControllerTest {
   @Autowired
   private EventRepository eventRepository;
 
-  @Autowired
-  private AccountRepository accountRepository;
-
-
-  @Autowired
-  private AccountService accountService;
-
-  @Autowired
-  private AppProperties appProperties;
-
   @Before
   @After
   public void setUpAndTearDown() {
     this.eventRepository.deleteAll();
-    this.accountRepository.deleteAll();
   }
 
   @Test
@@ -342,27 +320,6 @@ public class EventControllerTest extends BaseControllerTest {
             .location("낙성대")
             .build();
     return this.eventRepository.save(event);
-  }
-
-  private String getToken() throws Exception {
-    // Given
-    String password = "1234";
-    Account account = Account.builder()
-            .email("jh@test.com")
-            .password(password)
-            .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
-            .build();
-    accountService.saveAccount(account);
-
-
-    var perform = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/oauth/token")
-            .with(httpBasic(appProperties.getOauthClientId(), appProperties.getOauthClientSecret()))
-            .param("username", account.getEmail())
-            .param("password", password)
-            .param("grant_type", "password"));
-    String response = perform.andReturn().getResponse().getContentAsString();
-    Jackson2JsonParser parser = new Jackson2JsonParser();
-    return "Bearer " + parser.parseMap(response).get("access_token").toString();
   }
 
 }

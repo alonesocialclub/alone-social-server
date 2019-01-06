@@ -8,4 +8,17 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-    - "8080:8080"
+    - 8080:8080
+
+  local-db:
+    image: postgres
+    container_name: event_api_local_db
+    ports:
+    - 5432:5432
+    env_file:
+      - env.db
+    volumes:
+      - "./postgres-data:/var/lib/postgresql/data"
+
+
+

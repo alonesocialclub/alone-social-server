@@ -1,4 +1,4 @@
-package com.freestudy.api.common;
+package com.freestudy.api.common.validate;
 
 import com.freestudy.api.index.IndexController;
 import org.springframework.hateoas.Link;
