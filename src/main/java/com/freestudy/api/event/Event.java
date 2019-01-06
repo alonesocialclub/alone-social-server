@@ -1,8 +1,8 @@
 package com.freestudy.api.event;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.freestudy.api.account.Account;
-import com.freestudy.api.account.AccountSerializer;
+import com.freestudy.api.user.User;
+import com.freestudy.api.user.UserSerializer;
 import lombok.*;
 
 import javax.persistence.*;
@@ -48,8 +48,8 @@ public class Event {
   private Date updatedAt;
 
   @ManyToOne
-  @JsonSerialize(using = AccountSerializer.class)
-  private Account owner;
+  @JsonSerialize(using = UserSerializer.class)
+  private User owner;
 
   private EventStatus statusStatus; // TODO, startedAt, endedAt 기반으로 getter 만
 
