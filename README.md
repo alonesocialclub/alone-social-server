@@ -3,9 +3,9 @@
 
 ## scripts
 
-### 로컬환경에서 db 도커 띄우기
+### start local development database
 
 ```bash
-docker run --name local -p 5432:5432 -e POSTGRES_PASSWORD=1234 -d postgres
+docker-compose up db
 ```
 
