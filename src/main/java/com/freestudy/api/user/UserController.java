@@ -20,9 +20,9 @@ public class UserController {
 
   @GetMapping("/me")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity getCurrentUser(@CurrentUser User user) {
-    userRepository.findById(user.getId())
-            .orElseThrow(() -> new ResourceNotFoundException("User", "id", user.getId()));
+  public ResponseEntity getCurrentUser(@CurrentUser User currentUser) {
+    var user = userRepository.findById(currentUser.getId())
+            .orElseThrow(() -> new ResourceNotFoundException("User", "id", currentUser.getId()));
 
     var userResource = new UserResource(user);
 
