@@ -139,3 +139,21 @@ include::{snippets}/create-event/request-fields.adoc[]
 include::{snippets}/get-event/http-request.adoc[]
 .response
 include::{snippets}/get-event/response-body.adoc[]]
+
+
+[[resources-users]]
+== 유저 (/api/users)
+
+유저 정보에 대한 것입니다
+
+
+[[resources-events-get-me]]
+=== 본인 유저 정보 조회
+
+`Get` 요청을 사용해서 본인의 유저 정보를 조회할 수 있다.
+
+.request
+include::{snippets}/get-user-me/http-request.adoc[]
+.response
+include::{snippets}/get-user-me/response-body.adoc[]
+
