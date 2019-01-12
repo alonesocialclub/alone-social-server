@@ -1,4 +1,6 @@
-# cafework [![CircleCI](https://circleci.com/gh/holdonnn/cafework-api.svg?style=svg)](https://circleci.com/gh/holdonnn/cafework-api)
+# cafework
+
+[![CircleCI](https://circleci.com/gh/holdonnn/cafework-api.svg?style=svg)](https://circleci.com/gh/holdonnn/cafework-api)
 
 
 ## scripts
