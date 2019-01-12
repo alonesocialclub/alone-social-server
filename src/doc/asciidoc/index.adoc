@@ -205,7 +205,7 @@ include::{snippets}/login-email/response-body.adoc[]
 유저 정보에 대한 것입니다
 
 
-[[resources-events-get-me]]
+[[resources-users-get-me]]
 === 본인 유저 정보 조회
 
 `Get` 요청을 사용해서 본인의 유저 정보를 조회할 수 있다.
@@ -215,3 +215,31 @@ include::{snippets}/get-user-me/http-request.adoc[]
 .response
 include::{snippets}/get-user-me/response-body.adoc[]
 
+
+[[resources-links]]
+== 이벤트 공유 링크 (/api/events/:event_id/links)
+
+이벤트 페이지를 공유할 링크이다. SEO 와 레퍼럴 추적을 목표로 한다.
+
+
+[[resources-links-create]]
+=== 이벤트 공유 링크 생성
+
+`POST` 요청을 사용해서 새 이벤트 공유 링크를 만들 수 있다.
+
+
+.request
+include::{snippets}/create-link/http-request.adoc[]
+.response
+include::{snippets}/create-link/response-body.adoc[]
+
+[[resources-links-get]]
+=== 이벤트 공유 링크 조회
+
+`GET` 요청을 사용해서 이벤트 공유 링크를 조회하고, 이벤트 페이지로 redirect 할 수 있다.
+
+
+.request
+include::{snippets}/get-link/http-request.adoc[]
+.response
+include::{snippets}/get-link/response-body.adoc[]
