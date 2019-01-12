@@ -1,6 +1,6 @@
 package com.freestudy.api.event;
 
-import com.freestudy.api.common.validate.ErrorsResource;
+import com.freestudy.api.common.controller.BaseController;
 import com.freestudy.api.oauth2.user.CurrentUser;
 import com.freestudy.api.user.User;
 import org.modelmapper.ModelMapper;
@@ -22,7 +22,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @Controller
 @RequestMapping(value = "/api/events")
-public class EventController {
+public class EventController extends BaseController {
 
   private final EventRepository eventRepository;
 
@@ -92,10 +92,6 @@ public class EventController {
     var resource = new EventResource(event);
     resource.add(new Link("/docs/index.html#resources-event-get").withRel("profile"));
     return ResponseEntity.ok(resource);
-  }
-
-  private ResponseEntity BadRequest(Errors errors) {
-    return ResponseEntity.badRequest().body(new ErrorsResource(errors));
   }
 
   @PutMapping("/{id}")

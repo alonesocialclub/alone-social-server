@@ -26,15 +26,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EventControllerTest extends BaseControllerTest {
 
   @Test
-  public void createEvent__happy() throws Exception {
+  public void createEventTest() throws Exception {
     // Given
     EventDto event = EventDto.builder()
-            .name("SpringBootIsFun")
-            .description("Rest")
+            .name("낙성대 주말 코딩")
+            .description("오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.")
             .startedAt(LocalDateTime.of(2018, 11, 11, 12, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
-            .location("낙성대")
+            .location("낙성대역 3번 출구 스타벅스")
             .build();
 
     // When

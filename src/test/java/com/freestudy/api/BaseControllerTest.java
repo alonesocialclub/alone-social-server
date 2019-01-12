@@ -62,7 +62,7 @@ public class BaseControllerTest {
     var next = atomicInteger.incrementAndGet();
     SignUpRequestDto data = SignUpRequestDto.builder()
             .email(next + "@test.com")
-            .password("1234")
+            .password("12345678")
             .name("Jeff")
             .build();
 
