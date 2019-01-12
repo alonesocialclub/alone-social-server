@@ -142,6 +142,62 @@ include::{snippets}/get-event/http-request.adoc[]
 .response
 include::{snippets}/get-event/response-body.adoc[]]
 
+[[resources-auths]]
+== 이메일 인증 (/api/auth)
+
+이메일/패스워드 기반 로그인, 회원가입을 지원한다.
+
+
+[[resources-auth-signup]]
+=== 회원가입
+
+`POST` 요청을 사용해서 이메일/패스워드 기반으로 회원가입을 한다.
+include::{snippets}/signup-email/request-fields.adoc[]
+
+.request
+include::{snippets}/signup-email/http-request.adoc[]
+.response
+include::{snippets}/signup-email/response-body.adoc[]
+
+[[resources-auth-login]]
+=== 로그인
+
+`POST` 요청을 사용해서 이메일/패스워드 기반으로 로그인을 한다.
+include::{snippets}/login-email/request-fields.adoc[]
+
+.request
+include::{snippets}/login-email/http-request.adoc[]
+.response
+include::{snippets}/login-email/response-body.adoc[]
+
+[[resources-auths]]
+== Oauth 인증 (/oauth2)
+
+페이스북 로그인을 지원한다
+
+
+[[resources-oauth2-authorize-facebook]]
+=== 페이스북 인증
+
+`GET` 요청을 사용해서 페이스북 인증을 시도한다
+include::{snippets}/oauth2-facebook/request-parameters.adoc[]
+
+.request
+include::{snippets}/oauth2-facebook/http-request.adoc[]
+.response
+include::{snippets}/oauth2-facebook/http-response.adoc[]
+
+[[resources-auth-login]]
+=== 로그인
+
+`POST` 요청을 사용해서 이메일/패스워드 기반으로 로그인을 한다.
+include::{snippets}/login-email/request-fields.adoc[]
+
+.request
+include::{snippets}/login-email/http-request.adoc[]
+.response
+include::{snippets}/login-email/response-body.adoc[]
+
 
 [[resources-users]]
 == 유저 (/api/users)
@@ -149,7 +205,7 @@ include::{snippets}/get-event/response-body.adoc[]]
 유저 정보에 대한 것입니다
 
 
-[[resources-events-get-me]]
+[[resources-users-get-me]]
 === 본인 유저 정보 조회
 
 `Get` 요청을 사용해서 본인의 유저 정보를 조회할 수 있다.
@@ -159,3 +215,31 @@ include::{snippets}/get-user-me/http-request.adoc[]
 .response
 include::{snippets}/get-user-me/response-body.adoc[]
 
+
+[[resources-links]]
+== 이벤트 공유 링크 (/api/events/:event_id/links)
+
+이벤트 페이지를 공유할 링크이다. SEO 와 레퍼럴 추적을 목표로 한다.
+
+
+[[resources-links-create]]
+=== 이벤트 공유 링크 생성
+
+`POST` 요청을 사용해서 새 이벤트 공유 링크를 만들 수 있다.
+
+
+.request
+include::{snippets}/create-link/http-request.adoc[]
+.response
+include::{snippets}/create-link/response-body.adoc[]
+
+[[resources-links-get]]
+=== 이벤트 공유 링크 조회
+
+`GET` 요청을 사용해서 이벤트 공유 링크를 조회하고, 이벤트 페이지로 redirect 할 수 있다.
+
+
+.request
+include::{snippets}/get-link/http-request.adoc[]
+.response
+include::{snippets}/get-link/response-body.adoc[]
