@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freestudy.api.auth.SignUpRequestDto;
 import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventRepository;
+import com.freestudy.api.link.Link;
+import com.freestudy.api.link.LinkRepository;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -50,7 +52,10 @@ public class BaseControllerTest {
   protected ModelMapper modelMapper;
 
   @Autowired
-  protected  EventRepository eventRepository;
+  protected EventRepository eventRepository;
+
+  @Autowired
+  protected LinkRepository linkRepository;
 
 
   protected String getToken() throws Exception {
@@ -92,6 +97,16 @@ public class BaseControllerTest {
             .location("낙성대")
             .build();
     return this.eventRepository.save(event);
+  }
+
+  protected Link createLink() {
+    Event event = createEvent();
+
+    Link link = Link.builder()
+            .event(event)
+            .build();
+
+    return this.linkRepository.save(link);
   }
 
 }
