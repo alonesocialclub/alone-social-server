@@ -1,14 +1,13 @@
 package com.freestudy.api.event;
 
 import com.freestudy.api.common.validate.ErrorsResource;
-import com.freestudy.api.user.User;
 import com.freestudy.api.oauth2.user.CurrentUser;
+import com.freestudy.api.user.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,7 @@ import java.util.Optional;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @Controller
-@RequestMapping(value = "/api/events", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
+@RequestMapping(value = "/api/events")
 public class EventController {
 
   private final EventRepository eventRepository;

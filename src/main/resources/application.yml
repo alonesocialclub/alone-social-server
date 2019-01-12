@@ -21,7 +21,7 @@ spring:
         jdbc.lob.non_contextual_creation: true
 
   hateoas:
-    use-hal-as-default-json-media-type:false
+    use-hal-as-default-json-media-type: false
   security:
     oauth2:
       client:

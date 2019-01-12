@@ -2,10 +2,7 @@ package com.freestudy.api.event;
 
 import com.freestudy.api.BaseControllerTest;
 import com.freestudy.api.DisplayName;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -46,7 +43,7 @@ public class EventControllerTest extends BaseControllerTest {
                     post("/api/events/")
                             .header(HttpHeaders.AUTHORIZATION, getToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .accept(MediaTypes.HAL_JSON)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(event))
             );
 
@@ -56,7 +53,7 @@ public class EventControllerTest extends BaseControllerTest {
             .andExpect(status().isCreated())
             .andExpect(jsonPath("id").isNumber())
             .andExpect(header().exists(HttpHeaders.LOCATION))
-            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andDo(
                     document("create-event",
                             links(
@@ -85,7 +82,7 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Test
   @DisplayName("입력값이 없는 경우에")
-  public void createEvent__empty_input() throws Exception {
+  public void createEventTest__empty_input() throws Exception {
     // Given
     EventDto eventDto = EventDto.builder().build();
 
@@ -95,7 +92,6 @@ public class EventControllerTest extends BaseControllerTest {
                     post("/api/events")
                             .header(HttpHeaders.AUTHORIZATION, getToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .accept(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(eventDto))
             );
 
@@ -109,7 +105,7 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Test
   @DisplayName("이벤트 시작일은 종료일보다 이전이여야 한다.")
-  public void createEvent_invalid_input() throws Exception {
+  public void createEventTest_invalid_input() throws Exception {
     // Given
     EventDto eventDto = EventDto.builder()
             .name("SpringBootIsFun")
@@ -150,8 +146,9 @@ public class EventControllerTest extends BaseControllerTest {
     var perform = this.mockMvc.perform(
             get("/api/events")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .param("page", "2")
-                    .param("size", "5")
+                    .accept(MediaType.APPLICATION_JSON_UTF8)
+                    .param("page", "1")
+                    .param("size", "2")
                     .param("sort", "name,desc")
     );
 
@@ -160,45 +157,16 @@ public class EventControllerTest extends BaseControllerTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("page").exists())
-            .andExpect(jsonPath("_embedded.eventList[0]._links.self").exists())
-            .andExpect(jsonPath("_links.self").exists())
-            .andExpect(jsonPath("_links.profile").exists())
-            .andExpect(jsonPath("_links.create-event").doesNotExist())
+            .andExpect(jsonPath("content[0].links").exists())
+            .andExpect(jsonPath("links").exists())
             .andDo(
                     document("query-events",
                             requestParameters(
                                     parameterWithName("page").description("페이지"),
                                     parameterWithName("size").description("페이지의 크기"),
-                                    parameterWithName("sort").description(":field,:sort 를 URL encoding 하여 보낸다.")
+                                    parameterWithName("sort").description("<:field>,<:sort> 형태. 값을 URL encoding 해야한다. 예시 참고")
                             )
                     ));
-  }
-
-  @Test
-  @DisplayName("인증정보가 있을 때 이벤트 생성 링크를 내려준다.")
-  public void queryEventsWithAuth() throws Exception {
-    // Given
-    IntStream.range(0, 30).forEach(__ -> createEvent());
-
-    // When
-    var perform = this.mockMvc.perform(
-            get("/api/events")
-                    .header(HttpHeaders.AUTHORIZATION, getToken())
-                    .param("page", "1")
-                    .param("size", "10")
-                    .param("sort", "name,desc")
-    );
-
-    // Then
-    perform
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("page").exists())
-            .andExpect(jsonPath("_embedded.eventList[0]._links.self").exists())
-            .andExpect(jsonPath("_links.self").exists())
-            .andExpect(jsonPath("_links.profile").exists())
-            .andExpect(jsonPath("_links.create-event").exists())
-            .andDo(document("query-events"));
   }
 
   @Test

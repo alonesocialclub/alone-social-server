@@ -25,7 +25,7 @@ public class UserControllerTest extends BaseControllerTest {
                     get("/api/users/me")
                             .header(HttpHeaders.AUTHORIZATION, token)
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .accept(MediaTypes.HAL_JSON)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
             );
 
     // Then
@@ -44,7 +44,7 @@ public class UserControllerTest extends BaseControllerTest {
             .perform(
                     get("/api/users/me")
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .accept(MediaTypes.HAL_JSON)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
             );
 
     // Then
