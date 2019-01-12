@@ -266,10 +266,11 @@ public class EventControllerTest extends BaseControllerTest {
     // Given
     Event event = createEvent();
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
+    int eventIdNotExists = -1;
 
     // When
     var perform = this.mockMvc.perform(
-            put("/api/events/0")
+            put("/api/events/{id}", eventIdNotExists)
                     .header(HttpHeaders.AUTHORIZATION, getToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
