@@ -170,6 +170,34 @@ include::{snippets}/login-email/http-request.adoc[]
 .response
 include::{snippets}/login-email/response-body.adoc[]
 
+[[resources-auths]]
+== Oauth 인증 (/oauth2)
+
+페이스북 로그인을 지원한다
+
+
+[[resources-oauth2-authorize-facebook]]
+=== 페이스북 인증
+
+`GET` 요청을 사용해서 페이스북 인증을 시도한다
+include::{snippets}/oauth2-facebook/request-parameters.adoc[]
+
+.request
+include::{snippets}/oauth2-facebook/http-request.adoc[]
+.response
+include::{snippets}/oauth2-facebook/http-response.adoc[]
+
+[[resources-auth-login]]
+=== 로그인
+
+`POST` 요청을 사용해서 이메일/패스워드 기반으로 로그인을 한다.
+include::{snippets}/login-email/request-fields.adoc[]
+
+.request
+include::{snippets}/login-email/http-request.adoc[]
+.response
+include::{snippets}/login-email/response-body.adoc[]
+
 
 [[resources-users]]
 == 유저 (/api/users)
