@@ -20,7 +20,7 @@ public class LinkControllerTest extends BaseControllerTest {
   @Test
   public void getLink() throws Exception {
     // given
-    Event event = createEvent(100);
+    Event event = createEvent();
 
     // when
     var perform = mockMvc.perform(

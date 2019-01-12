@@ -37,6 +37,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @Ignore
 public class BaseControllerTest {
+
+  private static final AtomicInteger atomicInteger = new AtomicInteger(0);
+
   @Autowired
   protected MockMvc mockMvc;
 
@@ -49,10 +52,9 @@ public class BaseControllerTest {
   @Autowired
   protected  EventRepository eventRepository;
 
-  private static final AtomicInteger count = new AtomicInteger(0);
 
   protected String getToken() throws Exception {
-    var next = count.incrementAndGet();
+    var next = atomicInteger.incrementAndGet();
     SignUpRequestDto data = SignUpRequestDto.builder()
             .email(next + "@test.com")
             .password("1234")
@@ -78,9 +80,11 @@ public class BaseControllerTest {
     return "Bearer " + token;
   }
 
-  protected Event createEvent(int i) {
+  protected Event createEvent() {
+    var next = atomicInteger.incrementAndGet();
+
     Event event = Event.builder()
-            .name("event" + i)
+            .name("event" + next)
             .description("Rest")
             .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))

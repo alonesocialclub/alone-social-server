@@ -144,7 +144,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("30개의 이벤트를 페이징 조회")
   public void queryEvents__happy() throws Exception {
     // Given
-    IntStream.range(0, 30).forEach(this::createEvent);
+    IntStream.range(0, 30).forEach(__ -> this.createEvent());
 
     // When
     var perform = this.mockMvc.perform(
@@ -178,7 +178,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("인증정보가 있을 때 이벤트 생성 링크를 내려준다.")
   public void queryEventsWithAuth() throws Exception {
     // Given
-    IntStream.range(0, 30).forEach(this::createEvent);
+    IntStream.range(0, 30).forEach(__ -> createEvent());
 
     // When
     var perform = this.mockMvc.perform(
@@ -205,7 +205,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("기존 이벤트 하나 조회")
   public void getEvent() throws Exception {
     // Given
-    Event event = this.createEvent(100);
+    Event event = createEvent();
 
     // When
     var perform = this.mockMvc.perform(get("/api/events/{id}", event.getId()));
@@ -241,7 +241,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트 수정")
   public void updateEvent__happy() throws Exception {
     // Given
-    Event event = createEvent(200);
+    Event event = createEvent();
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
     String updatedName = "updated event";
     eventDto.setName(updatedName);
@@ -264,7 +264,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트 수정, 없는 이벤트에 대해서")
   public void updateEvent__not_found() throws Exception {
     // Given
-    Event event = createEvent(123);
+    Event event = createEvent();
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 
     // When
@@ -283,7 +283,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트 수정, 시작시간을 종료시간 이후의 값을 넣는 경우")
   public void updateEvent__invalid_startedAt_endedAt() throws Exception {
     // Given
-    Event event = createEvent(200);
+    Event event = createEvent();
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
     eventDto.setStartedAt(LocalDateTime.of(2018, 11, 16, 0, 0));
     eventDto.setEndedAt(LocalDateTime.of(2018, 11, 15, 0, 0));
