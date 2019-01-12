@@ -28,15 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class EventControllerTest extends BaseControllerTest {
 
-  @Autowired
-  private EventRepository eventRepository;
-
-  @Before
-  @After
-  public void setUpAndTearDown() {
-    this.eventRepository.deleteAll();
-  }
-
   @Test
   public void createEvent__happy() throws Exception {
     // Given
@@ -153,7 +144,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("30개의 이벤트를 페이징 조회")
   public void queryEvents__happy() throws Exception {
     // Given
-    IntStream.range(0, 30).forEach(this::generateEvent);
+    IntStream.range(0, 30).forEach(__ -> this.createEvent());
 
     // When
     var perform = this.mockMvc.perform(
@@ -187,7 +178,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("인증정보가 있을 때 이벤트 생성 링크를 내려준다.")
   public void queryEventsWithAuth() throws Exception {
     // Given
-    IntStream.range(0, 30).forEach(this::generateEvent);
+    IntStream.range(0, 30).forEach(__ -> createEvent());
 
     // When
     var perform = this.mockMvc.perform(
@@ -214,7 +205,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("기존 이벤트 하나 조회")
   public void getEvent() throws Exception {
     // Given
-    Event event = this.generateEvent(100);
+    Event event = createEvent();
 
     // When
     var perform = this.mockMvc.perform(get("/api/events/{id}", event.getId()));
@@ -250,7 +241,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트 수정")
   public void updateEvent__happy() throws Exception {
     // Given
-    Event event = generateEvent(200);
+    Event event = createEvent();
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
     String updatedName = "updated event";
     eventDto.setName(updatedName);
@@ -273,12 +264,13 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트 수정, 없는 이벤트에 대해서")
   public void updateEvent__not_found() throws Exception {
     // Given
-    Event event = generateEvent(123);
+    Event event = createEvent();
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
+    int eventIdNotExists = -1;
 
     // When
     var perform = this.mockMvc.perform(
-            put("/api/events/0")
+            put("/api/events/{id}", eventIdNotExists)
                     .header(HttpHeaders.AUTHORIZATION, getToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
@@ -292,7 +284,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트 수정, 시작시간을 종료시간 이후의 값을 넣는 경우")
   public void updateEvent__invalid_startedAt_endedAt() throws Exception {
     // Given
-    Event event = generateEvent(200);
+    Event event = createEvent();
     EventDto eventDto = this.modelMapper.map(event, EventDto.class);
     eventDto.setStartedAt(LocalDateTime.of(2018, 11, 16, 0, 0));
     eventDto.setEndedAt(LocalDateTime.of(2018, 11, 15, 0, 0));
@@ -308,18 +300,6 @@ public class EventControllerTest extends BaseControllerTest {
     // Then
     perform.andDo(print());
     perform.andExpect(status().isBadRequest());
-  }
-
-  private Event generateEvent(int i) {
-    Event event = Event.builder()
-            .name("event" + i)
-            .description("Rest")
-            .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .limitOfEnrollment(5)
-            .location("낙성대")
-            .build();
-    return this.eventRepository.save(event);
   }
 
 }

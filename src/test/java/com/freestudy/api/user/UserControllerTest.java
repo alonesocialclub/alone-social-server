@@ -6,6 +6,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,8 +29,12 @@ public class UserControllerTest extends BaseControllerTest {
             );
 
     // Then
-    perform.andExpect(status().isOk())
-            .andDo(print());
+    perform
+            .andDo(print())
+            .andDo(
+                    document("get-user-me")
+            )
+            .andExpect(status().isOk());
   }
 
   @Test

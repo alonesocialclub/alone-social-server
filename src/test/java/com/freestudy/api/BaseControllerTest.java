@@ -3,7 +3,10 @@ package com.freestudy.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freestudy.api.auth.SignUpRequestDto;
+import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventRepository;
+import com.freestudy.api.link.Link;
+import com.freestudy.api.link.LinkRepository;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -21,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,6 +39,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @Ignore
 public class BaseControllerTest {
+
+  private static final AtomicInteger atomicInteger = new AtomicInteger(0);
+
   @Autowired
   protected MockMvc mockMvc;
 
@@ -44,10 +51,15 @@ public class BaseControllerTest {
   @Autowired
   protected ModelMapper modelMapper;
 
-  private static final AtomicInteger count = new AtomicInteger(0);
+  @Autowired
+  protected EventRepository eventRepository;
+
+  @Autowired
+  protected LinkRepository linkRepository;
+
 
   protected String getToken() throws Exception {
-    var next = count.incrementAndGet();
+    var next = atomicInteger.incrementAndGet();
     SignUpRequestDto data = SignUpRequestDto.builder()
             .email(next + "@test.com")
             .password("1234")
@@ -71,6 +83,30 @@ public class BaseControllerTest {
 
     String token = result.andReturn().getResponse().getContentAsString();
     return "Bearer " + token;
+  }
+
+  protected Event createEvent() {
+    var next = atomicInteger.incrementAndGet();
+
+    Event event = Event.builder()
+            .name("event" + next)
+            .description("Rest")
+            .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .limitOfEnrollment(5)
+            .location("낙성대")
+            .build();
+    return this.eventRepository.save(event);
+  }
+
+  protected Link createLink() {
+    Event event = createEvent();
+
+    Link link = Link.builder()
+            .event(event)
+            .build();
+
+    return this.linkRepository.save(link);
   }
 
 }
