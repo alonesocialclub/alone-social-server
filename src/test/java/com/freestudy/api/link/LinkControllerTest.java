@@ -3,9 +3,10 @@ package com.freestudy.api.link;
 import com.freestudy.api.BaseControllerTest;
 import com.freestudy.api.event.Event;
 import org.junit.Test;
+import org.springframework.http.MediaType;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -18,7 +19,7 @@ public class LinkControllerTest extends BaseControllerTest {
 
 
   @Test
-  public void getLink() throws Exception {
+  public void createLinkTest() throws Exception {
     // given
     Event event = createEvent();
 
@@ -45,5 +46,35 @@ public class LinkControllerTest extends BaseControllerTest {
             .andExpect(jsonPath("id").isNumber())
             .andExpect(jsonPath("url").isString())
             .andExpect(jsonPath("event.id").value(event.getId()));
+  }
+
+  @Test
+  public void getLinkTest() throws Exception {
+    // given
+    Link link = createLink();
+
+    // when
+    var perform = mockMvc.perform(
+            get(
+                    "/api/events/{eventId}/links/{linkId}", link.getEvent().getId(), link.getId()
+            ).contentType(
+                    MediaType.TEXT_HTML
+            )
+    );
+
+    perform
+            .andDo(print())
+            .andDo(
+                    document(
+                            "get-link",
+                            pathParameters(
+                                    parameterWithName("eventId").description("event id"),
+                                    parameterWithName("linkId").description("link id")
+
+                            )
+                    )
+            )
+            .andExpect(status().isOk());
+
   }
 }

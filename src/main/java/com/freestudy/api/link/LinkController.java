@@ -49,16 +49,30 @@ public class LinkController {
 
     // TODO view logic
     LinkResponseDTO response = modelMapper.map(link, LinkResponseDTO.class);
-    response.setUrl(appProperties.getLink().getHost() + "/link/" + link.getId());
+    response.setUrl(appProperties.getLink().getHost() +"/events/" + eventId +  "/links/" + link.getId());
 
     return ResponseEntity.ok(response);
   }
 
-  @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
+  @GetMapping(value = "/{linkId}", produces = MediaType.TEXT_HTML_VALUE)
   public ResponseEntity getLink(
-          @PathVariable("eventId") Integer eventId
+          @PathVariable("eventId") int eventId,
+          @PathVariable("linkId") int linkId
   ) {
-    return ResponseEntity.ok("<html></html>");
+
+    Optional<Event> optionalEvent = eventRepository.findById(eventId);
+
+    if (optionalEvent.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    var event = optionalEvent.get();
+
+    return ResponseEntity.ok("<html><head>" +
+            "<title>" + event.getName() + "<title/>" +
+            "<script>window.location.replace('"+ "http://stackoverflow.com" + "');</script>" +
+            "</head></html>"
+    );
   }
 
 }
