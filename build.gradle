@@ -40,7 +40,10 @@ dependencies {
     implementation('org.springframework.security:spring-security-oauth2-client')
 
     implementation('io.jsonwebtoken:jjwt:0.5.1')
+
+    implementation('mysql:mysql-connector-java')
     implementation('com.h2database:h2')
+
     implementation('org.modelmapper:modelmapper:2.3.2')
 
     compileOnly('org.projectlombok:lombok')

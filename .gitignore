@@ -55,3 +55,4 @@ hs_err_pid*
 src/main/resources/application-prod.yml
 server.pem
 connect.sh
+http/http-client.env.json
