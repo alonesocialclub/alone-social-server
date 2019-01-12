@@ -1,0 +1,7 @@
+POST {{host}}/api/auth/signup
+Content-Type: application/json
+
+< ./user.json
+###
+
+

@@ -1,0 +1,28 @@
+POST {{host}}/api/auth/signup
+Content-Type: application/json
+
+< ../user/user.json
+
+###
+
+POST {{host}}/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+< ../user/user.json
+
+###
+
+POST {{host}}/api/events
+Authorization: {{token}}
+Content-Type: application/json
+
+< ../event/event.json
+
+###
+
+POST {{host}}/api/events/1/links
+Authorization: {{token}}
+Content-Type: application/json
+
+###

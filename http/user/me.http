@@ -1,0 +1,5 @@
+GET {{host}}/api/users/me
+Authorization: {{token}}
+Content-Type: application/json
+
+###
