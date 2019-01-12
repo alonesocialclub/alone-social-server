@@ -6,8 +6,10 @@ import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +34,7 @@ public class LinkController {
   private AppProperties appProperties;
 
   @PostMapping
-  public ResponseEntity getLink(
+  public ResponseEntity createLink(
           @PathVariable("eventId") Integer eventId
   ) {
     Optional<Event> optionalEvent = eventRepository.findById(eventId);
@@ -52,5 +54,11 @@ public class LinkController {
     return ResponseEntity.ok(response);
   }
 
+  @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity getLink(
+          @PathVariable("eventId") Integer eventId
+  ) {
+    return ResponseEntity.ok("<html></html>");
+  }
 
 }
