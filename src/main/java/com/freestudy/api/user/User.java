@@ -35,10 +35,6 @@ public class User {
 
   private String imageUrl;
 
-  @Column(nullable = false)
-  @Builder.Default
-  private Boolean emailVerified = false;
-
   @JsonIgnore
   private String password;
 
