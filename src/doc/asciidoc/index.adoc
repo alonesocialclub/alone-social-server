@@ -72,9 +72,7 @@ include::{snippets}/create-event-invalid/http-response.adoc[]
 [[overview-hypermedia]]
 === 하이퍼미디어
 
-본 REST API는 하이퍼미디어와 사용하며 응답에 담겨있는 리소스는 다른 리소스에 대한 링크를 가지고 있다.
-응답은 http://stateless.co/hal_specification.html[Hypertext Application from resource to resource. Language (HAL)] 형식을 따른다.
-링크는 `_links`라는 키로 제공한다. 이상적으로는 클라이언트는 URI를 직접 생성하지 않고, 리소스에서 제공하는 링크를 사용하지 않아야 하지만 개발 생산성의 이유로 강제하지는 않는다.
+하이퍼미디어를 응답에 담겨있는 리소스는 다른 리소스에 대한 링크를 가지고 있다. 링크는 `_links`라는 키로 제공한다. 이상적으로는 클라이언트는 URI를 직접 생성하지 않고, 리소스에서 제공하는 링크를 사용하지 않아야 하지만 개발 생산성의 이유로 강제하지는 않는다.
 
 [[resources]]
 == API 리소스
