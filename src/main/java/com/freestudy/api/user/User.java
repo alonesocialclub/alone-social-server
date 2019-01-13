@@ -1,6 +1,7 @@
 package com.freestudy.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.freestudy.api.interest.Interest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -48,4 +49,15 @@ public class User {
   @ElementCollection(fetch = FetchType.EAGER)
   @Builder.Default
   private Set<UserRole> roles = Set.of(UserRole.USER);
+
+
+  @ManyToMany
+  @JoinTable(
+          name = "user_interest",
+          joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id")
+  )
+  @Builder.Default
+  private Set<Interest> interests = Set.of();
+
 }
