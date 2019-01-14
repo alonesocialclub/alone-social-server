@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -21,7 +22,7 @@ public class Interest {
   @Column(nullable = false, unique = true)
   private String value;
 
-  @ManyToMany(mappedBy = "interests")
+  @ManyToMany(mappedBy = "interests", cascade = {CascadeType.ALL})
   @Builder.Default
-  private Set<User> users = Set.of();
+  private Set<User> users = new HashSet<>();
 }

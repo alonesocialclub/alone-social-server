@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,9 +28,11 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotNull
   @Column(nullable = false)
   private String name;
 
+  @NotNull
   @Email
   @Column(nullable = false)
   private String email;
@@ -41,7 +44,8 @@ public class User {
 
   @NotNull
   @Enumerated(EnumType.STRING)
-  private AuthProvider provider;
+  @Builder.Default
+  private AuthProvider provider = AuthProvider.local;
 
   private String providerId;
 
@@ -51,13 +55,15 @@ public class User {
   private Set<UserRole> roles = Set.of(UserRole.USER);
 
 
-  @ManyToMany
+  @ManyToMany(
+          cascade = {CascadeType.ALL}
+  )
   @JoinTable(
           name = "user_interest",
-          joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id")
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "interest_id")
   )
   @Builder.Default
-  private Set<Interest> interests = Set.of();
+  private Set<Interest> interests = new HashSet<>();
 
 }
