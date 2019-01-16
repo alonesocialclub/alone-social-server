@@ -13,6 +13,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(
+        indexes = {
+                @Index(name = "idx_value", columnList = "value", unique = true)
+        }
+)
 public class Interest {
 
   @Id
