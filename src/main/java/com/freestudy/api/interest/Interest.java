@@ -1,23 +1,25 @@
 package com.freestudy.api.interest;
 
 import com.freestudy.api.user.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Builder
+@Builder(toBuilder = true)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter(value = AccessLevel.PACKAGE)
 @Getter
-@Setter
 @Entity
 @Table(
         indexes = {
                 @Index(name = "idx_value", columnList = "value", unique = true)
         }
 )
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
+@Data
 public class Interest {
 
   @Id

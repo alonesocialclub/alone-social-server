@@ -47,4 +47,6 @@ public class InterestRepositoryTest extends BaseDaoTest {
     assertThat(results).isEqualTo(interests);
   }
 
+
+
 }
