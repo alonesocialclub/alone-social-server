@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freestudy.api.auth.SignUpRequestDto;
 import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventRepository;
+import com.freestudy.api.event.Location;
 import com.freestudy.api.link.Link;
 import com.freestudy.api.link.LinkRepository;
 import com.jayway.jsonpath.JsonPath;
@@ -86,7 +87,7 @@ public class BaseControllerTest {
             .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
-            .location("낙성대")
+            .location(new Location("남부 순환로", "낙성대"))
             .build();
 
     return this.eventRepository.save(event);

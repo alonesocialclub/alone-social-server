@@ -64,10 +64,10 @@
 아래는 이벤트를 생겅하는 API 응답의 `400 Bad Request` 에시다. 에러 객체는 다음의 구조를 따른다.
 
 .request
-include::{snippets}/create-event-invalid/http-request.adoc[]
+include::{snippets}/post-events-invalid/http-request.adoc[]
 
 .response
-include::{snippets}/create-event-invalid/http-response.adoc[]
+include::{snippets}/post-events-invalid/http-response.adoc[]
 
 [[overview-hypermedia]]
 === 하이퍼미디어
@@ -93,12 +93,12 @@ include::{snippets}/index/response-body.adoc[]
 
 `POST` 요청을 사용해서 새 이벤트를 만들 수 있다.
 
-include::{snippets}/create-event/request-fields.adoc[]
+include::{snippets}/post-events/request-fields.adoc[]
 
 .request
-include::{snippets}/create-event/http-request.adoc[]
+include::{snippets}/post-events/http-request.adoc[]
 .response
-include::{snippets}/create-event/response-body.adoc[]
+include::{snippets}/post-events/response-body.adoc[]
 
 [[resources-events-list]]
 === 이벤트 목록 조회
@@ -133,7 +133,7 @@ include::{snippets}/get-event/response-body.adoc[]
 
 include::{snippets}/get-event/path-parameters.adoc[]
 
-include::{snippets}/create-event/request-fields.adoc[]
+include::{snippets}/post-events/request-fields.adoc[]
 
 .request
 include::{snippets}/get-event/http-request.adoc[]

@@ -1,5 +1,6 @@
 package com.freestudy.api.event;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.freestudy.api.user.User;
 import com.freestudy.api.user.UserSerializer;
@@ -34,8 +35,10 @@ public class Event {
   @Column
   private LocalDateTime endedAt;
 
-  @Column
-  private String location;
+  @Embedded
+  @JsonSerialize(using = LocationSerializer.class)
+  @JsonDeserialize(using = LocationDeserializer.class)
+  private Location location;
 
   @Column
   private int limitOfEnrollment;
@@ -58,4 +61,5 @@ public class Event {
     }
     return this;
   }
+
 }

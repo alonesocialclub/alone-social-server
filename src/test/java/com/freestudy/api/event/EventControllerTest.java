@@ -34,11 +34,11 @@ public class EventControllerTest extends BaseControllerTest {
             .startedAt(LocalDateTime.of(2018, 11, 11, 12, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
-            .location("낙성대역 3번 출구 스타벅스")
+            .location(new Location("남부순환로", "스타벅스"))
             .build();
 
     // When
-    var perfrom = mockMvc
+    var perform = mockMvc
             .perform(
                     post("/api/events/")
                             .header(HttpHeaders.AUTHORIZATION, getAuthToken())
@@ -48,14 +48,14 @@ public class EventControllerTest extends BaseControllerTest {
             );
 
     // Then
-    perfrom
+    perform
             .andDo(print())
             .andExpect(status().isCreated())
             .andExpect(jsonPath("id").isNumber())
             .andExpect(header().exists(HttpHeaders.LOCATION))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andDo(
-                    document("create-event",
+                    document("post-events",
                             links(
                                     linkWithRel("self").description("link to self"),
                                     linkWithRel("query-events").description("query")
@@ -67,7 +67,8 @@ public class EventControllerTest extends BaseControllerTest {
                             requestFields(
                                     fieldWithPath("name").description("모임 이름"),
                                     fieldWithPath("description").description("모임 설명"),
-                                    fieldWithPath("location").description("모임 장소"),
+                                    fieldWithPath("location.address").description("모임 장소 주소"),
+                                    fieldWithPath("location.name").description("모임 장소 이름"),
                                     fieldWithPath("startedAt").description("모임 시작 시간"),
                                     fieldWithPath("endedAt").description("모임 종료 시간"),
                                     fieldWithPath("limitOfEnrollment").description("모임 정원")
@@ -97,7 +98,7 @@ public class EventControllerTest extends BaseControllerTest {
 
     // Then
     perform
-            .andDo(document("create-event-invalid"))
+            .andDo(document("post-events-invalid"))
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("_links.index").exists());
@@ -113,7 +114,7 @@ public class EventControllerTest extends BaseControllerTest {
             .startedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
-            .location("낙성대")
+            .location(new Location("남부순환로", "낙성대"))
             .build();
 
     // When
