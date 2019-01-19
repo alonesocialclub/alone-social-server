@@ -11,11 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created by rajeevkumarsingh on 02/08/17.
- */
-
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
 
   @Autowired
@@ -25,7 +22,6 @@ public class UserService implements UserDetailsService {
   PasswordEncoder passwordEncoder;
 
   @Override
-  @Transactional
   public UserDetails loadUserByUsername(String email)
           throws UsernameNotFoundException {
     User user = userRepository.findByEmail(email)
@@ -36,7 +32,6 @@ public class UserService implements UserDetailsService {
     return UserPrincipalAdapter.create(user);
   }
 
-  @Transactional
   public UserDetails loadUserById(Long id) {
     User user = userRepository.findById(id).orElseThrow(
             () -> new ResourceNotFoundException("User", "id", id)

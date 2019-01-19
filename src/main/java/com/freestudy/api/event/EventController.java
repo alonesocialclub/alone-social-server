@@ -116,9 +116,8 @@ public class EventController extends BaseController {
     }
 
     Event event = optionalEvent.get();
-    this.modelMapper.map(eventDto, event);
-    Event savedEvent = this.eventRepository.save(event);
-    var resource = new EventResource(savedEvent);
+    event.update(eventDto);
+    var resource = new EventResource(event);
     resource.add(new Link("/docs/index.html#resources-events-update").withRel("profile"));
     return ResponseEntity.ok(resource);
   }

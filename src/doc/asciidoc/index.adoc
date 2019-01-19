@@ -213,6 +213,16 @@ include::{snippets}/get-user-me/http-request.adoc[]
 .response
 include::{snippets}/get-user-me/response-body.adoc[]
 
+[[resources-put-users-me]]
+=== 본인 유저 정보 수정
+
+`PUT` 요청을 사용해서 본인의 유저 정보를 수정할 수 있다.
+
+.request
+include::{snippets}/put-users-me/http-request.adoc[]
+.response
+include::{snippets}/put-users-me/response-body.adoc[]
+
 
 [[resources-links]]
 == 이벤트 공유 링크 (/api/events/:event_id/links)

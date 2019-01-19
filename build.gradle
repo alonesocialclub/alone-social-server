@@ -46,12 +46,12 @@ dependencies {
 
     implementation('org.modelmapper:modelmapper:2.3.2')
 
-    compileOnly('org.projectlombok:lombok')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
     testImplementation('org.springframework.restdocs:spring-restdocs-asciidoctor')
     testImplementation('org.springframework.security:spring-security-test')
 
+    compileOnly("org.projectlombok:lombok:1.18.2")
 }
 
 
