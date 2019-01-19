@@ -35,6 +35,7 @@ public class User {
   @NotNull
   @Email
   @Column(nullable = false)
+  @Setter
   private String email;
 
   @Setter
@@ -65,6 +66,16 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "interest_id")
   )
   @Builder.Default
+  @Setter
   private Set<Interest> interests = new HashSet<>();
 
+  public User set(UserDto userDto) {
+    if (userDto.getEmail() != null) {
+      this.email = userDto.getEmail();
+    }
+    if (userDto.getName() != null) {
+      this.name = userDto.getName();
+    }
+    return this;
+  }
 }

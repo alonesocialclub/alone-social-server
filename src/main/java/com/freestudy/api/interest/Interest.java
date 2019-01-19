@@ -1,5 +1,6 @@
 package com.freestudy.api.interest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.freestudy.api.user.User;
 import lombok.*;
 
@@ -29,5 +30,6 @@ public class Interest {
 
   @ManyToMany(mappedBy = "interests", cascade = {CascadeType.ALL})
   @Builder.Default
+  @JsonIgnore
   private Set<User> users = new HashSet<>();
 }
