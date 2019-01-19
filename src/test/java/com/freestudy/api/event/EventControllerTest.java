@@ -210,9 +210,16 @@ public class EventControllerTest extends BaseControllerTest {
   public void updateEvent__happy() throws Exception {
     // Given
     Event event = createEvent();
-    EventDto eventDto = this.modelMapper.map(event, EventDto.class);
     String updatedName = "updated event";
-    eventDto.setName(updatedName);
+    EventDto eventDto = EventDto
+            .builder()
+            .name(updatedName)
+            .location(event.getLocation())
+            .description(event.getDescription())
+            .startedAt(event.getStartedAt())
+            .endedAt(event.getEndedAt())
+            .limitOfEnrollment(event.getLimitOfEnrollment())
+            .build();
 
     // When
     var perform = this.mockMvc.perform(
@@ -253,9 +260,10 @@ public class EventControllerTest extends BaseControllerTest {
   public void updateEvent__invalid_startedAt_endedAt() throws Exception {
     // Given
     Event event = createEvent();
-    EventDto eventDto = this.modelMapper.map(event, EventDto.class);
-    eventDto.setStartedAt(LocalDateTime.of(2018, 11, 16, 0, 0));
-    eventDto.setEndedAt(LocalDateTime.of(2018, 11, 15, 0, 0));
+    EventDto eventDto = EventDto.builder()
+            .startedAt(LocalDateTime.of(2018, 11, 16, 0, 0))
+            .endedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
+            .build();
 
     // When
     var perform = this.mockMvc.perform(

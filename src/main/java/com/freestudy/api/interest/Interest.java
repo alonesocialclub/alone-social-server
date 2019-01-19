@@ -7,9 +7,9 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Builder(toBuilder = true)
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
-@Setter(value = AccessLevel.PACKAGE)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Entity
 @Table(
@@ -17,9 +17,7 @@ import java.util.Set;
                 @Index(name = "idx_value", columnList = "value", unique = true)
         }
 )
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Data
 public class Interest {
 
   @Id

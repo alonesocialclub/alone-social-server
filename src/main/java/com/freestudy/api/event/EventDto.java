@@ -8,8 +8,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Data
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventDto {
@@ -24,7 +24,7 @@ public class EventDto {
 
   @NotNull
   private LocalDateTime startedAt;
-  
+
   @NotNull
   private LocalDateTime endedAt;
 

@@ -21,7 +21,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @EqualsAndHashCode(of = "id")
 public class User {
   @Id
@@ -30,6 +29,7 @@ public class User {
 
   @NotNull
   @Column(nullable = false)
+  @Setter
   private String name;
 
   @NotNull
@@ -37,6 +37,7 @@ public class User {
   @Column(nullable = false)
   private String email;
 
+  @Setter
   private String imageUrl;
 
   @JsonIgnore

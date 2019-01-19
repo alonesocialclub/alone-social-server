@@ -35,7 +35,7 @@ public class InterestServiceTest {
     interests.add(buildInterest("통계"));
     interestRepository.saveAll(interests);
     List<String> valuesToBeSaved = interests.stream().map(Interest::getValue).collect(Collectors.toList());
-    valuesToBeSaved.add("사후세계");;
+    valuesToBeSaved.add("사후세계");
 
     // when
     Set<Interest> results = interestService.saveAll(valuesToBeSaved);
