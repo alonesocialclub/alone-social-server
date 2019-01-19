@@ -22,7 +22,7 @@ public class UserControllerTest extends BaseControllerTest {
   @Test
   public void getUsersMeTest() throws Exception {
     // Given
-    var token = getToken();
+    var token = getAuthToken();
 
     // When
     var perform = mockMvc
@@ -60,7 +60,7 @@ public class UserControllerTest extends BaseControllerTest {
   @Test
   public void putUsersMeTest() throws Exception {
     // Given
-    var token = getToken();
+    var token = getAuthToken();
 
     List<InterestDto> interestDtoList = Arrays.asList(
             InterestDto.builder().value("서예").build(),
@@ -104,7 +104,7 @@ public class UserControllerTest extends BaseControllerTest {
   @Test
   public void putUsersMeTest__too_much_interests() throws Exception {
     // Given
-    var token = getToken();
+    var token = getAuthToken();
     List<InterestDto> interestDtoList = Arrays.asList(
             InterestDto.builder().value("사후세계").build(),
             InterestDto.builder().value("스타트업").build(),
@@ -138,7 +138,7 @@ public class UserControllerTest extends BaseControllerTest {
   @Test
   public void putUsersMeTest__invalid_email_format() throws Exception {
     // Given
-    var token = getToken();
+    var token = getAuthToken();
     UserDto userDto = UserDto.builder()
             .name("foo")
             .email("invalid.email.com")

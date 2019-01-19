@@ -41,7 +41,7 @@ public class EventControllerTest extends BaseControllerTest {
     var perfrom = mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(event))
@@ -90,7 +90,7 @@ public class EventControllerTest extends BaseControllerTest {
     var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(eventDto))
             );
@@ -120,7 +120,7 @@ public class EventControllerTest extends BaseControllerTest {
     var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(eventDto))
@@ -224,7 +224,7 @@ public class EventControllerTest extends BaseControllerTest {
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
-                    .header(HttpHeaders.AUTHORIZATION, getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -246,7 +246,7 @@ public class EventControllerTest extends BaseControllerTest {
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", eventIdNotExists)
-                    .header(HttpHeaders.AUTHORIZATION, getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -270,7 +270,7 @@ public class EventControllerTest extends BaseControllerTest {
             put("/api/events/{id}", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
-                    .header(HttpHeaders.AUTHORIZATION, getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
     );
 
     // Then

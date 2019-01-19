@@ -54,7 +54,7 @@ public class BaseControllerTest {
   protected LinkRepository linkRepository;
 
 
-  protected String getToken() throws Exception {
+  protected String getAuthToken() throws Exception {
 
     var next = atomicInteger.incrementAndGet();
 
