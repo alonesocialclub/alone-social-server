@@ -1,5 +1,6 @@
 package com.freestudy.api.event;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.freestudy.api.user.User;
 import com.freestudy.api.user.UserSerializer;
@@ -14,7 +15,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @EqualsAndHashCode(of = "id")
 @Entity
 public class Event {
@@ -35,8 +35,10 @@ public class Event {
   @Column
   private LocalDateTime endedAt;
 
-  @Column
-  private String location;
+  @Embedded
+  @JsonSerialize(using = LocationSerializer.class)
+  @JsonDeserialize(using = LocationDeserializer.class)
+  private Location location;
 
   @Column
   private int limitOfEnrollment;
@@ -52,5 +54,12 @@ public class Event {
   private User owner;
 
   private EventStatus statusStatus; // TODO, startedAt, endedAt 기반으로 getter 만
+
+  Event update(EventDto eventDto) {
+    if (!eventDto.getName().isEmpty()) {
+      name = eventDto.getName();
+    }
+    return this;
+  }
 
 }

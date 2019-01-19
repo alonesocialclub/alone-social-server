@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freestudy.api.auth.SignUpRequestDto;
 import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventRepository;
+import com.freestudy.api.event.Location;
 import com.freestudy.api.link.Link;
 import com.freestudy.api.link.LinkRepository;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -15,20 +17,15 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import javax.transaction.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -58,34 +55,30 @@ public class BaseControllerTest {
   protected LinkRepository linkRepository;
 
 
-  protected String getToken() throws Exception {
+  protected String getAuthToken() throws Exception {
+
     var next = atomicInteger.incrementAndGet();
+
     SignUpRequestDto data = SignUpRequestDto.builder()
             .email(next + "@test.com")
-            .password("1234")
+            .password("12345678")
             .name("Jeff")
             .build();
 
-    mockMvc.perform(
+    var perform = mockMvc.perform(
             post("/api/auth/signup")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaTypes.HAL_JSON)
                     .content(objectMapper.writeValueAsString(data))
     ).andExpect(status().isCreated());
 
-    var result = mockMvc.perform(
-            post("/api/auth/login")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaTypes.HAL_JSON)
-                    .content(objectMapper.writeValueAsString(data))
-    );
-    result.andExpect(status().isOk());
+    String response = perform.andReturn().getResponse().getContentAsString();
+    String token = JsonPath.parse(response).read("token").toString();
 
-    String token = result.andReturn().getResponse().getContentAsString();
     return "Bearer " + token;
   }
 
   protected Event createEvent() {
+
     var next = atomicInteger.incrementAndGet();
 
     Event event = Event.builder()
@@ -94,8 +87,9 @@ public class BaseControllerTest {
             .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
-            .location("낙성대")
+            .location(new Location("남부 순환로", "낙성대"))
             .build();
+
     return this.eventRepository.save(event);
   }
 

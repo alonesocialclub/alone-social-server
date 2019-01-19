@@ -1,18 +1,25 @@
 package com.freestudy.api.auth;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
 public class SignUpRequestDto {
 
+  @NotEmpty
+  @Size(max = 20)
   public String name;
+
+  @NotEmpty
+  @Size(min = 6, max = 20)
   public String password;
 
+  @NotEmpty
+  @Email
   public String email;
 }

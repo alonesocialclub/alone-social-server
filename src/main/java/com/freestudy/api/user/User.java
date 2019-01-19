@@ -1,11 +1,13 @@
 package com.freestudy.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.freestudy.api.interest.Interest;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,32 +21,33 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @EqualsAndHashCode(of = "id")
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotNull
   @Column(nullable = false)
+  @Setter
   private String name;
 
+  @NotNull
   @Email
   @Column(nullable = false)
+  @Setter
   private String email;
 
+  @Setter
   private String imageUrl;
-
-  @Column(nullable = false)
-  @Builder.Default
-  private Boolean emailVerified = false;
 
   @JsonIgnore
   private String password;
 
   @NotNull
   @Enumerated(EnumType.STRING)
-  private AuthProvider provider;
+  @Builder.Default
+  private AuthProvider provider = AuthProvider.local;
 
   private String providerId;
 
@@ -52,4 +55,27 @@ public class User {
   @ElementCollection(fetch = FetchType.EAGER)
   @Builder.Default
   private Set<UserRole> roles = Set.of(UserRole.USER);
+
+
+  @ManyToMany(
+          cascade = {CascadeType.ALL}
+  )
+  @JoinTable(
+          name = "user_interest",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "interest_id")
+  )
+  @Builder.Default
+  @Setter
+  private Set<Interest> interests = new HashSet<>();
+
+  public User set(UserDto userDto) {
+    if (userDto.getEmail() != null) {
+      this.email = userDto.getEmail();
+    }
+    if (userDto.getName() != null) {
+      this.name = userDto.getName();
+    }
+    return this;
+  }
 }

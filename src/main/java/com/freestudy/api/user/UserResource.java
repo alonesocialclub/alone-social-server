@@ -1,11 +1,17 @@
 package com.freestudy.api.user;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 public class UserResource extends Resource<User> {
+
+  @Setter
+  @Getter
+  private String token = null;
 
   public UserResource(User user, Link... links) {
     super(user, links);

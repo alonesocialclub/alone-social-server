@@ -40,5 +40,3 @@ jobs:
 
     # run tests!
     - run: ./gradlew clean test --tests com.freestudy.api.*
-
-

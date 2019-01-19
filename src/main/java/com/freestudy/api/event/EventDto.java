@@ -1,6 +1,8 @@
 package com.freestudy.api.event;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.validation.constraints.Min;
@@ -8,8 +10,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Data
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventDto {
@@ -20,11 +22,11 @@ public class EventDto {
   @NotEmpty
   private String description;
 
-  private String location;
+  private Location location;
 
   @NotNull
   private LocalDateTime startedAt;
-  
+
   @NotNull
   private LocalDateTime endedAt;
 

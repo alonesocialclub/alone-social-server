@@ -26,36 +26,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EventControllerTest extends BaseControllerTest {
 
   @Test
-  public void createEvent__happy() throws Exception {
+  public void createEventTest() throws Exception {
     // Given
     EventDto event = EventDto.builder()
-            .name("SpringBootIsFun")
-            .description("Rest")
+            .name("낙성대 주말 코딩")
+            .description("오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.")
             .startedAt(LocalDateTime.of(2018, 11, 11, 12, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
-            .location("낙성대")
+            .location(new Location("남부순환로", "스타벅스"))
             .build();
 
     // When
-    var perfrom = mockMvc
+    var perform = mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(event))
             );
 
     // Then
-    perfrom
+    perform
             .andDo(print())
             .andExpect(status().isCreated())
             .andExpect(jsonPath("id").isNumber())
             .andExpect(header().exists(HttpHeaders.LOCATION))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andDo(
-                    document("create-event",
+                    document("post-events",
                             links(
                                     linkWithRel("self").description("link to self"),
                                     linkWithRel("query-events").description("query")
@@ -67,7 +67,8 @@ public class EventControllerTest extends BaseControllerTest {
                             requestFields(
                                     fieldWithPath("name").description("모임 이름"),
                                     fieldWithPath("description").description("모임 설명"),
-                                    fieldWithPath("location").description("모임 장소"),
+                                    fieldWithPath("location.address").description("모임 장소 주소"),
+                                    fieldWithPath("location.name").description("모임 장소 이름"),
                                     fieldWithPath("startedAt").description("모임 시작 시간"),
                                     fieldWithPath("endedAt").description("모임 종료 시간"),
                                     fieldWithPath("limitOfEnrollment").description("모임 정원")
@@ -90,14 +91,14 @@ public class EventControllerTest extends BaseControllerTest {
     var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(eventDto))
             );
 
     // Then
     perform
-            .andDo(document("create-event-invalid"))
+            .andDo(document("post-events-invalid"))
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("_links.index").exists());
@@ -113,14 +114,14 @@ public class EventControllerTest extends BaseControllerTest {
             .startedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
-            .location("낙성대")
+            .location(new Location("남부순환로", "낙성대"))
             .build();
 
     // When
     var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, getToken())
+                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(eventDto))
@@ -210,14 +211,21 @@ public class EventControllerTest extends BaseControllerTest {
   public void updateEvent__happy() throws Exception {
     // Given
     Event event = createEvent();
-    EventDto eventDto = this.modelMapper.map(event, EventDto.class);
     String updatedName = "updated event";
-    eventDto.setName(updatedName);
+    EventDto eventDto = EventDto
+            .builder()
+            .name(updatedName)
+            .location(event.getLocation())
+            .description(event.getDescription())
+            .startedAt(event.getStartedAt())
+            .endedAt(event.getEndedAt())
+            .limitOfEnrollment(event.getLimitOfEnrollment())
+            .build();
 
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
-                    .header(HttpHeaders.AUTHORIZATION, getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -239,7 +247,7 @@ public class EventControllerTest extends BaseControllerTest {
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", eventIdNotExists)
-                    .header(HttpHeaders.AUTHORIZATION, getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -253,16 +261,17 @@ public class EventControllerTest extends BaseControllerTest {
   public void updateEvent__invalid_startedAt_endedAt() throws Exception {
     // Given
     Event event = createEvent();
-    EventDto eventDto = this.modelMapper.map(event, EventDto.class);
-    eventDto.setStartedAt(LocalDateTime.of(2018, 11, 16, 0, 0));
-    eventDto.setEndedAt(LocalDateTime.of(2018, 11, 15, 0, 0));
+    EventDto eventDto = EventDto.builder()
+            .startedAt(LocalDateTime.of(2018, 11, 16, 0, 0))
+            .endedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
+            .build();
 
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
-                    .header(HttpHeaders.AUTHORIZATION, getToken())
+                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
     );
 
     // Then

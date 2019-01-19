@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class LinkControllerTest extends BaseControllerTest {
 
-
   @Test
   public void createLinkTest() throws Exception {
     // given
