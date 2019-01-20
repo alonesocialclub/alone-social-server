@@ -9,6 +9,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Builder
@@ -54,6 +56,16 @@ public class Event {
   private User owner;
 
   private EventStatus statusStatus; // TODO, startedAt, endedAt 기반으로 getter 만
+
+  @ManyToMany(cascade = {CascadeType.PERSIST})
+  @JoinTable(
+          name = "event_event_type",
+          joinColumns = @JoinColumn(name = "event_id"),
+          inverseJoinColumns = @JoinColumn(name = "event_type_id")
+  )
+  @Builder.Default
+  @Setter
+  private Set<EventType> eventTypes = new HashSet<>();
 
   Event update(EventDto eventDto) {
     if (!eventDto.getName().isEmpty()) {
