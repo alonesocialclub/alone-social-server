@@ -48,12 +48,11 @@ public class InterestServiceTest {
 
   // TODO MAKE IT DRY, baseDAOTest
   private Interest buildInterest(String value) {
-    return interestRepository.save(
-            Interest
+    return Interest
                     .builder()
                     .value(value)
                     .build()
-    );
+    ;
   }
 
 }
