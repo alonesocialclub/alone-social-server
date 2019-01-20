@@ -28,7 +28,7 @@ public class Interest {
   @Column(nullable = false, unique = true)
   private String value;
 
-  @ManyToMany(mappedBy = "interests", cascade = {CascadeType.ALL})
+  @ManyToMany(mappedBy = "interests")
   @Builder.Default
   @JsonIgnore
   private Set<User> users = new HashSet<>();

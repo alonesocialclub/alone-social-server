@@ -57,9 +57,7 @@ public class User {
   private Set<UserRole> roles = Set.of(UserRole.USER);
 
 
-  @ManyToMany(
-          cascade = {CascadeType.ALL}
-  )
+  @ManyToMany(cascade = {CascadeType.PERSIST})
   @JoinTable(
           name = "user_interest",
           joinColumns = @JoinColumn(name = "user_id"),

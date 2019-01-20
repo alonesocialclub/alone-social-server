@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class InterestServiceTest {
 
-
   @Autowired
   InterestService interestService;
 
