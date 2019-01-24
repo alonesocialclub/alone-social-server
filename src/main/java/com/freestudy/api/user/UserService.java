@@ -49,7 +49,6 @@ public class UserService implements UserDetailsService {
             .name(signUpRequestDto.getName())
             .email(signUpRequestDto.getEmail())
             .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
-            .provider(AuthProvider.local)
             .build();
 
     return userRepository.save(user);

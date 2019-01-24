@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.security.Provider;
 import java.util.Optional;
 
 @Service
@@ -62,15 +63,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
   }
 
   private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-    User user = User
-            .builder()
-            .provider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
-            .providerId(oAuth2UserInfo.getId())
-            .name(oAuth2UserInfo.getName())
-            .email(oAuth2UserInfo.getEmail())
-            .imageUrl(oAuth2UserInfo.getImageUrl())
-            .build();
-
+    AuthProvider provider = AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId());
+    User user = new User(oAuth2UserInfo, provider);
     return userRepository.save(user);
   }
 
