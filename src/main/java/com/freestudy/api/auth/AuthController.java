@@ -78,12 +78,7 @@ public class AuthController extends BaseController {
     }
 
     // Creating user's account
-    User user = userService.createLocalAuthUser(
-            signUpRequestDto.getName(),
-            signUpRequestDto.getEmail(),
-            signUpRequestDto.getPassword()
-    );
-
+    User user = userService.createLocalAuthUser(signUpRequestDto);
 
     URI location = ServletUriComponentsBuilder
             .fromCurrentContextPath().path("/user/me")

@@ -1,5 +1,6 @@
 package com.freestudy.api.user;
 
+import com.freestudy.api.auth.SignUpRequestDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,7 @@ public class UserServiceTest {
     String name = "findByUsername";
     String email = "findByUsername@test.com";
     String password = "test";
-    userService.createLocalAuthUser(
-            name, email, password
-    );
+    userService.createLocalAuthUser(SignUpRequestDto.builder().name(name).email(email).password(password).build());
 
     // When
     UserDetailsService userDetailsService = userService;

@@ -1,6 +1,7 @@
 package com.freestudy.api.user;
 
 
+import com.freestudy.api.auth.SignUpRequestDto;
 import com.freestudy.api.common.exception.ResourceNotFoundException;
 import com.freestudy.api.oauth2.user.UserPrincipalAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +42,13 @@ public class UserService implements UserDetailsService {
   }
 
   public User createLocalAuthUser(
-          String name,
-          String email,
-          String password
+          SignUpRequestDto signUpRequestDto
   ) {
+
     User user = User.builder()
-            .name(name)
-            .email(email)
-            .password(passwordEncoder.encode(password))
+            .name(signUpRequestDto.getName())
+            .email(signUpRequestDto.getEmail())
+            .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
             .provider(AuthProvider.local)
             .build();
 
