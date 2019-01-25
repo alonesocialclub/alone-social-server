@@ -74,14 +74,17 @@ public class User {
   private Set<UserRole> roles = Set.of(UserRole.USER);
 
 
-  @ManyToMany(cascade = {CascadeType.PERSIST})
+  @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
   @JoinTable(
           name = "user_interest",
           joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "interest_id")
   )
-  @Setter
-  private Set<Interest> interests = new HashSet<>();
+  private Set<Interest> interests;
+
+  void setInterests(Set<Interest> interests) {
+    this.interests = interests;
+  }
 
   public User set(UserDto userDto) {
     if (userDto.getEmail() != null) {
