@@ -4,11 +4,13 @@ package com.freestudy.api.interest;
 import com.freestudy.api.BaseDaoTest;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -32,7 +34,7 @@ public class InterestRepositoryTest extends BaseDaoTest {
   @Test
   public void findAllByValueInTest() throws Exception {
     // given
-    Set<Interest> interests = new HashSet<>();
+    List<Interest> interests = new ArrayList<>();
     interests.add(buildInterest("과학"));
     interests.add(buildInterest("make the world a better place"));
     interests.add(buildInterest("통계"));
@@ -40,13 +42,11 @@ public class InterestRepositoryTest extends BaseDaoTest {
     List<String> interestsKeywords = interests.stream().map(Interest::getValue).collect(Collectors.toList());
 
     // when
-    List<Interest> resultList = interestRepository.findAllByValueIn(interestsKeywords);
-    Set<Interest> results = new HashSet<>(resultList);
+    List<Interest> results = interestRepository.findAllByValueIn(interestsKeywords);
 
     // then
-    assertThat(results).isEqualTo(interests);
+    assertThat(results).containsAll(interests);
   }
-
 
 
 }

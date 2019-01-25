@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class InterestServiceTest {
 
   @Autowired
@@ -28,7 +31,7 @@ public class InterestServiceTest {
   public void saveAllTest() throws Exception {
 
     // given
-    Set<Interest> interests = new HashSet<>();
+    List<Interest> interests = new ArrayList<>();
     interests.add(buildInterest("과학"));
     interests.add(buildInterest("스타트업"));
     interests.add(buildInterest("통계"));
@@ -37,12 +40,16 @@ public class InterestServiceTest {
     valuesToBeSaved.add(InterestDto.of("사후세계"));
 
     // when
-    Set<Interest> results = interestService.saveAll(valuesToBeSaved);
+    List<Interest> results = interestService.saveAll(valuesToBeSaved);
 
     // then
     assertThat(results).containsAll(interests);
     assertThat(results.size()).isEqualTo(valuesToBeSaved.size());
-    assertThat(results.stream().map(Interest::getValue).map(InterestDto::new).collect(Collectors.toList())).isEqualTo(valuesToBeSaved);
+    assertThat(
+            results.stream().map(Interest::getValue).collect(Collectors.toSet())
+    ).isEqualTo(
+            valuesToBeSaved.stream().map(InterestDto::getValue).collect(Collectors.toSet())
+    );
   }
 
   // TODO MAKE IT DRY, baseDAOTest

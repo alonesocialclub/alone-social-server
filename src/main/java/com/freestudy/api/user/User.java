@@ -9,7 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.security.Provider;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,7 +33,7 @@ public class User {
     this.password = password;
     this.name = name;
     this.roles = Set.of(UserRole.USER);
-    this.interests = new HashSet<>();
+    this.interests = new ArrayList<>();
     this.provider = AuthProvider.local;
   }
 
@@ -81,9 +83,9 @@ public class User {
           joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "interest_id")
   )
-  private Set<Interest> interests;
+  private List<Interest> interests;
 
-  void setInterests(Set<Interest> interests) {
+  void setInterests(List<Interest> interests) {
     this.interests = interests;
   }
 
