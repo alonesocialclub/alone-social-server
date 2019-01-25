@@ -1,7 +1,6 @@
-package com.freestudy.api.interest;
+package com.freestudy.api.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.freestudy.api.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,8 +17,8 @@ import java.util.Set;
                 @Index(name = "idx_value", columnList = "value", unique = true)
         }
 )
-@EqualsAndHashCode(of = "value")
-public class Interest {
+@EqualsAndHashCode(of = "id")
+public class EventType {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +27,12 @@ public class Interest {
   @Column(nullable = false, unique = true)
   private String value;
 
-  @ManyToMany(mappedBy = "interests")
+  @ManyToMany(mappedBy = "eventTypes")
   @Builder.Default
   @JsonIgnore
-  private Set<User> users = new HashSet<>();
+  private Set<Event> events = new HashSet<>();
+
+  public static EventType of(String value) {
+    return EventType.builder().value(value).build();
+  }
 }

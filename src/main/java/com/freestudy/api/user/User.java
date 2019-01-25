@@ -2,12 +2,16 @@ package com.freestudy.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.freestudy.api.interest.Interest;
+import com.freestudy.api.oauth2.user.OAuth2UserInfo;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.security.Provider;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,12 +21,30 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")
         }
 )
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
 public class User {
+
+  @Builder
+  public User(String email, String password, String name) {
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.roles = Set.of(UserRole.USER);
+    this.interests = new ArrayList<>();
+    this.provider = AuthProvider.local;
+  }
+
+  public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider) {
+    this.name = oAuth2UserInfo.getName();
+    this.email = oAuth2UserInfo.getEmail();
+    this.imageUrl = oAuth2UserInfo.getImageUrl();
+    this.provider = provider;
+    this.providerId = oAuth2UserInfo.getId();
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -46,28 +68,26 @@ public class User {
 
   @NotNull
   @Enumerated(EnumType.STRING)
-  @Builder.Default
-  private AuthProvider provider = AuthProvider.local;
+  private AuthProvider provider;
 
   private String providerId;
 
   @Enumerated(EnumType.STRING)
   @ElementCollection(fetch = FetchType.EAGER)
-  @Builder.Default
-  private Set<UserRole> roles = Set.of(UserRole.USER);
+  private Set<UserRole> roles;
 
 
-  @ManyToMany(
-          cascade = {CascadeType.ALL}
-  )
+  @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
   @JoinTable(
           name = "user_interest",
           joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "interest_id")
   )
-  @Builder.Default
-  @Setter
-  private Set<Interest> interests = new HashSet<>();
+  private List<Interest> interests;
+
+  void setInterests(List<Interest> interests) {
+    this.interests = interests;
+  }
 
   public User set(UserDto userDto) {
     if (userDto.getEmail() != null) {
