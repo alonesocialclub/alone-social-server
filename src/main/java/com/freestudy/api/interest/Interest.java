@@ -18,7 +18,7 @@ import java.util.Set;
                 @Index(name = "idx_value", columnList = "value", unique = true)
         }
 )
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "value")
 public class Interest {
 
   @Id

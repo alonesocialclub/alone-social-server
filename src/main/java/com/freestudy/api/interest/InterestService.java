@@ -1,6 +1,7 @@
 package com.freestudy.api.interest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,7 +22,7 @@ public class InterestService {
   }
 
 
-  public Set<Interest> saveAll(List<InterestDto> interests) {
+  public Set<Interest> saveAll(@NonNull List<InterestDto> interests) {
     var values = interests.stream().map(InterestDto::getValue).collect(Collectors.toList());
 
     Set<Interest> results = new HashSet<>(interestRepository.findAllByValueIn(values));

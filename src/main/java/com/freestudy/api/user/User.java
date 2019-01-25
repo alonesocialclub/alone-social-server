@@ -32,9 +32,10 @@ public class User {
     this.name = name;
     this.roles = Set.of(UserRole.USER);
     this.interests = new HashSet<>();
+    this.provider = AuthProvider.local;
   }
 
-  public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider){
+  public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider) {
     this.name = oAuth2UserInfo.getName();
     this.email = oAuth2UserInfo.getEmail();
     this.imageUrl = oAuth2UserInfo.getImageUrl();
