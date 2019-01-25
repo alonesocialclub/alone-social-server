@@ -72,6 +72,7 @@ public class UserControllerTest extends BaseControllerTest {
             .email("putUserMeTest@email.com")
             .interests(interestDtoList)
             .build();
+    System.out.println("======================");
 
     // When
     var perform = mockMvc
@@ -99,6 +100,14 @@ public class UserControllerTest extends BaseControllerTest {
                             "post-users-me"
                     )
             );
+    mockMvc
+            .perform(
+                    get("/api/users/me")
+                            .header(HttpHeaders.AUTHORIZATION, token)
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
+            ).andDo(print());
+
   }
 
   @Test

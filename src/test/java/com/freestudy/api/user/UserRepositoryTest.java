@@ -54,6 +54,7 @@ public class UserRepositoryTest {
     // then
     assertThat(user.getInterests()).contains(interest);
     assertThat(interest.getUsers()).contains(user);
+    // cascade persistent
     assertThat(interest.getId()).isNotNull();
   }
 }

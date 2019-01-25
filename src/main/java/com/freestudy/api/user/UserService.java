@@ -1,7 +1,9 @@
 package com.freestudy.api.user;
 
 
+import com.freestudy.api.auth.SignUpRequestDto;
 import com.freestudy.api.common.exception.ResourceNotFoundException;
+import com.freestudy.api.interest.InterestService;
 import com.freestudy.api.oauth2.user.UserPrincipalAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,11 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserService implements UserDetailsService {
 
-  @Autowired
-  UserRepository userRepository;
+  private UserRepository userRepository;
+
+  private InterestService interestService;
+
+  private PasswordEncoder passwordEncoder;
 
   @Autowired
-  PasswordEncoder passwordEncoder;
+  public UserService(UserRepository userRepository, InterestService interestService, PasswordEncoder passwordEncoder) {
+
+    this.userRepository = userRepository;
+    this.interestService = interestService;
+    this.passwordEncoder = passwordEncoder;
+  }
 
   @Override
   public UserDetails loadUserByUsername(String email)
@@ -41,17 +51,31 @@ public class UserService implements UserDetailsService {
   }
 
   public User createLocalAuthUser(
-          String name,
-          String email,
-          String password
+          SignUpRequestDto signUpRequestDto
   ) {
+
     User user = User.builder()
-            .name(name)
-            .email(email)
-            .password(passwordEncoder.encode(password))
-            .provider(AuthProvider.local)
+            .name(signUpRequestDto.getName())
+            .email(signUpRequestDto.getEmail())
+            .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
             .build();
 
     return userRepository.save(user);
+  }
+
+  public User save(User user, UserDto userDto) {
+
+    if (userDto.getInterests() != null) {
+      var interests = interestService.saveAll(userDto.getInterests());
+      user.setInterests(interests);
+    }
+    if (userDto.getEmail() != null) {
+      user.setEmail(userDto.getEmail());
+    }
+    if (userDto.getName() != null) {
+      user.setName(userDto.getName());
+    }
+
+    return user;
   }
 }

@@ -4,7 +4,6 @@ package com.freestudy.api.user;
 import com.freestudy.api.interest.InterestDto;
 import lombok.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.List;
