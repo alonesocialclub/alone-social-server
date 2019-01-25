@@ -65,13 +65,13 @@ public class User {
 
   @NotNull
   @Enumerated(EnumType.STRING)
-  private AuthProvider provider = AuthProvider.local;
+  private AuthProvider provider;
 
   private String providerId;
 
   @Enumerated(EnumType.STRING)
   @ElementCollection(fetch = FetchType.EAGER)
-  private Set<UserRole> roles = Set.of(UserRole.USER);
+  private Set<UserRole> roles;
 
 
   @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
