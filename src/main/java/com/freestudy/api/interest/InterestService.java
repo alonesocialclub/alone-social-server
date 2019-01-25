@@ -21,7 +21,8 @@ public class InterestService {
   }
 
 
-  public Set<Interest> saveAll(List<String> values) {
+  public Set<Interest> saveAll(List<InterestDto> interests) {
+    var values = interests.stream().map(InterestDto::getValue).collect(Collectors.toList());
 
     Set<Interest> results = new HashSet<>(interestRepository.findAllByValueIn(values));
 

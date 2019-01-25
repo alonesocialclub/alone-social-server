@@ -33,8 +33,8 @@ public class InterestServiceTest {
     interests.add(buildInterest("스타트업"));
     interests.add(buildInterest("통계"));
     interestRepository.saveAll(interests);
-    List<String> valuesToBeSaved = interests.stream().map(Interest::getValue).collect(Collectors.toList());
-    valuesToBeSaved.add("사후세계");
+    List<InterestDto> valuesToBeSaved = interests.stream().map(o -> InterestDto.of(o.getValue())).collect(Collectors.toList());
+    valuesToBeSaved.add(InterestDto.of("사후세계"));
 
     // when
     Set<Interest> results = interestService.saveAll(valuesToBeSaved);
@@ -42,16 +42,16 @@ public class InterestServiceTest {
     // then
     assertThat(results).containsAll(interests);
     assertThat(results.size()).isEqualTo(valuesToBeSaved.size());
-    assertThat(results.stream().map(Interest::getValue).collect(Collectors.toList())).isEqualTo(valuesToBeSaved);
+    assertThat(results.stream().map(Interest::getValue).map(InterestDto::new).collect(Collectors.toList())).isEqualTo(valuesToBeSaved);
   }
 
   // TODO MAKE IT DRY, baseDAOTest
   private Interest buildInterest(String value) {
     return Interest
-                    .builder()
-                    .value(value)
-                    .build()
-    ;
+            .builder()
+            .value(value)
+            .build()
+            ;
   }
 
 }
