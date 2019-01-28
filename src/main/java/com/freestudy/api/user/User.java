@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.freestudy.api.interest.Interest;
 import com.freestudy.api.oauth2.user.OAuth2UserInfo;
 import lombok.*;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -24,8 +25,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@EqualsAndHashCode(of = "id")
-public class User {
+@EqualsAndHashCode(of = "id", callSuper = true)
+public class User extends AbstractAggregateRoot<User> {
 
   @Builder
   public User(String email, String password, String name) {
@@ -35,6 +36,7 @@ public class User {
     this.roles = Set.of(UserRole.USER);
     this.interests = new ArrayList<>();
     this.provider = AuthProvider.local;
+    this.registerEvent(new UserAfterSaveEvent(this));
   }
 
   public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider) {
@@ -43,7 +45,9 @@ public class User {
     this.imageUrl = oAuth2UserInfo.getImageUrl();
     this.provider = provider;
     this.providerId = oAuth2UserInfo.getId();
+    this.registerEvent(new UserAfterSaveEvent(this));
   }
+
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
