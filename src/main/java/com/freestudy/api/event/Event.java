@@ -2,6 +2,7 @@ package com.freestudy.api.event;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.freestudy.api.link.Link;
 import com.freestudy.api.user.User;
 import com.freestudy.api.user.UserSerializer;
 import lombok.*;
@@ -67,11 +68,13 @@ public class Event {
   @Setter
   private Set<EventType> eventTypes = new HashSet<>();
 
-  Event update(EventDto eventDto) {
+  void update(EventDto eventDto) {
     if (!eventDto.getName().isEmpty()) {
       name = eventDto.getName();
     }
-    return this;
   }
 
+  public Link createLink() {
+    return Link.builder().event(this).build();
+  }
 }

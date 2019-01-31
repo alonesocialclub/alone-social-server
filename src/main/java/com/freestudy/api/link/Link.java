@@ -3,13 +3,17 @@ package com.freestudy.api.link;
 import com.freestudy.api.event.Event;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-@Builder
 @Getter
 @EqualsAndHashCode(of = "id")
 @Entity
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class Link {
+
 
   @Id
   @GeneratedValue
@@ -17,5 +21,10 @@ public class Link {
 
   @ManyToOne
   private Event event;
+
+  @Builder
+  public Link(Event event) {
+    this.event = event;
+  }
 
 }

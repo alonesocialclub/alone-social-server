@@ -14,15 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Optional;
-
 @Controller
 @RequestMapping(value = "/api/events/{eventId}/links")
 public class LinkController {
 
-  private LinkRepository linkRepository;
-
-  private EventRepository eventRepository;
+  private LinkService linkService;
 
   private ModelMapper modelMapper;
 
@@ -30,12 +26,10 @@ public class LinkController {
 
   @Autowired
   public LinkController(
-          LinkRepository linkRepository,
-          EventRepository eventRepository,
+          LinkService linkService,
           ModelMapper modelMapper,
           AppProperties appProperties) {
-    this.linkRepository = linkRepository;
-    this.eventRepository = eventRepository;
+    this.linkService = linkService;
     this.modelMapper = modelMapper;
     this.appProperties = appProperties;
   }
@@ -44,36 +38,31 @@ public class LinkController {
   public ResponseEntity createLink(
           @PathVariable("eventId") Event event
   ) {
-    if (event == null){
+    if (event == null) {
       return ResponseEntity.notFound().build();
     }
-    Link link = Link.builder().event(event).build();
-    linkRepository.save(link);
+
+    Link link = linkService.createLink(event);
 
     // TODO view logic
     LinkResponseDTO response = modelMapper.map(link, LinkResponseDTO.class);
-    response.setUrl(appProperties.getLink().getHost() +"/events/" + event.getId() +  "/links/" + link.getId());
+    response.setUrl(appProperties.getLink().getHost() + "/events/" + event.getId() + "/links/" + link.getId());
 
     return ResponseEntity.ok(response);
   }
 
   @GetMapping(value = "/{linkId}", produces = MediaType.TEXT_HTML_VALUE)
   public ResponseEntity getLink(
-          @PathVariable("eventId") int eventId,
-          @PathVariable("linkId") int linkId
+          @PathVariable("linkId") Link link
   ) {
 
-    Optional<Event> optionalEvent = eventRepository.findById(eventId);
-
-    if (optionalEvent.isEmpty()) {
+    if (link == null) {
       return ResponseEntity.notFound().build();
     }
 
-    var event = optionalEvent.get();
-
     return ResponseEntity.ok("<html><head>" +
-            "<title>" + event.getName() + "<title/>" +
-            "<script>window.location.replace('"+ "http://stackoverflow.com" + "');</script>" +
+            "<title>" + link.getEvent().getName() + "<title/>" +
+            "<script>window.location.replace('" + "http://stackoverflow.com" + "');</script>" +
             "</head></html>"
     );
   }
