@@ -48,6 +48,18 @@ public class LinkControllerTest extends BaseControllerTest {
   }
 
   @Test
+  public void createLinkTest__not_found() throws Exception {
+
+    // when
+    var perform = mockMvc.perform(
+            post("/api/events/{id}/links", -1)
+    );
+
+    perform
+            .andExpect(status().isNotFound());
+  }
+
+  @Test
   public void getLinkTest() throws Exception {
     // given
     Link link = createLink();

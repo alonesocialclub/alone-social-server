@@ -20,36 +20,39 @@ import java.util.Optional;
 @RequestMapping(value = "/api/events/{eventId}/links")
 public class LinkController {
 
-
-  @Autowired
-  private EventRepository eventRepository;
-
-  @Autowired
   private LinkRepository linkRepository;
 
-  @Autowired
+  private EventRepository eventRepository;
+
   private ModelMapper modelMapper;
 
-  @Autowired
   private AppProperties appProperties;
+
+  @Autowired
+  public LinkController(
+          LinkRepository linkRepository,
+          EventRepository eventRepository,
+          ModelMapper modelMapper,
+          AppProperties appProperties) {
+    this.linkRepository = linkRepository;
+    this.eventRepository = eventRepository;
+    this.modelMapper = modelMapper;
+    this.appProperties = appProperties;
+  }
 
   @PostMapping
   public ResponseEntity createLink(
-          @PathVariable("eventId") Integer eventId
+          @PathVariable("eventId") Event event
   ) {
-    Optional<Event> optionalEvent = eventRepository.findById(eventId);
-
-    if (optionalEvent.isEmpty()) {
+    if (event == null){
       return ResponseEntity.notFound().build();
     }
-
-    var event = optionalEvent.get();
     Link link = Link.builder().event(event).build();
     linkRepository.save(link);
 
     // TODO view logic
     LinkResponseDTO response = modelMapper.map(link, LinkResponseDTO.class);
-    response.setUrl(appProperties.getLink().getHost() +"/events/" + eventId +  "/links/" + link.getId());
+    response.setUrl(appProperties.getLink().getHost() +"/events/" + event.getId() +  "/links/" + link.getId());
 
     return ResponseEntity.ok(response);
   }
