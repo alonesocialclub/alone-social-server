@@ -6,10 +6,11 @@ import com.freestudy.api.link.Link;
 import com.freestudy.api.user.User;
 import com.freestudy.api.user.UserSerializer;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @EqualsAndHashCode(of = "id")
 @Entity
 public class Event {
@@ -47,16 +49,19 @@ public class Event {
   private int limitOfEnrollment;
 
   @Column
-  private Date createdAt;
+  @CreationTimestamp
+  private LocalDateTime createdAt;
 
   @Column
-  private Date updatedAt;
+  @UpdateTimestamp
+  protected LocalDateTime updatedAt;
 
   @ManyToOne
   @JsonSerialize(using = UserSerializer.class)
   private User owner;
 
-  private EventStatus statusStatus; // TODO, startedAt, endedAt 기반으로 getter 만
+  @Setter(value = AccessLevel.NONE)
+  private EventStatus statusStatus;
 
   @ManyToMany(cascade = {CascadeType.PERSIST})
   @JoinTable(
