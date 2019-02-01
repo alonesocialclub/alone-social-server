@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.freestudy.api.interest.Interest;
 import com.freestudy.api.oauth2.user.OAuth2UserInfo;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.security.Provider;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +55,14 @@ public class User extends AbstractAggregateRoot<User> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Column
+  @CreationTimestamp
+  private LocalDateTime createdAt;
+
+  @Column
+  @UpdateTimestamp
+  protected LocalDateTime updatedAt;
 
   @NotNull
   @Column(nullable = false)
