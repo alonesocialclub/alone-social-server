@@ -25,19 +25,16 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class EventController extends BaseController {
 
   private final EventRepository eventRepository;
-
-  private final ModelMapper modelMapper;
-
   private final EventValidator eventValidator;
+  private final EventService eventService;
 
   public EventController(
           EventRepository eventRepository,
-          ModelMapper modelMapper,
-          EventValidator eventValidator
-  ) {
+          EventValidator eventValidator,
+          EventService eventService) {
     this.eventRepository = eventRepository;
-    this.modelMapper = modelMapper;
     this.eventValidator = eventValidator;
+    this.eventService = eventService;
   }
 
   @PostMapping
@@ -45,20 +42,16 @@ public class EventController extends BaseController {
           @RequestBody @Valid EventDto eventDto,
           Errors errors
   ) {
-    if (errors.hasErrors()) {
-      return BadRequest(errors);
-    }
-
+    
     eventValidator.validate(eventDto, errors);
 
     if (errors.hasErrors()) {
       return BadRequest(errors);
     }
 
-    Event event = modelMapper.map(eventDto, Event.class);
-    Event newEvent = this.eventRepository.save(event);
+    Event event = eventService.create(eventDto);
 
-    ControllerLinkBuilder selfLinkBuilder = linkTo(EventController.class).slash(newEvent.getId());
+    ControllerLinkBuilder selfLinkBuilder = linkTo(EventController.class).slash(event.getId());
     URI createdUri = selfLinkBuilder.toUri();
     EventResource eventResource = new EventResource(event);
     eventResource.add(linkTo(EventController.class).withRel("query-events"));

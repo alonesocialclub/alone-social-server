@@ -17,6 +17,7 @@ public class EventTest {
             .description("Original Gang Spring...을 정복해보자")
             .location(location)
             .build();
+
     assertThat(event).isNotNull();
   }
 
