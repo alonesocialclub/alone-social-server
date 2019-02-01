@@ -2,6 +2,9 @@ package com.freestudy.api.event;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.freestudy.api.event.location.Location;
+import com.freestudy.api.event.location.LocationDeserializer;
+import com.freestudy.api.event.location.LocationSerializer;
 import com.freestudy.api.link.Link;
 import com.freestudy.api.user.User;
 import com.freestudy.api.user.UserSerializer;

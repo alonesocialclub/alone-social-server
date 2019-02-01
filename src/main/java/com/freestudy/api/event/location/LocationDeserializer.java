@@ -1,4 +1,4 @@
-package com.freestudy.api.event;
+package com.freestudy.api.event.location;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;

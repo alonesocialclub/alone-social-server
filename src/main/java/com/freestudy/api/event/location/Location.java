@@ -1,4 +1,4 @@
-package com.freestudy.api.event;
+package com.freestudy.api.event.location;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,7 @@
 package com.freestudy.api.event;
 
 
+import com.freestudy.api.event.location.Location;
 import lombok.*;
 
 import javax.validation.constraints.Min;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 public class EventDto {
 
   @NotEmpty
+  @NotNull
   private String name;
 
   @NotEmpty

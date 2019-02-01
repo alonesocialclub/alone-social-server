@@ -2,6 +2,7 @@ package com.freestudy.api.event;
 
 import com.freestudy.api.BaseControllerTest;
 import com.freestudy.api.DisplayName;
+import com.freestudy.api.event.location.Location;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;

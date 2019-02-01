@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freestudy.api.auth.SignUpRequestDto;
 import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventRepository;
-import com.freestudy.api.event.Location;
+import com.freestudy.api.event.location.Location;
 import com.freestudy.api.link.Link;
 import com.freestudy.api.link.LinkRepository;
 import com.jayway.jsonpath.JsonPath;
