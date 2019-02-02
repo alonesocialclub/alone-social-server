@@ -6,6 +6,8 @@ import com.freestudy.api.auth.SignUpRequestDto;
 import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventRepository;
 import com.freestudy.api.event.location.Location;
+import com.freestudy.api.event.type.EventType;
+import com.freestudy.api.event.type.EventTypeRepository;
 import com.freestudy.api.link.Link;
 import com.freestudy.api.link.LinkRepository;
 import com.jayway.jsonpath.JsonPath;
@@ -52,6 +54,9 @@ public class BaseControllerTest {
   protected EventRepository eventRepository;
 
   @Autowired
+  protected EventTypeRepository eventTypeRepository;
+
+  @Autowired
   protected LinkRepository linkRepository;
 
 
@@ -95,12 +100,12 @@ public class BaseControllerTest {
 
   protected Link createLink() {
     Event event = createEvent();
-
-    Link link = Link.builder()
-            .event(event)
-            .build();
-
+    Link link = event.createLink();
     return this.linkRepository.save(link);
   }
 
+  protected EventType createEventType(String value) {
+    EventType eventType = EventType.of(value);
+    return eventTypeRepository.save(eventType);
+  }
 }

@@ -2,12 +2,17 @@ package com.freestudy.api.event;
 
 
 import com.freestudy.api.event.location.Location;
-import lombok.*;
+import com.freestudy.api.event.type.EventTypeDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Builder
 @Getter
@@ -32,4 +37,6 @@ public class EventDto {
 
   @Min(0)
   private int limitOfEnrollment;
+
+  private Set<EventTypeDto> eventTypes;
 }

@@ -115,7 +115,7 @@ public class UserControllerTest extends BaseControllerTest {
     // Given
     var token = getAuthToken();
     List<InterestDto> interestDtoList = Arrays.asList(
-            InterestDto.builder().value("사후세계").build(),
+            InterestDto.of("사후세계"),
             InterestDto.builder().value("스타트업").build(),
             InterestDto.builder().value("배구").build(),
             InterestDto.builder().value("그림").build(),
