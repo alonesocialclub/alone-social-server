@@ -1,4 +1,4 @@
-package com.freestudy.api.event;
+package com.freestudy.api.event.location;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

@@ -1,6 +1,8 @@
 package com.freestudy.api.event;
 
 import com.freestudy.api.BaseDaoTest;
+import com.freestudy.api.event.type.EventType;
+import com.freestudy.api.event.type.EventTypeRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

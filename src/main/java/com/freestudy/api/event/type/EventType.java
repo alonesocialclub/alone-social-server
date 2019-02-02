@@ -1,6 +1,7 @@
-package com.freestudy.api.event;
+package com.freestudy.api.event.type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.freestudy.api.event.Event;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,5 +35,9 @@ public class EventType {
 
   public static EventType of(String value) {
     return EventType.builder().value(value).build();
+  }
+
+  public EventTypeDto toDto() {
+    return new EventTypeDto(this.id, this.value);
   }
 }

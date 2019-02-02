@@ -2,12 +2,21 @@ package com.freestudy.api.event;
 
 import com.freestudy.api.BaseControllerTest;
 import com.freestudy.api.DisplayName;
+import com.freestudy.api.event.location.Location;
+import com.freestudy.api.event.type.EventType;
+import com.freestudy.api.event.type.EventTypeDto;
+import com.freestudy.api.interest.InterestDto;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
+import javax.swing.event.HyperlinkEvent;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -27,6 +36,9 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Test
   public void createEventTest() throws Exception {
+    EventType eventType1 = createEventType("밥 같이 먹어요");
+    EventType eventType2 = createEventType("조금 떠들어요");
+    Set<EventTypeDto> eventTypes = new HashSet<>(Arrays.asList(eventType1.toDto(), eventType2.toDto()));
     // Given
     EventDto event = EventDto.builder()
             .name("낙성대 주말 코딩")
@@ -35,6 +47,7 @@ public class EventControllerTest extends BaseControllerTest {
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
             .location(new Location("남부순환로", "스타벅스"))
+            .eventTypes(eventTypes)
             .build();
 
     // When
@@ -69,6 +82,8 @@ public class EventControllerTest extends BaseControllerTest {
                                     fieldWithPath("description").description("모임 설명"),
                                     fieldWithPath("location.address").description("모임 장소 주소"),
                                     fieldWithPath("location.name").description("모임 장소 이름"),
+                                    fieldWithPath("eventTypes[].id").description("모임 성격 id"),
+                                    fieldWithPath("eventTypes[].value").description("모임 성격 값"),
                                     fieldWithPath("startedAt").description("모임 시작 시간"),
                                     fieldWithPath("endedAt").description("모임 종료 시간"),
                                     fieldWithPath("limitOfEnrollment").description("모임 정원")

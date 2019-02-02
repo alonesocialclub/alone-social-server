@@ -2,6 +2,10 @@ package com.freestudy.api.event;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.freestudy.api.event.location.Location;
+import com.freestudy.api.event.location.LocationDeserializer;
+import com.freestudy.api.event.location.LocationSerializer;
+import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.link.Link;
 import com.freestudy.api.user.User;
 import com.freestudy.api.user.UserSerializer;
@@ -11,7 +15,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 
@@ -69,9 +72,16 @@ public class Event {
           joinColumns = @JoinColumn(name = "event_id"),
           inverseJoinColumns = @JoinColumn(name = "event_type_id")
   )
-  @Builder.Default
-  @Setter
-  private Set<EventType> eventTypes = new HashSet<>();
+  private Set<EventType> eventTypes;
+
+  public Event(EventDto eventDto){
+    this.name = eventDto.getName();
+    this.description = eventDto.getDescription();
+    this.location = eventDto.getLocation();
+    this.startedAt = eventDto.getStartedAt();
+    this.endedAt = eventDto.getEndedAt();
+    this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
+  }
 
   void update(EventDto eventDto) {
     if (!eventDto.getName().isEmpty()) {

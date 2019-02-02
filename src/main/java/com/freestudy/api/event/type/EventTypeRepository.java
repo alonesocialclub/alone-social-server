@@ -1,4 +1,4 @@
-package com.freestudy.api.event;
+package com.freestudy.api.event.type;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

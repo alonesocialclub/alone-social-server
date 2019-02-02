@@ -3,7 +3,7 @@ package com.freestudy.api.fixture;
 
 import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventRepository;
-import com.freestudy.api.event.Location;
+import com.freestudy.api.event.location.Location;
 
 public class EventFixture {
 

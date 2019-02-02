@@ -2,7 +2,7 @@ package com.freestudy.api.config;
 
 import com.freestudy.api.event.Event;
 import com.freestudy.api.event.EventDto;
-import com.freestudy.api.event.Location;
+import com.freestudy.api.event.location.Location;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
