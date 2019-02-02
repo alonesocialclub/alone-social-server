@@ -1,7 +1,7 @@
 package com.freestudy.api.interest;
 
 
-import com.freestudy.api.BaseDaoTest;
+import com.freestudy.api.BaseRepositoryTest;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class InterestRepositoryTest extends BaseDaoTest {
+public class InterestRepositoryTest extends BaseRepositoryTest {
 
 
   @Test
@@ -33,9 +33,9 @@ public class InterestRepositoryTest extends BaseDaoTest {
   public void findAllByValueInTest() throws Exception {
     // given
     List<Interest> interests = new ArrayList<>();
-    interests.add(buildInterest("과학"));
+    interests.add(buildInterest("sc"));
     interests.add(buildInterest("make the world a better place"));
-    interests.add(buildInterest("통계"));
+    interests.add(buildInterest("statistics"));
     interestRepository.saveAll(interests);
     List<String> interestsKeywords = interests.stream().map(Interest::getValue).collect(Collectors.toList());
 

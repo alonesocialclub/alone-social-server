@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 @ActiveProfiles("test")
 @Ignore
 @Transactional
-public class BaseDaoTest {
+public class BaseRepositoryTest {
 
   @Autowired
   protected InterestRepository interestRepository;

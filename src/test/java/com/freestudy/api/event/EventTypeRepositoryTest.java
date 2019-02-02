@@ -1,6 +1,6 @@
 package com.freestudy.api.event;
 
-import com.freestudy.api.BaseDaoTest;
+import com.freestudy.api.BaseRepositoryTest;
 import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.event.type.EventTypeRepository;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EventTypeRepositoryTest extends BaseDaoTest {
+public class EventTypeRepositoryTest extends BaseRepositoryTest {
 
   @Autowired
   EventTypeRepository eventTypeRepository;
