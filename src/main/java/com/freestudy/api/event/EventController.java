@@ -1,6 +1,8 @@
 package com.freestudy.api.event;
 
 import com.freestudy.api.common.controller.BaseController;
+import com.freestudy.api.oauth2.user.CurrentUser;
+import com.freestudy.api.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
@@ -36,7 +38,8 @@ public class EventController extends BaseController {
   @PostMapping
   public ResponseEntity createEvent(
           @RequestBody @Valid EventDto eventDto,
-          Errors errors
+          Errors errors,
+          @CurrentUser User user
   ) {
     
     eventValidator.validate(eventDto, errors);
@@ -45,7 +48,7 @@ public class EventController extends BaseController {
       return BadRequest(errors);
     }
 
-    Event event = eventService.create(eventDto);
+    Event event = eventService.create(eventDto, user);
 
     ControllerLinkBuilder selfLinkBuilder = linkTo(EventController.class).slash(event.getId());
     URI createdUri = selfLinkBuilder.toUri();

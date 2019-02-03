@@ -72,13 +72,14 @@ public class Event {
   )
   private Set<EventType> eventTypes;
 
-  public Event(EventDto eventDto){
+  public Event(EventDto eventDto, User user) {
     this.name = eventDto.getName();
     this.description = eventDto.getDescription();
     this.location = eventDto.getLocation();
     this.startedAt = eventDto.getStartedAt();
     this.endedAt = eventDto.getEndedAt();
     this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
+    this.owner = user;
   }
 
   void update(EventDto eventDto) {

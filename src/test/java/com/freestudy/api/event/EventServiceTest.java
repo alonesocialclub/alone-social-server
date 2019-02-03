@@ -31,7 +31,7 @@ public class EventServiceTest {
             .build();
 
     // When
-    Event event = eventService.create(eventDto);
+    Event event = eventService.create(eventDto, null);
 
     // Then
     assertThat(event.getName()).isEqualTo(eventDto.getName());

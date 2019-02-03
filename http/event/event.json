@@ -1,8 +1,17 @@
 {
-  "name": "SpringBootIsFun",
-  "description": "Rest",
-  "location": "낙성대",
-  "startedAt": "2018-11-11T12:00:00",
-  "endedAt": "2018-11-11T14:00:00",
-  "limitOfEnrollment": 5
+  "name": "브라운홀릭",
+  "description": "브라운홀릭",
+  "location": {
+    "address": "서울 강남구 강남대로98길 25",
+    "name": "브라운홀릭"
+  },
+  "startedAt": "2019-02-03T16:27",
+  "endedAt": "2019-02-03T19:27",
+  "limitOfEnrollment": 5,
+  "eventTypes": [
+    {
+      "id": 3,
+      "value": "함께 식사해요"
+    }
+  ]
 }
