@@ -1,12 +1,8 @@
 package com.freestudy.api.event;
 
 import com.freestudy.api.common.controller.BaseController;
-import com.freestudy.api.oauth2.user.CurrentUser;
-import com.freestudy.api.user.User;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -61,17 +57,10 @@ public class EventController extends BaseController {
 
   @GetMapping
   public ResponseEntity queryEvents(
-          Pageable pageable,
-          PagedResourcesAssembler<Event> assembler,
-          @CurrentUser User user
+          Pageable pageable
   ) {
     Page<Event> page = this.eventRepository.findAll(pageable);
-    var pagedResources = assembler.toResource(page, e -> new EventResource(e));
-    pagedResources.add(new Link("/docs/index.html#resources-events-list").withRel("profile"));
-    if (user != null) {
-      pagedResources.add(linkTo(EventController.class).withRel("create-event"));
-    }
-    return ResponseEntity.ok(pagedResources);
+    return ResponseEntity.ok(page);
   }
 
   @GetMapping("/{id}")

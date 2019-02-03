@@ -172,9 +172,7 @@ public class EventControllerTest extends BaseControllerTest {
     perform
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("page").exists())
-            .andExpect(jsonPath("content[0].links").exists())
-            .andExpect(jsonPath("links").exists())
+            .andExpect(jsonPath("content[0].id").exists())
             .andDo(
                     document("query-events",
                             requestParameters(
