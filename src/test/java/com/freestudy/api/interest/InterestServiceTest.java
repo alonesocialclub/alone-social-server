@@ -32,9 +32,9 @@ public class InterestServiceTest {
 
     // given
     List<Interest> interests = new ArrayList<>();
-    interests.add(buildInterest("과학"));
-    interests.add(buildInterest("스타트업"));
-    interests.add(buildInterest("통계"));
+    interests.add(buildInterest("과학2"));
+    interests.add(buildInterest("스타트업2"));
+    interests.add(buildInterest("통계1"));
     interestRepository.saveAll(interests);
     List<InterestDto> valuesToBeSaved = interests.stream().map(o -> InterestDto.of(o.getValue())).collect(Collectors.toList());
     valuesToBeSaved.add(InterestDto.of("사후세계"));
