@@ -140,6 +140,28 @@ include::{snippets}/get-event/http-request.adoc[]
 .response
 include::{snippets}/get-event/response-body.adoc[]]
 
+
+
+
+
+[[resources-event-types]]
+== 이벤트 타입 (/api/event-types)
+
+모임 단위를 이벤트라고 한다. 이벤트의 성격에 따라 이벤트 타입을 복수개 갖을 수 있다.
+
+[[resources-event-type-list]]
+=== 이벤트 타입 목록 조회
+
+`GET` 요청을 사용하여 서비스의 모든 이벤트 타입을 조회할 수 있다.
+
+.request
+include::{snippets}/query-event-types/http-request.adoc[]
+.response
+include::{snippets}/query-event-types/response-body.adoc[]
+
+
+
+
 [[resources-auths]]
 == 이메일 인증 (/api/auth)
 

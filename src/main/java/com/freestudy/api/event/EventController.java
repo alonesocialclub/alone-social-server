@@ -72,7 +72,6 @@ public class EventController extends BaseController {
       pagedResources.add(linkTo(EventController.class).withRel("create-event"));
     }
     return ResponseEntity.ok(pagedResources);
-
   }
 
   @GetMapping("/{id}")
