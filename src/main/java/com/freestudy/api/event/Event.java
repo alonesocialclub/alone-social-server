@@ -8,7 +8,6 @@ import com.freestudy.api.event.location.LocationSerializer;
 import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.link.Link;
 import com.freestudy.api.user.User;
-import com.freestudy.api.user.UserSerializer;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -60,7 +59,6 @@ public class Event {
   protected LocalDateTime updatedAt;
 
   @ManyToOne
-  @JsonSerialize(using = UserSerializer.class)
   private User owner;
 
   @Setter(value = AccessLevel.NONE)

@@ -85,6 +85,7 @@ public class User extends AbstractAggregateRoot<User> {
   @Enumerated(EnumType.STRING)
   private AuthProvider provider;
 
+  @JsonIgnore
   private String providerId;
 
   @Enumerated(EnumType.STRING)
