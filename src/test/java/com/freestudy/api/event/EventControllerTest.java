@@ -5,24 +5,19 @@ import com.freestudy.api.DisplayName;
 import com.freestudy.api.event.location.Location;
 import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.event.type.EventTypeDto;
-import com.freestudy.api.interest.InterestDto;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import javax.swing.event.HyperlinkEvent;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
@@ -36,10 +31,10 @@ public class EventControllerTest extends BaseControllerTest {
 
   @Test
   public void createEventTest() throws Exception {
+    // Given
     EventType eventType1 = createEventType("밥 같이 먹어요");
     EventType eventType2 = createEventType("조금 떠들어요");
     Set<EventTypeDto> eventTypes = new HashSet<>(Arrays.asList(eventType1.toDto(), eventType2.toDto()));
-    // Given
     EventDto event = EventDto.builder()
             .name("낙성대 주말 코딩")
             .description("오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.")
@@ -63,16 +58,11 @@ public class EventControllerTest extends BaseControllerTest {
     // Then
     perform
             .andDo(print())
-            .andExpect(status().isCreated())
+            .andExpect(status().isOk())
             .andExpect(jsonPath("id").isNumber())
-            .andExpect(header().exists(HttpHeaders.LOCATION))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andDo(
                     document("post-events",
-                            links(
-                                    linkWithRel("self").description("link to self"),
-                                    linkWithRel("query-events").description("query")
-                            ),
                             requestHeaders(
                                     headerWithName(HttpHeaders.ACCEPT).description("accept header"),
                                     headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
@@ -197,8 +187,6 @@ public class EventControllerTest extends BaseControllerTest {
     perform.andExpect(jsonPath("id").exists());
     perform.andExpect(jsonPath("name").exists());
     perform.andExpect(jsonPath("description").exists());
-    perform.andExpect(jsonPath("_links.self").exists());
-    perform.andExpect(jsonPath("_links.profile").exists());
     perform.andDo(
             document("get-event",
                     pathParameters(
