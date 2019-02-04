@@ -44,6 +44,7 @@ public class User extends AbstractAggregateRoot<User> {
     this.name = oAuth2UserInfo.getName();
     this.email = oAuth2UserInfo.getEmail();
     this.imageUrl = oAuth2UserInfo.getImageUrl();
+    this.roles = Set.of(UserRole.USER);
     this.provider = provider;
     this.providerId = oAuth2UserInfo.getId();
     this.registerEvent(new UserAfterSaveEvent(this));
