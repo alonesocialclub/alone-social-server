@@ -97,7 +97,7 @@ public class UserControllerTest extends BaseControllerTest {
     perform
             .andDo(
                     document(
-                            "post-users-me"
+                            "put-users-me"
                     )
             );
     mockMvc
@@ -168,12 +168,6 @@ public class UserControllerTest extends BaseControllerTest {
     perform
             .andDo(print())
             .andExpect(status().isBadRequest());
-
-
-    perform
-            .andDo(
-                    document("post-users-me")
-            );
 
   }
 
