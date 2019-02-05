@@ -1,6 +1,8 @@
 package com.freestudy.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.freestudy.api.infra.slack.SlackMessagable;
+import com.freestudy.api.infra.slack.SlackMessageEvent;
 import com.freestudy.api.interest.Interest;
 import com.freestudy.api.oauth2.user.OAuth2UserInfo;
 import lombok.*;
@@ -26,8 +28,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@EqualsAndHashCode(of = "id", callSuper = true)
-public class User extends AbstractAggregateRoot<User> {
+@EqualsAndHashCode(of = "id", callSuper = false)
+@ToString(of = {"id", "name"})
+public class User extends AbstractAggregateRoot<User> implements SlackMessagable {
 
   @Builder
   public User(String email, String password, String name) {
@@ -37,7 +40,7 @@ public class User extends AbstractAggregateRoot<User> {
     this.roles = Set.of(UserRole.USER);
     this.interests = new ArrayList<>();
     this.provider = AuthProvider.local;
-    this.registerEvent(new UserCreateEvent(this));
+    this.registerEvent(buildSlackMessageEvent());
   }
 
   public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider) {
@@ -47,7 +50,7 @@ public class User extends AbstractAggregateRoot<User> {
     this.roles = Set.of(UserRole.USER);
     this.provider = provider;
     this.providerId = oAuth2UserInfo.getId();
-    this.registerEvent(new UserCreateEvent(this));
+    this.registerEvent(buildSlackMessageEvent());
   }
 
 
@@ -113,4 +116,11 @@ public class User extends AbstractAggregateRoot<User> {
     }
     return this;
   }
+
+
+  @Override
+  public SlackMessageEvent buildSlackMessageEvent() {
+    return new SlackMessageEvent(this, name + "님이 " + provider + "를 통해 가입하셨습니다.");
+  }
+
 }
