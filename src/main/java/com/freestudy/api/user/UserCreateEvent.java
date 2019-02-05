@@ -2,7 +2,7 @@ package com.freestudy.api.user;
 
 import org.springframework.context.ApplicationEvent;
 
-public class UserAfterSaveEvent extends ApplicationEvent {
+public class UserCreateEvent extends ApplicationEvent {
   private final User user;
 
   /**
@@ -10,7 +10,7 @@ public class UserAfterSaveEvent extends ApplicationEvent {
    *
    * @param source the object on which the event initially occurred (never {@code null})
    */
-  public UserAfterSaveEvent(Object source) {
+  public UserCreateEvent(Object source) {
     super(source);
     this.user = (User) source;
   }

@@ -37,7 +37,7 @@ public class User extends AbstractAggregateRoot<User> {
     this.roles = Set.of(UserRole.USER);
     this.interests = new ArrayList<>();
     this.provider = AuthProvider.local;
-    this.registerEvent(new UserAfterSaveEvent(this));
+    this.registerEvent(new UserCreateEvent(this));
   }
 
   public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider) {
@@ -47,7 +47,7 @@ public class User extends AbstractAggregateRoot<User> {
     this.roles = Set.of(UserRole.USER);
     this.provider = provider;
     this.providerId = oAuth2UserInfo.getId();
-    this.registerEvent(new UserAfterSaveEvent(this));
+    this.registerEvent(new UserCreateEvent(this));
   }
 
 

@@ -36,15 +36,15 @@ spring:
             clientSecret: tWZKVLxaD_ARWsriiiUFYoIk
             redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
-            - email
-            - profile
+              - email
+              - profile
           facebook:
             clientId: 292671931607093
             clientSecret: e9abe9c68aba2eca0604025cc47097a6
             redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
-            - email
-            - public_profile
+              - email
+              - public_profile
         provider:
           facebook:
             authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
@@ -54,7 +54,7 @@ spring:
 
 app:
   link:
-    host: "http://localhost:8080"
+    host: http://localhost:8080
   auth:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
     tokenExpirationMsec: 864000000
@@ -65,9 +65,11 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     # TODO FIX with product setup
     authorizedRedirectUris:
-    - http://localhost:3000/oauth2/redirect
-    - myandroidapp://oauth2/redirect
-    - myiosapp://oauth2/redirect
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
+  slack:
+    channel: https://hooks.slack.com/services/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
 
 logging:
   level:
