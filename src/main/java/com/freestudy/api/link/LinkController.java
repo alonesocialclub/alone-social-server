@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.HtmlUtils;
 
 @Controller
 @RequestMapping(value = "/api/events/{eventId}/links")
@@ -46,7 +47,7 @@ public class LinkController {
 
     // TODO view logic
     LinkResponseDTO response = modelMapper.map(link, LinkResponseDTO.class);
-    response.setUrl(appProperties.getLink().getHost() + "/events/" + event.getId() + "/links/" + link.getId());
+    response.setUrl(appProperties.getLink().getHost() + "/api/events/" + event.getId() + "/links/" + link.getId());
 
     return ResponseEntity.ok(response);
   }
@@ -60,11 +61,12 @@ public class LinkController {
       return ResponseEntity.notFound().build();
     }
 
-    return ResponseEntity.ok("<html><head>" +
-            "<title>" + link.getEvent().getName() + "<title/>" +
-            "<script>window.location.replace('" + "http://stackoverflow.com" + "');</script>" +
-            "</head></html>"
+    var text = String.format(
+            "<html><head><title>%s</title><script>window.location.replace(\'%s\');</script></head></html>",
+            link.getEvent().getName(),
+            "https://alone.social/event/" + link.getEvent().getId()
     );
+    return ResponseEntity.ok(text);
   }
 
 }

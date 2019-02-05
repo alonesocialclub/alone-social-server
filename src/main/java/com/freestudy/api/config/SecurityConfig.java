@@ -1,15 +1,14 @@
 package com.freestudy.api.config;
 
 
-import com.freestudy.api.user.UserService;
-import com.freestudy.api.oauth2.user.RestAuthenticationEntryPoint;
-import com.freestudy.api.oauth2.user.TokenAuthenticationFilter;
 import com.freestudy.api.oauth2.CustomOAuth2UserService;
 import com.freestudy.api.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.freestudy.api.oauth2.OAuth2AuthenticationFailureHandler;
 import com.freestudy.api.oauth2.OAuth2AuthenticationSuccessHandler;
+import com.freestudy.api.oauth2.user.RestAuthenticationEntryPoint;
+import com.freestudy.api.oauth2.user.TokenAuthenticationFilter;
+import com.freestudy.api.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -108,7 +107,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/**/*.jpg",
                     "/**/*.html",
                     "/**/*.css",
-                    "/**/*.js"
+                    "/**/*.js",
+                    "/events/{id}/links/*"
               )
             .permitAll()
             .mvcMatchers(HttpMethod.GET, "/api/**")
