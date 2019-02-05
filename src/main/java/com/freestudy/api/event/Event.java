@@ -84,7 +84,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     this.endedAt = eventDto.getEndedAt();
     this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
     this.owner = user;
-    this.registerEvent(this.buildSlackMessageEvent());
+    this.sendSlackActivityMsg();
   }
 
   void update(EventDto eventDto) {
@@ -95,6 +95,12 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
 
   public Link createLink() {
     return Link.builder().event(this).build();
+  }
+
+  private void sendSlackActivityMsg() {
+    if (owner != null && !owner.isAdmin()) {
+      this.registerEvent(this.buildSlackMessageEvent());
+    }
   }
 
   @Override

@@ -40,7 +40,7 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
     this.roles = Set.of(UserRole.USER);
     this.interests = new ArrayList<>();
     this.provider = AuthProvider.local;
-    this.registerEvent(buildSlackMessageEvent());
+    this.sendSlackActivityMsg();
   }
 
   public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider) {
@@ -50,7 +50,7 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
     this.roles = Set.of(UserRole.USER);
     this.provider = provider;
     this.providerId = oAuth2UserInfo.getId();
-    this.registerEvent(buildSlackMessageEvent());
+    this.sendSlackActivityMsg();
   }
 
 
@@ -117,6 +117,13 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
     return this;
   }
 
+  public boolean isAdmin() {
+    return this.roles.contains(UserRole.ADMIN);
+  }
+
+  private void sendSlackActivityMsg() {
+    this.registerEvent(buildSlackMessageEvent());
+  }
 
   @Override
   public SlackMessageEvent buildSlackMessageEvent() {
