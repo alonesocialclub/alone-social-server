@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,6 +23,7 @@ public class SlackNotifier {
     this.restTemplate = restTemplate;
   }
 
+  @Async
   public void send(String text) {
     var url = appProperties.getSlack().getChannel();
     var msg = new Message(text);
