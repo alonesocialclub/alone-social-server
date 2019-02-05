@@ -18,6 +18,7 @@ import org.springframework.web.util.HtmlUtils;
 @Controller
 @RequestMapping(value = "/api/events/{eventId}/links")
 public class LinkController {
+  //TODO 뭘 하고싶니.?
 
   private LinkService linkService;
 
@@ -47,24 +48,24 @@ public class LinkController {
 
     // TODO view logic
     LinkResponseDTO response = modelMapper.map(link, LinkResponseDTO.class);
-    response.setUrl(appProperties.getLink().getHost() + "/api/events/" + event.getId() + "/links/" + link.getId());
+    response.setUrl(appProperties.getLink().getHost() + "/api/events/" + event.getId() + "/links");
 
     return ResponseEntity.ok(response);
   }
 
-  @GetMapping(value = "/{linkId}", produces = MediaType.TEXT_HTML_VALUE)
+  @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
   public ResponseEntity getLink(
-          @PathVariable("linkId") Link link
+          @PathVariable("eventId") Event event
   ) {
 
-    if (link == null) {
+    if (event == null) {
       return ResponseEntity.notFound().build();
     }
 
     var text = String.format(
             "<html><head><title>%s</title><script>window.location.replace(\'%s\');</script></head></html>",
-            link.getEvent().getName(),
-            "https://alone.social/event/" + link.getEvent().getId()
+            event.getName(),
+            "https://alone.social/event/" + event.getId()
     );
     return ResponseEntity.ok(text);
   }

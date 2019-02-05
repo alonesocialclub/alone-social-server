@@ -67,7 +67,7 @@ public class LinkControllerTest extends BaseControllerTest {
     // when
     var perform = mockMvc.perform(
             get(
-                    "/api/events/{eventId}/links/{linkId}", link.getEvent().getId(), link.getId()
+                    "/api/events/{eventId}/links", link.getEvent().getId()
             ).contentType(
                     MediaType.TEXT_HTML
             )
@@ -79,9 +79,7 @@ public class LinkControllerTest extends BaseControllerTest {
                     document(
                             "get-link",
                             pathParameters(
-                                    parameterWithName("eventId").description("event id"),
-                                    parameterWithName("linkId").description("link id")
-
+                                    parameterWithName("eventId").description("event id")
                             )
                     )
             )
