@@ -18,7 +18,7 @@ public class BaseController {
   }
 
   protected User getOrNotFound(User currentUser) {
-    return userRepository.findById(currentUser.getId())
-            .orElseThrow(() -> new ResourceNotFoundException("User", "id", currentUser.getId()));
+    return currentUser;
+
   }
 }

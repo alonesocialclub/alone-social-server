@@ -26,9 +26,7 @@ public class UserController extends BaseController {
   @GetMapping("/me")
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity getUsersMe(@CurrentUser User currentUser) {
-    User user = getOrNotFound(currentUser);
-
-    return buildResponse(user);
+    return buildResponse(currentUser);
   }
 
   @PutMapping("/me")
@@ -42,7 +40,7 @@ public class UserController extends BaseController {
     if (errors.hasErrors()) {
       return BadRequest(errors);
     }
-    User user = getOrNotFound(currentUser);
+    User user = currentUser;
 
     userService.save(user, userDto);
 
