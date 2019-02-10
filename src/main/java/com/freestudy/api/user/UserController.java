@@ -1,7 +1,6 @@
 package com.freestudy.api.user;
 
 import com.freestudy.api.common.controller.BaseController;
-import com.freestudy.api.interest.InterestService;
 import com.freestudy.api.oauth2.user.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,20 +18,23 @@ import javax.validation.Valid;
 @RequestMapping(value = "/api/users")
 public class UserController extends BaseController {
 
+  private UserService userService;
 
   @Autowired
-  private UserService userService;
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
 
   @GetMapping("/me")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity getUsersMe(@CurrentUser User currentUser) {
-    return buildResponse(currentUser);
+  public ResponseEntity getUsersMe(@CurrentUser User user) {
+    return buildResponse(user);
   }
 
   @PutMapping("/me")
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity postUsersMe(
-          @CurrentUser User currentUser,
+          @CurrentUser User user,
           @Valid @RequestBody UserDto userDto,
           Errors errors
   ) {
@@ -40,9 +42,8 @@ public class UserController extends BaseController {
     if (errors.hasErrors()) {
       return BadRequest(errors);
     }
-    User user = currentUser;
 
-    userService.save(user, userDto);
+    userService.save(getOrNotFound(user), userDto);
 
     return buildResponse(user);
   }
