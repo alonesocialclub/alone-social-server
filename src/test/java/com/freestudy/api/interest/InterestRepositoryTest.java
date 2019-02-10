@@ -5,6 +5,7 @@ import com.freestudy.api.BaseRepositoryTest;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class InterestRepositoryTest extends BaseRepositoryTest {
     List<String> interestsKeywords = interests.stream().map(Interest::getValue).collect(Collectors.toList());
 
     // when
-    List<Interest> results = interestRepository.findAllByValueIn(interestsKeywords);
+    HashSet<Interest> results = interestRepository.findAllByValueIn(interestsKeywords);
 
     // then
     assertThat(results).containsAll(interests);

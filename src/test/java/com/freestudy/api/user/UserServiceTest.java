@@ -87,9 +87,9 @@ public class UserServiceTest {
     userService.save(user, userDto);
 
     assertThat(
-            user.getInterests().stream().map(Interest::getValue).collect(Collectors.toSet())
-    ).isEqualTo(
-            userDto.getInterests().stream().map(InterestDto::getValue).collect(Collectors.toSet())
+            user.getInterests().stream().map(Interest::getValue).collect(Collectors.toList())
+    ).containsOnly(
+            userDto.getInterests().stream().map(InterestDto::getValue).collect(Collectors.joining())
     );
     assertThat(user.getName()).isEqualTo(userName);
   }

@@ -90,8 +90,7 @@ public class UserControllerTest extends BaseControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("name").value(userDto.getName()))
             .andExpect(jsonPath("email").value(userDto.getEmail()))
-            .andExpect(jsonPath("interests[0].value").value(interestDtoList.get(0).getValue()))
-            .andExpect(jsonPath("interests[1].value").value(interestDtoList.get(1).getValue()));
+            .andExpect(jsonPath("$.interests.length()").value(interestDtoList.size()));
 
 
     perform

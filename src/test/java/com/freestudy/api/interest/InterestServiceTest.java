@@ -31,7 +31,7 @@ public class InterestServiceTest {
   public void saveAllTest() throws Exception {
 
     // given
-    List<Interest> interests = new ArrayList<>();
+    HashSet<Interest> interests = new HashSet<>();
     interests.add(buildInterest("과학2"));
     interests.add(buildInterest("스타트업2"));
     interests.add(buildInterest("통계1"));
@@ -40,7 +40,7 @@ public class InterestServiceTest {
     valuesToBeSaved.add(InterestDto.of("사후세계"));
 
     // when
-    List<Interest> results = interestService.saveAll(valuesToBeSaved);
+    HashSet<Interest> results = interestService.saveAll(valuesToBeSaved);
 
     // then
     assertThat(results).containsAll(interests);
@@ -57,8 +57,7 @@ public class InterestServiceTest {
     return Interest
             .builder()
             .value(value)
-            .build()
-            ;
+            .build();
   }
 
 }

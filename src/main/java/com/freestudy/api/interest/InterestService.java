@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,10 +23,10 @@ public class InterestService {
   }
 
 
-  public List<Interest> saveAll(@NonNull List<InterestDto> interests) {
+  public HashSet<Interest> saveAll(@NonNull List<InterestDto> interests) {
     var values = interests.stream().map(InterestDto::getValue).collect(Collectors.toList());
 
-    List<Interest> results = new ArrayList<>(interestRepository.findAllByValueIn(values));
+    HashSet<Interest> results = new HashSet<>(interestRepository.findAllByValueIn(values));
 
     if (results.size() == values.size()) {
       return results;
@@ -33,11 +34,11 @@ public class InterestService {
 
     Set<String> existsValues = results.stream().map(Interest::getValue).collect(Collectors.toSet());
 
-    List<Interest> itemsToBeSaved = values
+    HashSet<Interest> itemsToBeSaved = values
             .stream()
             .filter(value -> !existsValues.contains(value))
             .map(value -> Interest.builder().value(value).build())
-            .collect(Collectors.toList());
+            .collect(Collectors.toCollection(HashSet::new));
 
     results.addAll(interestRepository.saveAll(itemsToBeSaved));
 

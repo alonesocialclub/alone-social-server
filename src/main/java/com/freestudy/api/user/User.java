@@ -15,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,20 +35,24 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
 
   @Builder
   public User(String email, String password, String name) {
+    this.roles = Set.of(UserRole.USER);
+    this.interests = new HashSet<>();
+
     this.email = email;
     this.password = password;
     this.name = name;
-    this.roles = Set.of(UserRole.USER);
-    this.interests = new ArrayList<>();
     this.provider = AuthProvider.local;
     this.sendSlackActivityMsg();
   }
 
   public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider) {
+
+    this.roles = Set.of(UserRole.USER);
+    this.interests = new HashSet<>();
+
     this.name = oAuth2UserInfo.getName();
     this.email = oAuth2UserInfo.getEmail();
     this.imageUrl = oAuth2UserInfo.getImageUrl();
-    this.roles = Set.of(UserRole.USER);
     this.provider = provider;
     this.providerId = oAuth2UserInfo.getId();
     this.sendSlackActivityMsg();
@@ -101,9 +106,9 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
           joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "interest_id")
   )
-  private List<Interest> interests;
+  private Set<Interest> interests;
 
-  void setInterests(List<Interest> interests) {
+  void setInterests(HashSet<Interest> interests) {
     this.interests = interests;
   }
 
