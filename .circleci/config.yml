@@ -39,4 +39,4 @@ jobs:
         key: v1-dependencies-{{ checksum "build.gradle" }}
 
     # run tests!
-    - run: ./gradlew clean test --tests com.freestudy.api.*
+    - run: ./gradlew clean test --tests com.freestudy.api.* --no-daemon
