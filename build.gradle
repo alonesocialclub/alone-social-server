@@ -39,20 +39,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation('org.springframework.security:spring-security-oauth2-client')
-
     implementation('io.jsonwebtoken:jjwt:0.5.1')
-
     implementation('mysql:mysql-connector-java')
     implementation('com.h2database:h2')
-
     implementation('org.modelmapper:modelmapper:2.3.2')
     implementation('io.sentry:sentry-spring:1.7.16')
-
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
     testImplementation('org.springframework.restdocs:spring-restdocs-asciidoctor')
     testImplementation('org.springframework.security:spring-security-test')
-
     compileOnly("org.projectlombok:lombok:1.18.2")
 }
 
