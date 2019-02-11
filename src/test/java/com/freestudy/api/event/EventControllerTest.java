@@ -280,4 +280,21 @@ public class EventControllerTest extends BaseControllerTest {
     perform.andExpect(status().isBadRequest());
   }
 
+  @Test
+  public void eventJoin() throws Exception {
+    // Given
+    Event event = createEvent();
+    // When
+    var perform = this.mockMvc.perform(
+            post("/api/events/{id}/users", event.getId())
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
+    );
+
+    // Then
+    perform.andDo(print());
+    perform.andExpect(status().isOk())
+            .andExpect(jsonPath("$.users.length()").value(1));
+  }
+
 }

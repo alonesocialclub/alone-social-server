@@ -1,6 +1,7 @@
 package com.freestudy.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.freestudy.api.event.Event;
 import com.freestudy.api.infra.slack.SlackMessagable;
 import com.freestudy.api.infra.slack.SlackMessageEvent;
 import com.freestudy.api.interest.Interest;
@@ -105,6 +106,10 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
           inverseJoinColumns = @JoinColumn(name = "interest_id")
   )
   private Set<Interest> interests;
+
+  @ManyToMany(mappedBy = "users")
+  @JsonIgnore
+  private Set<Event> events;
 
   void setInterests(HashSet<Interest> interests) {
     this.interests = interests;

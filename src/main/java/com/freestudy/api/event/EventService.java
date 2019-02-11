@@ -4,7 +4,6 @@ import com.freestudy.api.event.type.EventTypeDto;
 import com.freestudy.api.event.type.EventTypeRepository;
 import com.freestudy.api.user.User;
 import com.freestudy.api.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,7 @@ public class EventService {
 
   private EventTypeRepository eventTypeRepository;
 
-  @Autowired
-  public EventService(EventRepository eventRepository, UserRepository userRepository, EventTypeRepository eventTypeRepository) {
+  public EventService(EventRepository eventRepository, EventTypeRepository eventTypeRepository, UserRepository userRepository) {
     this.eventRepository = eventRepository;
     this.userRepository = userRepository;
     this.eventTypeRepository = eventTypeRepository;
@@ -56,5 +54,12 @@ public class EventService {
 
   public Page<Event> findAll(Pageable pageable) {
     return this.eventRepository.findAll(pageable);
+  }
+
+  public Event joinEvent(Integer eventId, Long userId) {
+    Event event = this.eventRepository.findById(eventId).orElseThrow();
+    User user = this.userRepository.findById(userId).orElseThrow();
+    event.joinEvent(user);
+    return event;
   }
 }

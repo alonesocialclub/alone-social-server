@@ -75,6 +75,14 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   )
   private Set<EventType> eventTypes;
 
+  @ManyToMany
+  @JoinTable(
+          name = "event_user",
+          joinColumns = @JoinColumn(name = "event_id"),
+          inverseJoinColumns = @JoinColumn(name = "user_id")
+  )
+  private Set<User> users;
+
   public Event(EventDto eventDto, User user) {
     this.name = eventDto.getName();
     this.description = eventDto.getDescription();
@@ -92,9 +100,17 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     }
   }
 
+  public void joinEvent(User user) {
+    if (this.owner.equals(user)) {
+      return;
+    }
+    this.users.add(user);
+  }
+
   public Link createLink() {
     return Link.builder().event(this).build();
   }
+
 
   private void sendSlackActivityMsg() {
     if (!owner.isAdmin()) {
