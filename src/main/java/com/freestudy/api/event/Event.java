@@ -20,12 +20,11 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id", callSuper = false)
-@Entity
 @ToString(of = {"name", "startedAt"})
 public class Event extends AbstractAggregateRoot<Event> implements SlackMessagable {
 

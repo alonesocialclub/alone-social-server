@@ -2,15 +2,16 @@ package com.freestudy.api.interest;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.freestudy.api.user.User;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(
@@ -29,7 +30,12 @@ public class Interest {
   private String value;
 
   @ManyToMany(mappedBy = "interests")
-  @Builder.Default
   @JsonIgnore
-  private Set<User> users = new HashSet<>();
+  private Set<User> users;
+
+  public Interest(String value) {
+    this.value = value;
+    this.users = new HashSet<>();
+  }
+
 }

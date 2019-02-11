@@ -20,7 +20,7 @@ public class InterestRepositoryTest extends BaseRepositoryTest {
   public void saveTest() throws Exception {
 
     // given
-    Interest interest = Interest.builder().value("스타트업").build();
+    Interest interest = new Interest("스타트업");
     // when
     interestRepository.save(interest);
 

@@ -40,7 +40,7 @@ public class UserRepositoryTest {
   @Test
   public void userSaveWithInterestsTest() {
     // given
-    Interest interest = Interest.builder().value("develop").build();
+    Interest interest = new Interest("develop");
     User user = User.builder()
             .email("userSaveTest@test.com")
             .name("foo")

@@ -5,7 +5,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +36,7 @@ public class InterestService {
     HashSet<Interest> itemsToBeSaved = values
             .stream()
             .filter(value -> !existsValues.contains(value))
-            .map(value -> Interest.builder().value(value).build())
+            .map(Interest::new)
             .collect(Collectors.toCollection(HashSet::new));
 
     results.addAll(interestRepository.saveAll(itemsToBeSaved));

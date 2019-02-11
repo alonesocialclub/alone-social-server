@@ -2,17 +2,18 @@ package com.freestudy.api.event.type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.freestudy.api.event.Event;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
         indexes = {
                 @Index(name = "idx_value", columnList = "value", unique = true)
@@ -29,12 +30,15 @@ public class EventType {
   private String value;
 
   @ManyToMany(mappedBy = "eventTypes")
-  @Builder.Default
   @JsonIgnore
   private Set<Event> events = new HashSet<>();
 
+  public EventType(String value) {
+    this.value = value;
+  }
+
   public static EventType of(String value) {
-    return EventType.builder().value(value).build();
+    return new EventType(value);
   }
 
   public EventTypeDto toDto() {

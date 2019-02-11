@@ -23,10 +23,7 @@ public class BaseRepositoryTest {
 
   public Interest buildInterest(String value) {
     return interestRepository.save(
-            Interest
-                    .builder()
-                    .value(value)
-                    .build()
+            new Interest(value)
     );
   }
 

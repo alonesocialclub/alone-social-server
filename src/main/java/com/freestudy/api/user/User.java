@@ -25,8 +25,7 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")
         }
 )
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @ToString(of = {"id", "name"})
