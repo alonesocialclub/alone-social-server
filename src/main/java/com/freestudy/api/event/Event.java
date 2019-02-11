@@ -98,7 +98,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   }
 
   private void sendSlackActivityMsg() {
-    if (owner != null && !owner.isAdmin()) {
+    if (!owner.isAdmin()) {
       this.registerEvent(this.buildSlackMessageEvent());
     }
   }

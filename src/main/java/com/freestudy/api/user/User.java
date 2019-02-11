@@ -14,9 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -112,14 +110,13 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
     this.interests = interests;
   }
 
-  public User set(UserDto userDto) {
+  public void update(UserDto userDto) {
     if (userDto.getEmail() != null) {
       this.email = userDto.getEmail();
     }
     if (userDto.getName() != null) {
       this.name = userDto.getName();
     }
-    return this;
   }
 
   public boolean isAdmin() {

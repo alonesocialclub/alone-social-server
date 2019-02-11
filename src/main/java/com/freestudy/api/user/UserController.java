@@ -43,9 +43,9 @@ public class UserController extends BaseController {
       return BadRequest(errors);
     }
 
-    userService.save(getOrNotFound(user), userDto);
+    User updatedUser = userService.update(getOrNotFound(user), userDto);
 
-    return buildResponse(user);
+    return buildResponse(updatedUser);
   }
 
 
