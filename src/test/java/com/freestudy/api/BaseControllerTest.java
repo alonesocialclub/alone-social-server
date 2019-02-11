@@ -10,6 +10,8 @@ import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.event.type.EventTypeRepository;
 import com.freestudy.api.link.Link;
 import com.freestudy.api.link.LinkRepository;
+import com.freestudy.api.user.User;
+import com.freestudy.api.user.UserRepository;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
@@ -54,10 +56,19 @@ public class BaseControllerTest {
   protected EventRepository eventRepository;
 
   @Autowired
+  protected UserRepository userRepository;
+
+  @Autowired
   protected EventTypeRepository eventTypeRepository;
 
   @Autowired
   protected LinkRepository linkRepository;
+
+  protected User createUser() {
+    var next = atomicInteger.incrementAndGet();
+    User user = new User("foo" + next + "@test.com", "1234", "local");
+    return this.userRepository.save(user);
+  }
 
 
   protected String getAuthToken() throws Exception {
@@ -83,9 +94,8 @@ public class BaseControllerTest {
   }
 
   protected Event createEvent() {
-
+    User user = this.createUser();
     var next = atomicInteger.incrementAndGet();
-
     Event event = Event.builder()
             .name("event" + next)
             .description("Rest")
@@ -93,6 +103,7 @@ public class BaseControllerTest {
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
             .location(new Location("남부 순환로", "낙성대"))
+            .owner(user)
             .build();
 
     return this.eventRepository.save(event);
