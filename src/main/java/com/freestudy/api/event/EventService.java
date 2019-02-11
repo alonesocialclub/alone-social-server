@@ -62,4 +62,12 @@ public class EventService {
     event.joinEvent(user);
     return event;
   }
+
+  // MAKE DRY
+  public Event joinEventCancel(Integer eventId, Long userId) {
+    Event event = this.eventRepository.findById(eventId).orElseThrow();
+    User user = this.userRepository.findById(userId).orElseThrow();
+    event.joinCancelEvent(user);
+    return event;
+  }
 }

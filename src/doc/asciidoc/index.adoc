@@ -273,3 +273,31 @@ include::{snippets}/create-link/response-body.adoc[]
 include::{snippets}/get-link/http-request.adoc[]
 .response
 include::{snippets}/get-link/response-body.adoc[]
+
+[[resources-envet-users]]
+== 이벤트 참가 신청(/api/events/:event_id/users)
+
+이벤트 참가를 신청한다
+
+
+[[resources-envet-users-create]]
+=== 이벤트 참가 신청
+
+`POST` 요청을 사용해서 참가할 수 있다.
+
+
+.request
+include::{snippets}/events-users-update/http-request.adoc[]
+.response
+include::{snippets}/events-users-update/response-body.adoc[]
+
+[[resources-envet-users-create-cancel]]
+=== 이벤트 참가 신청 취소
+
+`DELETE` 요청을 사용해서 이벤트 참가 신청을 취소할 수 있다.
+
+
+.request
+include::{snippets}/events-users-update-cancel/http-request.adoc[]
+.response
+include::{snippets}/events-users-update-cancel/response-body.adoc[]

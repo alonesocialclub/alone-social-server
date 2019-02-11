@@ -106,6 +106,13 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     this.users.add(user);
   }
 
+  public void joinCancelEvent(User user) {
+    if (this.owner.equals(user)) {
+      return;
+    }
+    this.users.remove(user);
+  }
+
   public Link createLink() {
     return Link.builder().event(this).build();
   }
