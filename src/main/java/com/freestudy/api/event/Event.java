@@ -23,7 +23,6 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @ToString(of = {"name", "startedAt"})
 public class Event extends AbstractAggregateRoot<Event> implements SlackMessagable {
@@ -72,6 +71,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
           joinColumns = @JoinColumn(name = "event_id"),
           inverseJoinColumns = @JoinColumn(name = "event_type_id")
   )
+  @Setter
   private Set<EventType> eventTypes;
 
   @ManyToMany
