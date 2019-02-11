@@ -57,9 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   /*
-    By default, Spring OAuth2 uses HttpSessionOAuth2AuthorizationRequestRepository to save
-    the authorization request. But, since our service is stateless, we can't save it in
-    the session. We'll save the request in a Base64 encoded cookie instead.
+    By default, Spring OAuth2 uses HttpSessionOAuth2AuthorizationRequestRepository to update
+    the authorization request. But, since our service is stateless, we can't update it in
+    the session. We'll update the request in a Base64 encoded cookie instead.
   */
   public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
     return new HttpCookieOAuth2AuthorizationRequestRepository();

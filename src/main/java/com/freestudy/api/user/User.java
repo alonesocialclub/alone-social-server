@@ -1,6 +1,7 @@
 package com.freestudy.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.freestudy.api.event.Event;
 import com.freestudy.api.infra.slack.SlackMessagable;
 import com.freestudy.api.infra.slack.SlackMessageEvent;
 import com.freestudy.api.interest.Interest;
@@ -14,9 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -108,18 +107,21 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
   )
   private Set<Interest> interests;
 
+  @ManyToMany(mappedBy = "users")
+  @JsonIgnore
+  private Set<Event> events;
+
   void setInterests(HashSet<Interest> interests) {
     this.interests = interests;
   }
 
-  public User set(UserDto userDto) {
+  public void update(UserDto userDto) {
     if (userDto.getEmail() != null) {
       this.email = userDto.getEmail();
     }
     if (userDto.getName() != null) {
       this.name = userDto.getName();
     }
-    return this;
   }
 
   public boolean isAdmin() {

@@ -13,10 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,7 +69,7 @@ public class UserServiceTest {
     var userName = user.getName();
     UserDto userDto = UserDto.builder().email("foo@test.com").build();
 
-    userService.save(user, userDto);
+    userService.update(user, userDto);
 
     assertThat(user.getEmail()).isEqualTo(userDto.getEmail());
     assertThat(user.getName()).isEqualTo(userName);
@@ -84,7 +81,7 @@ public class UserServiceTest {
     var userName = user.getName();
     UserDto userDto = UserDto.builder().interests(Collections.singletonList(InterestDto.of("foo"))).build();
 
-    userService.save(user, userDto);
+    userService.update(user, userDto);
 
     assertThat(
             user.getInterests().stream().map(Interest::getValue).collect(Collectors.toList())

@@ -5,7 +5,6 @@ import com.freestudy.api.oauth2.user.CurrentUser;
 import com.freestudy.api.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -85,6 +84,15 @@ public class EventController extends BaseController {
 
     var updatedEvent = eventService.update(event, eventDto);
     return ResponseEntity.ok(updatedEvent);
+  }
+
+  @PostMapping("/{id}/users")
+  public ResponseEntity joinEvent(
+        @PathVariable("id") Integer eventId,
+        @CurrentUser User user
+  ) {
+    Event event =  eventService.joinEvent(eventId, user.getId());
+    return ResponseEntity.ok(event);
   }
 
 

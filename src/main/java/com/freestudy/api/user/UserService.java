@@ -63,21 +63,18 @@ public class UserService implements UserDetailsService {
     return userRepository.save(user);
   }
 
-  public User save(User user, UserDto userDto) {
+  // TODO FIX
+  public User update(User user_, UserDto userDto) {
 
-    User savedUser = userRepository.save(user);
+    User user = userRepository.findById(user_.getId()).get();
 
     if (userDto.getInterests() != null) {
       var interests = interestService.saveAll(userDto.getInterests());
-      savedUser.setInterests(interests);
-    }
-    if (userDto.getEmail() != null) {
-      savedUser.setEmail(userDto.getEmail());
-    }
-    if (userDto.getName() != null) {
-      savedUser.setName(userDto.getName());
+      user.setInterests(interests);
     }
 
-    return savedUser;
+    user.update(userDto);
+
+    return user;
   }
 }
