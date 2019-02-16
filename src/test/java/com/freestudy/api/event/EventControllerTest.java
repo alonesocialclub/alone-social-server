@@ -23,6 +23,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -49,7 +50,7 @@ public class EventControllerTest extends BaseControllerTest {
     var perform = mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
+                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(event))
@@ -96,7 +97,7 @@ public class EventControllerTest extends BaseControllerTest {
     var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
+                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(eventDto))
             );
@@ -126,7 +127,7 @@ public class EventControllerTest extends BaseControllerTest {
     var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, getAuthToken())
+                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(eventDto))
@@ -226,7 +227,7 @@ public class EventControllerTest extends BaseControllerTest {
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
-                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
+                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -248,7 +249,7 @@ public class EventControllerTest extends BaseControllerTest {
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", eventIdNotExists)
-                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
+                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -272,7 +273,7 @@ public class EventControllerTest extends BaseControllerTest {
             put("/api/events/{id}", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
-                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
+                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
     );
 
     // Then
@@ -288,13 +289,40 @@ public class EventControllerTest extends BaseControllerTest {
     var perform = this.mockMvc.perform(
             post("/api/events/{id}/users", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, getAuthToken())
+                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
     );
 
     // Then
-    perform.andDo(print());
-    perform.andExpect(status().isOk())
+    perform.andDo(print())
+            .andExpect(status().isOk())
             .andExpect(jsonPath("$.users.length()").value(1));
+
+    perform.andDo(document("events-users-update"));
+  }
+
+  @Test
+  public void eventJoinCancel() throws Exception {
+    // Given
+    Event event = createEvent();
+    var token = buildAuthToken();
+    // When
+    this.mockMvc.perform(
+            post("/api/events/{id}/users", event.getId())
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .header(HttpHeaders.AUTHORIZATION, token)
+    );
+    var perform = this.mockMvc.perform(
+            delete("/api/events/{id}/users", event.getId())
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .header(HttpHeaders.AUTHORIZATION, token)
+    );
+
+    // Then
+    perform.andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.users.length()").value(0));
+
+    perform.andDo(document("events-users-update-cancel"));
   }
 
 }

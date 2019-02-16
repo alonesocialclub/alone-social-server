@@ -72,7 +72,7 @@ public class BaseControllerTest {
   }
 
 
-  protected String getAuthToken() throws Exception {
+  protected String buildAuthToken() throws Exception {
 
     var next = atomicInteger.incrementAndGet();
 
