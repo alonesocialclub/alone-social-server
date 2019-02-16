@@ -2,7 +2,7 @@ version: '3'
 
 services:
   api:
-    image: 459648971904.dkr.ecr.ap-northeast-1.amazonaws.com/freestudy-api:latest
+    image: 459648971904.dkr.ecr.ap-northeast-2.amazonaws.com/alone-social-server:latest
     container_name: api
     build:
       context: .
