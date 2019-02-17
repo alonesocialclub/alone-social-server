@@ -1,10 +1,10 @@
 package com.freestudy.api.event.location;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 
 
 @Embeddable
@@ -17,10 +17,32 @@ public class Location {
     this.name = name;
   }
 
+  @Builder
+  public Location(
+          String address,
+          String name,
+          Double longitude,
+          Double latitude,
+          String placeUrl
+  ) {
+    this.address = address;
+    this.name = name;
+    this.longitude = longitude;
+    this.latitude = latitude;
+    this.placeUrl = placeUrl;
+    // TODO image url updqte
+    this.imageUrl = "https://alone.social/cover-default.jpg";
+  }
 
-  @NotNull
   private String address;
 
-  @NotNull
   private String name;
+
+  private Double longitude;
+
+  private Double latitude;
+
+  private String placeUrl;
+
+  private String imageUrl;
 }

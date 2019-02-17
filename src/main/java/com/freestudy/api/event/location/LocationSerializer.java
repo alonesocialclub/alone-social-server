@@ -15,6 +15,10 @@ public class LocationSerializer extends JsonSerializer<Location> {
     gen.writeStartObject();
     gen.writeStringField("address", location.getAddress());
     gen.writeStringField("name", location.getName());
+    gen.writeStringField("placeUrl", location.getPlaceUrl());
+    gen.writeStringField("imageUrl", location.getImageUrl());
+    gen.writeNumberField("longitude", location.getLongitude());
+    gen.writeNumberField("latitude", location.getLatitude());
     gen.writeEndObject();
   }
 }

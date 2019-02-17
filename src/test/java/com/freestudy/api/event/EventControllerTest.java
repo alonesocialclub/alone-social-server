@@ -5,6 +5,7 @@ import com.freestudy.api.DisplayName;
 import com.freestudy.api.event.location.Location;
 import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.event.type.EventTypeDto;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +31,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class EventControllerTest extends BaseControllerTest {
 
+  private Location location;
+
+  @Before
+  public void setUp() {
+    location = new Location(
+            "서울 서초구 강남대로61길 3",
+            "스타벅스",
+            127.026503385182,
+            37.4991561765984,
+            "http://place.map.daum.net/27290899");
+  }
+
   @Test
   public void createEventTest() throws Exception {
     // Given
@@ -42,7 +55,7 @@ public class EventControllerTest extends BaseControllerTest {
             .startedAt(LocalDateTime.of(2018, 11, 11, 12, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
-            .location(new Location("남부순환로", "스타벅스"))
+            .location(location)
             .eventTypes(eventTypes)
             .build();
 
@@ -73,6 +86,10 @@ public class EventControllerTest extends BaseControllerTest {
                                     fieldWithPath("description").description("모임 설명"),
                                     fieldWithPath("location.address").description("모임 장소 주소"),
                                     fieldWithPath("location.name").description("모임 장소 이름"),
+                                    fieldWithPath("location.placeUrl").description("모임 장소 url"),
+                                    fieldWithPath("location.latitude").description("모임 장소 latitude"),
+                                    fieldWithPath("location.longitude").description("모임 장소 longitude"),
+                                    fieldWithPath("location.imageUrl").description("모임 장소 imageUrl"),
                                     fieldWithPath("eventTypes[].id").description("모임 성격 id"),
                                     fieldWithPath("eventTypes[].value").description("모임 성격 값"),
                                     fieldWithPath("startedAt").description("모임 시작 시간"),
@@ -120,7 +137,7 @@ public class EventControllerTest extends BaseControllerTest {
             .startedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
-            .location(new Location("남부순환로", "낙성대"))
+            .location(location)
             .build();
 
     // When
@@ -217,7 +234,7 @@ public class EventControllerTest extends BaseControllerTest {
     EventDto eventDto = EventDto
             .builder()
             .name(updatedName)
-            .location(event.getLocation())
+            .location(location)
             .description(event.getDescription())
             .startedAt(event.getStartedAt())
             .endedAt(event.getEndedAt())

@@ -95,6 +95,12 @@ public class BaseControllerTest {
   }
 
   protected Event createEvent() {
+    Location location = new Location(
+            "서울 서초구 강남대로61길 3",
+            "스타벅스",
+            127.026503385182,
+            37.4991561765984,
+            "http://place.map.daum.net/27290899");
     User user = this.createUser();
     var next = atomicInteger.incrementAndGet();
     EventDto eventDto = EventDto.builder()
@@ -103,7 +109,7 @@ public class BaseControllerTest {
             .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
-            .location(new Location("남부 순환로", "낙성대"))
+            .location(location)
             .build();
     Event event = new Event(eventDto, user);
     return this.eventRepository.save(event);
