@@ -164,7 +164,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("30개의 이벤트를 페이징 조회")
   public void queryEvents__happy() throws Exception {
     // Given
-    IntStream.range(0, 30).forEach(__ -> this.createEvent());
+    IntStream.range(0, 10).forEach(__ -> this.createEvent());
 
     // When
     var perform = this.mockMvc.perform(
@@ -189,6 +189,27 @@ public class EventControllerTest extends BaseControllerTest {
                                     parameterWithName("sort").description("<:field>,<:sort> 형태. 값을 URL encoding 해야한다. 예시 참고")
                             )
                     ));
+  }
+
+  @Test
+  @DisplayName("이벤트를 페이징 조회했으나 끝난 모임만 있는 경우")
+  public void queryEvents__event_empty_when_ended_event() throws Exception {
+    // Given
+    Event event = this.createEvent();
+    event.update(EventDto.builder().endedAt(LocalDateTime.now().minusDays(1)).build());
+
+    // When
+    var perform = this.mockMvc.perform(
+            get("/api/events")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .accept(MediaType.APPLICATION_JSON_UTF8)
+    );
+
+    // Then
+    perform
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("content.length()").value(0));
   }
 
   @Test

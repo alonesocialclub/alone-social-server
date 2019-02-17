@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class EventService {
   }
 
   public Page<Event> findAll(Pageable pageable) {
-    return this.eventRepository.findAll(pageable);
+    return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
   }
 
   public Event joinEvent(Integer eventId, Long userId) {

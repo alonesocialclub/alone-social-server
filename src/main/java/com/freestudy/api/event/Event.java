@@ -94,19 +94,19 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   }
 
   void update(EventDto eventDto) {
-    if (!eventDto.getName().isEmpty()) {
+    if (eventDto.getName() != null && !eventDto.getName().isEmpty()) {
       name = eventDto.getName();
     }
   }
 
-  public void joinEvent(User user) {
+  void joinEvent(User user) {
     if (this.owner.equals(user)) {
       return;
     }
     this.users.add(user);
   }
 
-  public void joinCancelEvent(User user) {
+  void joinCancelEvent(User user) {
     if (this.owner.equals(user)) {
       return;
     }
