@@ -171,7 +171,7 @@ public class EventControllerTest extends BaseControllerTest {
             get("/api/events")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaType.APPLICATION_JSON_UTF8)
-                    .param("page", "1")
+                    .param("page", "0")
                     .param("size", "2")
                     .param("sort", "name,desc")
     );
@@ -195,8 +195,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트를 페이징 조회했으나 끝난 모임만 있는 경우")
   public void queryEvents__event_empty_when_ended_event() throws Exception {
     // Given
-    Event event = this.createEvent();
-    event.update(EventDto.builder().endedAt(LocalDateTime.now().minusDays(1)).build());
+    Event event = this.createEvent(LocalDateTime.now().minusDays(5),LocalDateTime.now().minusDays(1));
 
     // When
     var perform = this.mockMvc.perform(

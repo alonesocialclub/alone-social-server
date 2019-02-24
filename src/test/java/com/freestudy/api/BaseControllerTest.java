@@ -95,6 +95,10 @@ public class BaseControllerTest {
   }
 
   protected Event createEvent() {
+    return createEvent(LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(6));
+  }
+
+  protected Event createEvent(LocalDateTime startedAt, LocalDateTime endedAt){
     Location location = new Location(
             "서울 서초구 강남대로61길 3",
             "스타벅스",
@@ -106,8 +110,8 @@ public class BaseControllerTest {
     EventDto eventDto = EventDto.builder()
             .name("event" + next)
             .description("Rest")
-            .startedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
-            .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
+            .startedAt(startedAt)
+            .endedAt(endedAt)
             .limitOfEnrollment(5)
             .location(location)
             .build();
