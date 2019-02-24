@@ -32,8 +32,11 @@ public class EventService {
   public Event create(EventDto eventDto, User user_) {
     User user = userRepository.findById(user_.getId()).orElseThrow();
     Event event = new Event(eventDto, user);
-    event = this.eventRepository.save(event);
+    return update(event, eventDto);
+  }
 
+  public Event update(Event event, EventDto eventDto) {
+    event = this.eventRepository.save(event);
     if (eventDto.getEventTypes() != null) {
       var eventTypes = eventTypeRepository.findAllById(
               eventDto
@@ -44,11 +47,6 @@ public class EventService {
       );
       event.setEventTypes(new HashSet<>(eventTypes));
     }
-
-    return event;
-  }
-
-  public Event update(Event event, EventDto eventDto) {
     event.update(eventDto);
     return event;
   }
