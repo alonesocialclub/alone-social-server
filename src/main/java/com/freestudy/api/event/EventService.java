@@ -1,5 +1,6 @@
 package com.freestudy.api.event;
 
+import com.freestudy.api.event.type.EventQueryType;
 import com.freestudy.api.event.type.EventTypeDto;
 import com.freestudy.api.event.type.EventTypeRepository;
 import com.freestudy.api.user.User;
@@ -57,7 +58,17 @@ public class EventService {
     event.ifPresent(this.eventRepository::delete);
   }
 
-  public Page<Event> findAll(Pageable pageable) {
+  public Page<Event> findAll(Pageable pageable, User user, Optional<EventQueryType> type) {
+    // TODO make query builder?
+    if (user == null || type.isEmpty()){
+      return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
+    }
+    switch (type.get()){
+      case OWNER:
+        return this.eventRepository.findByOwnerAndEndedAtAfter(user, LocalDateTime.now(), pageable);
+      case JOINER:
+        return this.eventRepository.findByUsersContainingAndEndedAtAfter(user, LocalDateTime.now(), pageable);
+    }
     return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
   }
 
