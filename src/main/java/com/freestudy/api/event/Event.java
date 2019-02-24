@@ -17,6 +17,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -90,6 +91,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     this.endedAt = eventDto.getEndedAt();
     this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
     this.owner = user;
+    this.users = new HashSet<>();
     this.sendSlackActivityMsg();
   }
 
