@@ -12,6 +12,8 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class Location {
 
+  final static String IMAGE_HOST = "https://alone.social";
+
   public Location(String address, String name) {
     this.address = address;
     this.name = name;
@@ -30,8 +32,7 @@ public class Location {
     this.longitude = longitude;
     this.latitude = latitude;
     this.placeUrl = placeUrl;
-    // TODO image url updqte
-    this.imageUrl = "https://alone.social/cover-default.jpg";
+    this.imageUrl = getImageUrlByName();
   }
 
   private String address;
@@ -45,4 +46,32 @@ public class Location {
   private String placeUrl;
 
   private String imageUrl;
+
+  private String getImageUrlByName() {
+    int idx = (int)(Math.random() * 3);
+    String defaultImage = IMAGE_HOST + "/cafe/random/" + idx + ".jpg";
+
+    if (this.name == null){
+      return defaultImage;
+    }
+
+    if (this.name.contains("스타벅스")){
+      return IMAGE_HOST + "/cafe/starbucks.jpg";
+    }
+
+    if (this.name.contains("이디야")){
+      return IMAGE_HOST + "/cafe/ediya.jpg";
+    }
+
+
+    if (this.name.contains("할리스")){
+      return IMAGE_HOST + "/cafe/hollys.jpg";
+    }
+
+    if (this.name.contains("폴바셋")){
+      return IMAGE_HOST + "/cafe/paulbassett.jpg";
+    }
+
+    return defaultImage;
+  }
 }
