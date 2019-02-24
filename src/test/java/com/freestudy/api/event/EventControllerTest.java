@@ -319,6 +319,24 @@ public class EventControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @DisplayName("이벤트 삭제")
+  public void deleteEvent() throws Exception {
+    // Given
+    Event event = createEvent();
+
+    // When
+    var perform = this.mockMvc.perform(
+            delete("/api/events/{id}", event.getId())
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
+    );
+
+    // Then
+    perform.andDo(print());
+    perform.andExpect(status().isNoContent());
+  }
+
+  @Test
   public void eventJoin() throws Exception {
     // Given
     Event event = createEvent();

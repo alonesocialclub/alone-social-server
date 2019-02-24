@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +50,11 @@ public class EventService {
     }
     event.update(eventDto);
     return event;
+  }
+
+  public void delete(Integer eventId){
+    Optional<Event> event = this.eventRepository.findById(eventId);
+    event.ifPresent(this.eventRepository::delete);
   }
 
   public Page<Event> findAll(Pageable pageable) {

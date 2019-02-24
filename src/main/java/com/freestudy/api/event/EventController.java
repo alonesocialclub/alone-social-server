@@ -86,6 +86,14 @@ public class EventController extends BaseController {
     return ResponseEntity.ok(updatedEvent);
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity deleteEvent(
+          @PathVariable("id") Integer eventId) {
+
+    eventService.delete(eventId);
+    return ResponseEntity.noContent().build();
+  }
+
   @PostMapping("/{id}/users")
   public ResponseEntity joinEvent(
         @PathVariable("id") Integer eventId,
