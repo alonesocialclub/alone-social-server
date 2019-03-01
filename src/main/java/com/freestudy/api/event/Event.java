@@ -92,7 +92,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
     this.owner = user;
     this.users = new HashSet<>();
-    this.sendSlackActivityMsg();
+    this.activityLogEventCreate();
   }
 
   void update(EventDto eventDto) {
@@ -108,6 +108,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     if (this.owner.equals(user)) {
       return;
     }
+    this.activityLogJoinEvent(user);
     this.users.add(user);
   }
 
@@ -115,6 +116,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     if (this.owner.equals(user)) {
       return;
     }
+    this.activityLogJoinEventCancel(user);
     this.users.remove(user);
   }
 
@@ -147,14 +149,25 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   }
 
 
-  private void sendSlackActivityMsg() {
+  private void activityLogEventCreate() {
     if (!owner.isAdmin()) {
-      this.registerEvent(this.buildSlackMessageEvent());
+      var message = this.getOwner() + "님이 " + this.toString() + "를 생성했습니다.";
+      this.registerEvent(this.buildSlackMessageEvent(message ));
     }
   }
 
+  private void activityLogJoinEvent(User user) {
+    var message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 하셨습니다.";
+    this.registerEvent(this.buildSlackMessageEvent(message ));
+  }
+
+  private void activityLogJoinEventCancel(User user) {
+    var message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 취소 하셨습니다.";
+    this.registerEvent(this.buildSlackMessageEvent(message ));
+  }
+
   @Override
-  public SlackMessageEvent buildSlackMessageEvent() {
-    return new SlackMessageEvent(this, this.getOwner() + "님이 " + this.toString() + "를 생성했습니다.");
+  public SlackMessageEvent buildSlackMessageEvent(String message) {
+    return new SlackMessageEvent(this, message);
   }
 }

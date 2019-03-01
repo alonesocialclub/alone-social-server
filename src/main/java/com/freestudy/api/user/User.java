@@ -129,12 +129,13 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
   }
 
   private void sendSlackActivityMsg() {
-    this.registerEvent(buildSlackMessageEvent());
+    var message = name + "님이 " + provider + "를 통해 가입하셨습니다.";
+    this.registerEvent(buildSlackMessageEvent(message));
   }
 
   @Override
-  public SlackMessageEvent buildSlackMessageEvent() {
-    return new SlackMessageEvent(this, name + "님이 " + provider + "를 통해 가입하셨습니다.");
+  public SlackMessageEvent buildSlackMessageEvent(String message) {
+    return new SlackMessageEvent(this, message);
   }
 
 }
