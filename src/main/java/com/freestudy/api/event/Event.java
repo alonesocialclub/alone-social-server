@@ -17,6 +17,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -126,22 +127,21 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
 
   public String getLinkHtml() {
     var url = "https://alone.social/events/" + this.id;
-
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd hh");
+    var description = this.startedAt.format(formatter) + "시 " + this.location.getName() + "에서";
     var text = String.format(
             "<html>" +
                     "<head>" +
                     "<title>%s</title>" +
-                    "<meta property=\"og:title\" content=\"%s\"/>" +
-                    "<meta property=\"og:description\" content=\"각자 할 일 해요! 같이\"/>" +
+                    "<meta property=\"og:title\" content=\"각자 할 일 해요! 같이\"/>" +
+                    "<meta property=\"og:description\" content=\"%s\"/>" +
                     "<meta property=\"og:image\" content=\"%s\" />" +
-                    "<meta property=\"og:url\" content=\"%s\" />" +
                     "<script>window.location.replace(\'%s\');</script>" +
                     "</head>" +
                     "</html>",
             name,
-            name,
+            description,
             location.getImageUrl(),
-            url,
             url
     );
 
