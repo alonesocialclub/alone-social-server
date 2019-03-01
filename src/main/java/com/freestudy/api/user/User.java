@@ -78,6 +78,7 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
   @Email
   @Column(nullable = false)
   @Setter
+  @JsonIgnore
   private String email;
 
   @Setter
