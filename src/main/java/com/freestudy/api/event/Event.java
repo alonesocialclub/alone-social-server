@@ -152,18 +152,18 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   private void activityLogEventCreate() {
     if (!owner.isAdmin()) {
       var message = this.getOwner() + "님이 " + this.toString() + "를 생성했습니다.";
-      this.registerEvent(this.buildSlackMessageEvent(message ));
+      this.registerEvent(buildSlackMessageEvent(message));
     }
   }
 
   private void activityLogJoinEvent(User user) {
     var message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 하셨습니다.";
-    this.registerEvent(this.buildSlackMessageEvent(message ));
+    this.registerEvent(buildSlackMessageEvent(message));
   }
 
   private void activityLogJoinEventCancel(User user) {
     var message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 취소 하셨습니다.";
-    this.registerEvent(this.buildSlackMessageEvent(message ));
+    this.registerEvent(buildSlackMessageEvent(message));
   }
 
   @Override

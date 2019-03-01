@@ -25,6 +25,7 @@ public class EventService {
 
   private EventTypeRepository eventTypeRepository;
 
+
   public EventService(EventRepository eventRepository, EventTypeRepository eventTypeRepository, UserRepository userRepository) {
     this.eventRepository = eventRepository;
     this.userRepository = userRepository;
@@ -53,17 +54,17 @@ public class EventService {
     return event;
   }
 
-  public void delete(Integer eventId){
+  public void delete(Integer eventId) {
     Optional<Event> event = this.eventRepository.findById(eventId);
     event.ifPresent(this.eventRepository::delete);
   }
 
   public Page<Event> findAll(Pageable pageable, User user, Optional<EventQueryType> type) {
     // TODO make query builder?
-    if (user == null || type.isEmpty()){
+    if (user == null || type.isEmpty()) {
       return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
     }
-    switch (type.get()){
+    switch (type.get()) {
       case OWNER:
         return this.eventRepository.findByOwnerAndEndedAtAfter(user, LocalDateTime.now(), pageable);
       case JOINER:
@@ -73,10 +74,10 @@ public class EventService {
   }
 
   public Event joinEvent(Integer eventId, Long userId) {
-    Event event = this.eventRepository.findById(eventId).orElseThrow();
     User user = this.userRepository.findById(userId).orElseThrow();
+    var event = this.eventRepository.findById(eventId).orElseThrow();
     event.joinEvent(user);
-    return event;
+    return this.eventRepository.save(event);
   }
 
   // MAKE DRY
@@ -84,6 +85,6 @@ public class EventService {
     Event event = this.eventRepository.findById(eventId).orElseThrow();
     User user = this.userRepository.findById(userId).orElseThrow();
     event.joinCancelEvent(user);
-    return event;
+    return this.eventRepository.save(event);
   }
 }
