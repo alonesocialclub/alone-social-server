@@ -20,4 +20,4 @@ ARG JAR_FILE=build/libs/api-${VERSION}.jar
 ADD ${JAR_FILE} app.jar
 
 # Run the jar file
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=prod", "/app.jar", "-jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=prod", "-jar", "/app.jar"]
