@@ -122,6 +122,29 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     return Link.builder().event(this).build();
   }
 
+  public String getLinkHtml() {
+    var url = "https://alone.social/events/" + this.id;
+
+    var text = String.format(
+            "<html>" +
+                    "<head>" +
+                    "<title>%s</title>" +
+                    "<meta property=\"og:title\" content=\"%s\"/>" +
+                    "<meta property=\"og:url\" content=\"%s\" />" +
+                    "<meta property=\"og:image\" content=\"%s\" />" +
+                    "<script>window.location.replace(\'%s\');</script>" +
+                    "</head>" +
+                    "</html>",
+            name,
+            name,
+            location.getImageUrl(),
+            url,
+            url
+    );
+
+    return text;
+  }
+
 
   private void sendSlackActivityMsg() {
     if (!owner.isAdmin()) {

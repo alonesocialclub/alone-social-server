@@ -3,7 +3,6 @@ package com.freestudy.api.link;
 
 import com.freestudy.api.config.AppProperties;
 import com.freestudy.api.event.Event;
-import com.freestudy.api.event.EventRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.util.HtmlUtils;
 
 @Controller
 @RequestMapping(value = "/api/events/{eventId}/links")
@@ -62,12 +60,7 @@ public class LinkController {
       return ResponseEntity.notFound().build();
     }
 
-    var text = String.format(
-            "<html><head><title>%s</title><script>window.location.replace(\'%s\');</script></head></html>",
-            event.getName(),
-            "https://alone.social/event/" + event.getId()
-    );
-    return ResponseEntity.ok(text);
+    return ResponseEntity.ok(event.getLinkHtml());
   }
 
 }
