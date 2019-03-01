@@ -137,13 +137,11 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
                     "<meta property=\"og:description\" content=\"%s\"/>" +
                     "<meta property=\"og:image\" content=\"%s\" />" +
                     "<script>window.location.replace(\'%s\');</script>" +
-                    "<meta property=\"og:url\" content=\"%s\" />" +
                     "</head>" +
                     "</html>",
             name,
             description,
             location.getImageUrl(),
-            url,
             url
     );
 
