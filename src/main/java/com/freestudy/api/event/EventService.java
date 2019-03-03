@@ -3,6 +3,8 @@ package com.freestudy.api.event;
 import com.freestudy.api.event.type.EventQueryType;
 import com.freestudy.api.event.type.EventTypeDto;
 import com.freestudy.api.event.type.EventTypeRepository;
+import com.freestudy.api.location.Location;
+import com.freestudy.api.location.LocationRepository;
 import com.freestudy.api.user.User;
 import com.freestudy.api.user.UserRepository;
 import org.springframework.data.domain.Page;
@@ -25,20 +27,26 @@ public class EventService {
 
   private EventTypeRepository eventTypeRepository;
 
+  private LocationRepository locationRepository;
 
-  public EventService(EventRepository eventRepository, EventTypeRepository eventTypeRepository, UserRepository userRepository) {
+
+  public EventService(EventRepository eventRepository, EventTypeRepository eventTypeRepository, UserRepository userRepository, LocationRepository locationRepository) {
     this.eventRepository = eventRepository;
     this.userRepository = userRepository;
     this.eventTypeRepository = eventTypeRepository;
+    this.locationRepository = locationRepository;
   }
 
   public Event create(EventDto eventDto, User user_) {
     User user = userRepository.findById(user_.getId()).orElseThrow();
+
     Event event = new Event(eventDto, user);
+
     return update(event, eventDto);
   }
 
   public Event update(Event event, EventDto eventDto) {
+    eventDto = updatewtihlocation(eventDto);
     event = this.eventRepository.save(event);
     if (eventDto.getEventTypes() != null) {
       var eventTypes = eventTypeRepository.findAllById(
@@ -52,6 +60,16 @@ public class EventService {
     }
     event.update(eventDto);
     return event;
+  }
+
+  private EventDto updatewtihlocation(EventDto eventDto){
+   Location location = eventDto.getLocation();
+
+    locationRepository
+            .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName())
+            .ifPresent(eventDto::setLocation);
+
+    return eventDto;
   }
 
   public void delete(Integer eventId) {

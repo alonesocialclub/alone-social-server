@@ -41,10 +41,11 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   @Column
   private LocalDateTime endedAt;
 
-  @OneToOne(
+  @ManyToOne(
     fetch = FetchType.EAGER,
-          cascade = { CascadeType.PERSIST, CascadeType.REMOVE}
+    cascade = { CascadeType.PERSIST}, optional = false
   )
+  @JoinColumn(name="location_id")
   private Location location;
 
   @Column

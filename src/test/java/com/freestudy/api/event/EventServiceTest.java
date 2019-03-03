@@ -30,7 +30,6 @@ public class EventServiceTest {
   @Test
   public void saveTest() {
     // Given
-    // TODO
     when(userRepository).thenCallRealMethod();
     when(eventRepository).thenCallRealMethod();
     EventDto eventDto = EventDto.builder()
@@ -40,7 +39,7 @@ public class EventServiceTest {
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
             .location(
-                    new Location("남부순환로", "스타벅스", 123.123, 123.123, "https://naver.com")
+                    new Location("남부순환로", "스타벅스", 123.123123, 123.123, "https://naver.com")
             )
             .build();
 

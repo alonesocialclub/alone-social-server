@@ -5,6 +5,7 @@ import com.freestudy.api.DisplayName;
 import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.event.type.EventTypeDto;
 import com.freestudy.api.location.Location;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -195,7 +197,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트를 페이징 조회했으나 끝난 모임만 있는 경우")
   public void queryEvents__event_empty_when_ended_event() throws Exception {
     // Given
-    this.createEvent(LocalDateTime.now().minusDays(5),LocalDateTime.now().minusDays(1));
+    this.createEvent(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1));
 
     // When
     var perform = this.mockMvc.perform(
@@ -398,6 +400,66 @@ public class EventControllerTest extends BaseControllerTest {
             .andExpect(jsonPath("$.users.length()").value(0));
 
     perform.andDo(document("events-users-update-cancel"));
+  }
+
+  @Test
+  @DisplayName("이벤트에 장소가 중복으로 insert 되지 않아야 한다")
+  public void eventLocationDuplicated() throws Exception {
+    // Given
+    var startedAt = LocalDateTime.now().plusDays(3);
+    var endedAt = LocalDateTime.now().plusDays(6);
+
+    EventDto event1 = EventDto.builder()
+            .name("낙성대 주말 코딩1")
+            .description("오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.")
+            .startedAt(startedAt)
+            .endedAt(endedAt)
+            .limitOfEnrollment(5)
+            .location(location)
+            .build();
+    EventDto event2 = EventDto.builder()
+            .name("낙성대 주말 코딩2")
+            .description("오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.")
+            .startedAt(startedAt)
+            .endedAt(endedAt)
+            .limitOfEnrollment(5)
+            .location(location)
+            .build();
+
+    // When
+    mockMvc
+            .perform(
+                    post("/api/events/")
+                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
+                            .content(objectMapper.writeValueAsString(event1))
+            );
+
+    // When
+    mockMvc
+            .perform(
+                    post("/api/events/")
+                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
+                            .content(objectMapper.writeValueAsString(event2))
+            );
+
+    var perform = this.mockMvc.perform(
+            get("/api/events")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .accept(MediaType.APPLICATION_JSON_UTF8)
+    );
+
+    // Then
+    perform.andDo(print())
+            .andExpect(status().isOk());
+
+    var json = perform.andReturn().getResponse().getContentAsString();
+    String a = JsonPath.parse(json).read("$.content[0].location.id").toString();
+    String b = JsonPath.parse(json).read("$.content[1].location.id").toString();
+    assertThat(a).isEqualTo(b);
   }
 
 }

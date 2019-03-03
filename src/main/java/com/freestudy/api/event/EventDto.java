@@ -3,10 +3,7 @@ package com.freestudy.api.event;
 
 import com.freestudy.api.event.type.EventTypeDto;
 import com.freestudy.api.location.Location;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -27,6 +24,7 @@ public class EventDto {
   @NotEmpty
   private String description;
 
+  @Setter
   private Location location;
 
   @NotNull
