@@ -1,8 +1,8 @@
 package com.freestudy.api.event;
 
 
-import com.freestudy.api.event.location.Location;
 import com.freestudy.api.event.type.EventTypeDto;
+import com.freestudy.api.location.Location;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

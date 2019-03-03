@@ -2,9 +2,9 @@ package com.freestudy.api.event;
 
 import com.freestudy.api.BaseControllerTest;
 import com.freestudy.api.DisplayName;
-import com.freestudy.api.event.location.Location;
 import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.event.type.EventTypeDto;
+import com.freestudy.api.location.Location;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
@@ -81,7 +81,7 @@ public class EventControllerTest extends BaseControllerTest {
                                     headerWithName(HttpHeaders.ACCEPT).description("accept header"),
                                     headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
                             ),
-                            requestFields(
+                            relaxedRequestFields(
                                     fieldWithPath("name").description("모임 이름"),
                                     fieldWithPath("description").description("모임 설명"),
                                     fieldWithPath("location.address").description("모임 장소 주소"),

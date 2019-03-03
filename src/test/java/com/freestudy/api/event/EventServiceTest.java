@@ -1,6 +1,6 @@
 package com.freestudy.api.event;
 
-import com.freestudy.api.event.location.Location;
+import com.freestudy.api.location.Location;
 import com.freestudy.api.user.UserRepository;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -39,7 +39,9 @@ public class EventServiceTest {
             .startedAt(LocalDateTime.of(2018, 11, 11, 12, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
-            .location(new Location("남부순환로", "스타벅스"))
+            .location(
+                    new Location("남부순환로", "스타벅스", 123.123, 123.123, "https://naver.com")
+            )
             .build();
 
     // When

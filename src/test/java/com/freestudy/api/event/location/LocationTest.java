@@ -1,6 +1,7 @@
 package com.freestudy.api.event.location;
 
 
+import com.freestudy.api.location.Location;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,5 +16,6 @@ public class LocationTest {
 
     assertThat(l.getImageUrl()).isNotNull();
     assertThat(l.getImageUrl()).contains("hollys");
+
   }
 }
