@@ -56,7 +56,7 @@ public class EventController extends BaseController {
     Page<Event> page = this.eventSearchService.findAllBy(
             pageable,
             Optional.ofNullable(user),
-            eventQueryParams.getType());
+            eventQueryParams);
     return ResponseEntity.ok(page);
   }
 

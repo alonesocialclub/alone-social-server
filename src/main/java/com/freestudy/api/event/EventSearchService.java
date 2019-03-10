@@ -2,6 +2,7 @@ package com.freestudy.api.event;
 
 import com.freestudy.api.event.type.EventQueryType;
 import com.freestudy.api.user.User;
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,19 +25,20 @@ public class EventSearchService {
   public Page<Event> findAllBy(
           Pageable pageable,
           Optional<User> user,
-          Optional<EventQueryType> type
+          EventQueryParams eventQueryParams
   ) {
     // TODO make query builder?
-    if (user.isEmpty()) {
+    if (user.isEmpty() || eventQueryParams.getType().equals(EventQueryType.ALL)) {
       return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
     }
-    switch (type.get()) {
+
+    switch (eventQueryParams.getType()) {
       case OWNER:
         return this.eventRepository.findByOwnerAndEndedAtAfter(user.get(), LocalDateTime.now(), pageable);
       case JOINER:
         return this.eventRepository.findByUsersContainingAndEndedAtAfter(user.get(), LocalDateTime.now(), pageable);
       default:
-        return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
+        throw new IllegalIdentifierException("Invalid query parameter for type, type=OWNER|ALL|JOINER");
     }
   }
 }
