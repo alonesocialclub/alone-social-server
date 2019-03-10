@@ -11,6 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/api/events")
@@ -52,7 +53,10 @@ public class EventController extends BaseController {
           @CurrentUser User user,
           EventQueryParams eventQueryParams
   ) {
-    Page<Event> page = this.eventSearchService.findAllBy(pageable, user, eventQueryParams.getType());
+    Page<Event> page = this.eventSearchService.findAllBy(
+            pageable,
+            Optional.ofNullable(user),
+            eventQueryParams.getType());
     return ResponseEntity.ok(page);
   }
 

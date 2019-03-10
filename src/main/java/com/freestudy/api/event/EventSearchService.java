@@ -23,18 +23,18 @@ public class EventSearchService {
 
   public Page<Event> findAllBy(
           Pageable pageable,
-          User user,
+          Optional<User> user,
           Optional<EventQueryType> type
   ) {
     // TODO make query builder?
-    if (user == null) {
+    if (user.isEmpty()) {
       return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
     }
     switch (type.get()) {
       case OWNER:
-        return this.eventRepository.findByOwnerAndEndedAtAfter(user, LocalDateTime.now(), pageable);
+        return this.eventRepository.findByOwnerAndEndedAtAfter(user.get(), LocalDateTime.now(), pageable);
       case JOINER:
-        return this.eventRepository.findByUsersContainingAndEndedAtAfter(user, LocalDateTime.now(), pageable);
+        return this.eventRepository.findByUsersContainingAndEndedAtAfter(user.get(), LocalDateTime.now(), pageable);
       default:
         return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
     }
