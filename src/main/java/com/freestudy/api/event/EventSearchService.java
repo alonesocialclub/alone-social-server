@@ -29,14 +29,14 @@ public class EventSearchService {
   ) {
     // TODO make query builder?
     if (user.isEmpty() || eventQueryParams.getType().equals(EventQueryType.ALL)) {
-      return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
+      return this.eventRepository.findAll(pageable);
     }
 
     switch (eventQueryParams.getType()) {
       case OWNER:
-        return this.eventRepository.findByOwnerAndEndedAtAfter(user.get(), LocalDateTime.now(), pageable);
+        return this.eventRepository.findByOwner(user.get(), pageable);
       case JOINER:
-        return this.eventRepository.findByUsersContainingAndEndedAtAfter(user.get(), LocalDateTime.now(), pageable);
+        return this.eventRepository.findByUsersContaining(user.get(), pageable);
       default:
         throw new IllegalIdentifierException("Invalid query parameter for type, type=OWNER|ALL|JOINER");
     }

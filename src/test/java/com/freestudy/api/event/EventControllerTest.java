@@ -194,26 +194,6 @@ public class EventControllerTest extends BaseControllerTest {
   }
 
   @Test
-  @DisplayName("이벤트를 페이징 조회했으나 끝난 모임만 있는 경우")
-  public void queryEvents__event_empty_when_ended_event() throws Exception {
-    // Given
-    this.createEvent(LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(1));
-
-    // When
-    var perform = this.mockMvc.perform(
-            get("/api/events")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaType.APPLICATION_JSON_UTF8)
-    );
-
-    // Then
-    perform
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("content.length()").value(0));
-  }
-
-  @Test
   @DisplayName("내가 만든 이벤트")
   public void queryEvents__type_owner() throws Exception {
     // Given
