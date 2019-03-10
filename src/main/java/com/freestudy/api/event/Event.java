@@ -1,14 +1,10 @@
 package com.freestudy.api.event;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.freestudy.api.event.location.Location;
-import com.freestudy.api.event.location.LocationDeserializer;
-import com.freestudy.api.event.location.LocationSerializer;
 import com.freestudy.api.event.type.EventType;
 import com.freestudy.api.infra.slack.SlackMessagable;
 import com.freestudy.api.infra.slack.SlackMessageEvent;
 import com.freestudy.api.link.Link;
+import com.freestudy.api.location.Location;
 import com.freestudy.api.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -45,9 +41,11 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   @Column
   private LocalDateTime endedAt;
 
-  @Embedded
-  @JsonSerialize(using = LocationSerializer.class)
-  @JsonDeserialize(using = LocationDeserializer.class)
+  @ManyToOne(
+    fetch = FetchType.EAGER,
+    cascade = { CascadeType.PERSIST}, optional = false
+  )
+  @JoinColumn(name="location_id")
   private Location location;
 
   @Column

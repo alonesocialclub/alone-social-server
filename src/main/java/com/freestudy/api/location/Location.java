@@ -1,23 +1,25 @@
-package com.freestudy.api.event.location;
+package com.freestudy.api.location;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 
-@Embeddable
+@Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Location {
 
   final static String IMAGE_HOST = "https://alone.social";
 
-  public Location(String address, String name) {
-    this.address = address;
-    this.name = name;
-  }
+  @Id
+  @GeneratedValue
+  private Integer id;
 
   @Builder
   public Location(
@@ -33,6 +35,16 @@ public class Location {
     this.latitude = latitude;
     this.placeUrl = placeUrl;
     this.imageUrl = getImageUrlByName();
+  }
+
+  @Builder
+  public static Location of(
+          String address,
+          String name,
+          Double longitude,
+          Double latitude
+  ) {
+    return new Location(address, name, longitude, latitude, null);
   }
 
   private String address;

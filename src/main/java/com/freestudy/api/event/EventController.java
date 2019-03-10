@@ -1,7 +1,6 @@
 package com.freestudy.api.event;
 
 import com.freestudy.api.common.controller.BaseController;
-import com.freestudy.api.event.type.EventQueryType;
 import com.freestudy.api.oauth2.user.CurrentUser;
 import com.freestudy.api.user.User;
 import org.springframework.data.domain.Page;
@@ -20,12 +19,14 @@ public class EventController extends BaseController {
 
   private final EventValidator eventValidator;
   private final EventService eventService;
+  private final EventSearchService eventSearchService;
 
   public EventController(
           EventValidator eventValidator,
-          EventService eventService) {
+          EventService eventService, EventSearchService eventSearchService) {
     this.eventValidator = eventValidator;
     this.eventService = eventService;
+    this.eventSearchService = eventSearchService;
   }
 
   @PostMapping
@@ -50,9 +51,12 @@ public class EventController extends BaseController {
   public ResponseEntity queryEvents(
           Pageable pageable,
           @CurrentUser User user,
-          @RequestParam(value = "type") Optional<EventQueryType> type
+          EventQueryParams eventQueryParams
   ) {
-    Page<Event> page = this.eventService.findAll(pageable, user, type);
+    Page<Event> page = this.eventSearchService.findAllBy(
+            pageable,
+            Optional.ofNullable(user),
+            eventQueryParams);
     return ResponseEntity.ok(page);
   }
 
