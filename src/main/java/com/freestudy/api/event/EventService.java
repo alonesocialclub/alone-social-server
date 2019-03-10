@@ -62,8 +62,8 @@ public class EventService {
     return event;
   }
 
-  private EventDto updatewtihlocation(EventDto eventDto){
-   Location location = eventDto.getLocation();
+  private EventDto updatewtihlocation(EventDto eventDto) {
+    Location location = eventDto.getLocation();
 
     locationRepository
             .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName())
@@ -79,7 +79,7 @@ public class EventService {
 
   public Page<Event> findAll(Pageable pageable, User user, Optional<EventQueryType> type) {
     // TODO make query builder?
-    if (user == null || type.isEmpty()) {
+    if (user == null) {
       return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
     }
     switch (type.get()) {
@@ -87,8 +87,9 @@ public class EventService {
         return this.eventRepository.findByOwnerAndEndedAtAfter(user, LocalDateTime.now(), pageable);
       case JOINER:
         return this.eventRepository.findByUsersContainingAndEndedAtAfter(user, LocalDateTime.now(), pageable);
+      default:
+        return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
     }
-    return this.eventRepository.findByEndedAtAfter(LocalDateTime.now(), pageable);
   }
 
   public Event joinEvent(Integer eventId, Long userId) {

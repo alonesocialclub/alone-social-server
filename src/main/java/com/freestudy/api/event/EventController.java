@@ -1,7 +1,6 @@
 package com.freestudy.api.event;
 
 import com.freestudy.api.common.controller.BaseController;
-import com.freestudy.api.event.type.EventQueryType;
 import com.freestudy.api.oauth2.user.CurrentUser;
 import com.freestudy.api.user.User;
 import org.springframework.data.domain.Page;
@@ -12,7 +11,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/api/events")
@@ -50,9 +48,9 @@ public class EventController extends BaseController {
   public ResponseEntity queryEvents(
           Pageable pageable,
           @CurrentUser User user,
-          @RequestParam(value = "type") Optional<EventQueryType> type
+          EventQueryParams eventQueryParams
   ) {
-    Page<Event> page = this.eventService.findAll(pageable, user, type);
+    Page<Event> page = this.eventService.findAll(pageable, user, eventQueryParams.getType());
     return ResponseEntity.ok(page);
   }
 

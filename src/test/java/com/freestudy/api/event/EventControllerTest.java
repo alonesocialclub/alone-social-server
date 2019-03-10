@@ -222,6 +222,7 @@ public class EventControllerTest extends BaseControllerTest {
     // When
     var perform = this.mockMvc.perform(
             get("/api/events")
+                    .param("type", "OWNER")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaType.APPLICATION_JSON_UTF8)
     );
