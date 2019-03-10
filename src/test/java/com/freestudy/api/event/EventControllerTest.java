@@ -235,6 +235,28 @@ public class EventControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @DisplayName("좌표 기반 쿼리")
+  public void queryEvents__type_location() throws Exception {
+    // Given
+    IntStream.range(0, 10).forEach(__ -> this.createEvent());
+
+    // When
+    var perform = this.mockMvc.perform(
+            get("/api/events")
+                    .param("longitude", "37.503951")
+                    .param("latitude", "127.046842")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .accept(MediaType.APPLICATION_JSON_UTF8)
+    );
+
+    // Then
+    perform
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("content.length()").value(10));
+  }
+
+  @Test
   @DisplayName("기존 이벤트 하나 조회")
   public void getEvent() throws Exception {
     // Given
