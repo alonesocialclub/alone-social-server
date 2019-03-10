@@ -7,13 +7,14 @@ import lombok.Setter;
 
 import java.util.Optional;
 
+@Getter
 public class EventQueryParams {
 
-  @Getter
-  private EventQueryType type;
+  private EventQueryType type = EventQueryType.ALL;
 
   @Setter
   private Double longitude;
+
   @Setter
   private Double latitude;
 
