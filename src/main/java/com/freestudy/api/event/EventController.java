@@ -49,14 +49,15 @@ public class EventController extends BaseController {
 
   @GetMapping
   public ResponseEntity queryEvents(
-          Pageable pageable,
-          @CurrentUser User user,
-          EventQueryParams eventQueryParams
+          final Pageable pageable,
+          @CurrentUser final User user,
+          @Valid final EventQueryParams eventQueryParams
   ) {
     Page<Event> page = this.eventSearchService.findAllBy(
             pageable,
             Optional.ofNullable(user),
-            eventQueryParams);
+            eventQueryParams
+    );
     return ResponseEntity.ok(page);
   }
 

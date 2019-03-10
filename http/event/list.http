@@ -1,0 +1,5 @@
+GET {{host}}/api/events
+Authorization: {{token}}
+Content-Type: application/json
+
+###

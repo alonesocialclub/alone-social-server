@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -28,7 +27,7 @@ public class EventSearchService {
           EventQueryParams eventQueryParams
   ) {
     // TODO make query builder?
-    if (user.isEmpty() || eventQueryParams.getType().equals(EventQueryType.ALL)) {
+    if (user.isEmpty() || EventQueryType.ALL.equals(eventQueryParams.getType())) {
       return this.eventRepository.findAll(pageable);
     }
 
