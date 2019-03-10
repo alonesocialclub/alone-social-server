@@ -169,4 +169,26 @@ public class UserControllerTest extends BaseControllerTest {
 
   }
 
+  @Test
+  public void getUsersId() throws Exception {
+    // Given
+    var user = createUser();
+
+    // When
+    var perform = mockMvc
+            .perform(
+                    get("/api/users/{id}", user.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
+            );
+
+    // Then
+    perform
+            .andDo(print())
+            .andDo(
+                    document("get-user-id")
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("id").value(user.getId()));
+  }
 }
