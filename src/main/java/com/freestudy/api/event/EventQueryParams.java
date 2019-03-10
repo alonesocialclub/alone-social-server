@@ -7,9 +7,10 @@ import lombok.Setter;
 
 import java.util.Optional;
 
-@Getter
 public class EventQueryParams {
-  private Optional<EventQueryType> type;
+
+  @Getter
+  private EventQueryType type;
 
   @Setter
   private Double longitude;
@@ -17,7 +18,7 @@ public class EventQueryParams {
   private Double latitude;
 
   public void setType(final EventQueryType type) {
-    this.type = Optional.ofNullable(type);
+    this.type = type == null ? EventQueryType.ALL : type;
   }
 
   public Optional<Coordinate> getCoordinate() {
