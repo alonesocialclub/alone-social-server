@@ -18,12 +18,14 @@ public class EventController extends BaseController {
 
   private final EventValidator eventValidator;
   private final EventService eventService;
+  private final EventSearchService eventSearchService;
 
   public EventController(
           EventValidator eventValidator,
-          EventService eventService) {
+          EventService eventService, EventSearchService eventSearchService) {
     this.eventValidator = eventValidator;
     this.eventService = eventService;
+    this.eventSearchService = eventSearchService;
   }
 
   @PostMapping
@@ -50,7 +52,7 @@ public class EventController extends BaseController {
           @CurrentUser User user,
           EventQueryParams eventQueryParams
   ) {
-    Page<Event> page = this.eventService.findAll(pageable, user, eventQueryParams.getType());
+    Page<Event> page = this.eventSearchService.findAllBy(pageable, user, eventQueryParams.getType());
     return ResponseEntity.ok(page);
   }
 
