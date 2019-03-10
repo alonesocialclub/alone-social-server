@@ -141,9 +141,6 @@ include::{snippets}/get-event/http-request.adoc[]
 include::{snippets}/get-event/response-body.adoc[]]
 
 
-
-
-
 [[resources-event-types]]
 == 이벤트 타입 (/api/event-types)
 
@@ -223,6 +220,16 @@ include::{snippets}/login-email/response-body.adoc[]
 == 유저 (/api/users)
 
 유저 정보에 대한 것입니다
+
+[[resources-users-get-id]]
+=== 유저 단일 조회
+
+`Get` 요청을 사용해서 유저 정보를 조회할 수 있다.
+
+.request
+include::{snippets}/get-user-id/http-request.adoc[]
+.response
+include::{snippets}/get-user-id/response-body.adoc[]
 
 
 [[resources-users-get-me]]

@@ -7,10 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -48,10 +45,14 @@ public class UserController extends BaseController {
     return buildResponse(updatedUser);
   }
 
-
   private ResponseEntity buildResponse(User user) {
     var userResource = new UserResource(user);
     return ResponseEntity.ok(userResource);
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity getUser(@PathVariable("id") User user) {
+    return buildResponse(user);
   }
 
 }
