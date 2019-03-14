@@ -23,7 +23,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.asciidoctor.convert'
 
-group = 'com.freestudy'
+group = 'social.alone'
 version = '0.0.1'
 sourceCompatibility = 11
 
