@@ -362,50 +362,6 @@ public class EventControllerTest extends BaseControllerTest {
   }
 
   @Test
-  public void eventJoin() throws Exception {
-    // Given
-    Event event = createEvent();
-    // When
-    var perform = this.mockMvc.perform(
-            post("/api/events/{id}/users", event.getId())
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
-    );
-
-    // Then
-    perform.andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.users.length()").value(1));
-
-    perform.andDo(document("events-users-update"));
-  }
-
-  @Test
-  public void eventJoinCancel() throws Exception {
-    // Given
-    Event event = createEvent();
-    var token = buildAuthToken();
-    // When
-    this.mockMvc.perform(
-            post("/api/events/{id}/users", event.getId())
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, token)
-    );
-    var perform = this.mockMvc.perform(
-            delete("/api/events/{id}/users", event.getId())
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, token)
-    );
-
-    // Then
-    perform.andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.users.length()").value(0));
-
-    perform.andDo(document("events-users-update-cancel"));
-  }
-
-  @Test
   @DisplayName("이벤트에 장소가 중복으로 insert 되지 않아야 한다")
   public void eventLocationDuplicated() throws Exception {
     // Given

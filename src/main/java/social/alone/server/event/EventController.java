@@ -103,23 +103,6 @@ public class EventController extends BaseController {
     return ResponseEntity.noContent().build();
   }
 
-  @PostMapping("/{id}/users")
-  public ResponseEntity joinEvent(
-          @PathVariable("id") Integer eventId,
-          @CurrentUser User user
-  ) {
-    Event event = eventService.joinEvent(eventId, user.getId());
-    return ResponseEntity.ok(event);
-  }
-
-  @DeleteMapping("/{id}/users")
-  public ResponseEntity joinEventCancel(
-          @PathVariable("id") Integer eventId,
-          @CurrentUser User user
-  ) {
-    Event event = eventService.joinEventCancel(eventId, user.getId());
-    return ResponseEntity.ok(event);
-  }
 
 
 }
