@@ -41,6 +41,6 @@ jobs:
         key: v1-dependencies-{{ checksum "build.gradle" }}
 
     # run tests!
-    - run: ./gradlew clean test --tests social.alone.server.* --no-daemon
+    - run: ./gradlew check
     - run: ./gradlew jacocoTestReport
     - run: bash <(curl -s https://codecov.io/bash)
