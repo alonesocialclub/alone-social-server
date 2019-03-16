@@ -100,6 +100,12 @@ public class BaseControllerTest {
     return createEvent(LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(6));
   }
 
+  protected Event createEvent(Location location){
+    var event = createEvent();
+    event.updateLocation(location);
+    return this.eventRepository.save(event);
+  }
+
   protected Event createEvent(LocalDateTime startedAt, LocalDateTime endedAt){
     Location location = new Location(
             "서울 서초구 강남대로61길 3",

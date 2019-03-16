@@ -26,7 +26,7 @@ public class EventSearchService {
           Optional<User> user,
           EventQueryParams eventQueryParams
   ) {
-    // TODO make query builder?
+
     if (user.isEmpty() || EventQueryType.ALL.equals(eventQueryParams.getType())) {
       return this.eventRepository.findAll(pageable);
     }

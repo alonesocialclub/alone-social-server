@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import social.alone.server.BaseControllerTest;
 import social.alone.server.DisplayName;
 import social.alone.server.event.Event;
+import social.alone.server.location.Location;
 
 import java.util.stream.IntStream;
 
@@ -73,13 +74,34 @@ public class EventSearchControllerTest extends BaseControllerTest {
   @DisplayName("좌표 기반 쿼리")
   public void queryEvents__type_location() throws Exception {
     // Given
-    IntStream.range(0, 10).forEach(__ -> this.createEvent());
+    var eventFar = this.createEvent(new Location(
+            "역삼",
+            "할리스",
+            127.0318613,
+            37.4991894,
+            "http://place.map.daum.net/27290899"
+    ));
+    var eventNear = this.createEvent(new Location(
+            "낙성대",
+            "가빈 커피로스터즈",
+            126.9630652,
+            37.4765389,
+            "http://place.map.daum.net/27290899"
+    ));
+    var eventFarFar = this.createEvent(new Location(
+            "역삼",
+            "할리스",
+            129.0318613,
+            37.4991894,
+            "http://place.map.daum.net/27290899"
+    ));
+
 
     // When
     var perform = this.mockMvc.perform(
             get("/api/events")
-                    .param("longitude", "37.503951")
-                    .param("latitude", "127.046842")
+                    .param("longitude", "37.477117")
+                    .param("latitude", "126.961224")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaType.APPLICATION_JSON_UTF8)
     );
@@ -88,7 +110,10 @@ public class EventSearchControllerTest extends BaseControllerTest {
     perform
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("content.length()").value(10));
+            .andExpect(jsonPath("content.length()").value(3))
+            .andExpect(jsonPath("content[0].id").value(eventNear.getId()))
+            .andExpect(jsonPath("content[1].id").value(eventFar.getId()))
+            .andExpect(jsonPath("content[2].id").value(eventFarFar.getId()));
   }
 
   @Test
