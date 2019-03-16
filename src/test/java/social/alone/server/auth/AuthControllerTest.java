@@ -111,4 +111,21 @@ public class AuthControllerTest extends BaseControllerTest {
             .andExpect(status().isBadRequest());
   }
 
+
+  @Test
+  public void loginNotFound() throws Exception {
+    LoginRequestDto loginRequestDto = new LoginRequestDto("notfound@email.com", "123123");
+
+    // When
+    var perform = mockMvc.perform(
+            post("/api/auth/login")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(loginRequestDto))
+    );
+
+    // Then
+    perform.andDo(print())
+            .andExpect(status().isNotFound());
+  }
+
 }
