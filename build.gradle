@@ -94,3 +94,10 @@ docker {
     copySpec.from(tasks.unpack.outputs).into("dependency")
     buildArgs(['DEPENDENCY': "dependency"])
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
