@@ -13,6 +13,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2")
         classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.20.1")
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7"
     }
 }
 
@@ -28,6 +29,9 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.palantir.docker'
 apply plugin: 'jacoco'
+apply plugin: "org.sonarqube"
+
+
 
 
 group = 'social.alone'
@@ -99,5 +103,19 @@ jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://0.0.0.0:9000"
+        property "sonar.sources", "src"
+        property "sonar.language", "java"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.exclusions", "**/*Test*.*, **/Q*.JAVA"
+        property "sonar.test.inclusions", "**/*Test.groovy, **/*Test.java"
+        property "sonar.coverage.exclusions", "**/*Test*.*, **/Q*.java"
+        property "sonar.java.junit.reportPaths", "${buildDir}/test-results"
+        property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/jacoco.exec"
     }
 }
