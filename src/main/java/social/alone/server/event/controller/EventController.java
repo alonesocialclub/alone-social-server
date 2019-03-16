@@ -1,6 +1,7 @@
-package social.alone.server.event;
+package social.alone.server.event.controller;
 
 import social.alone.server.common.controller.BaseController;
+import social.alone.server.event.*;
 import social.alone.server.oauth2.user.CurrentUser;
 import social.alone.server.user.User;
 import org.springframework.data.domain.Page;
