@@ -19,7 +19,9 @@ jobs:
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx1g
-      TERM: dumb
+
+      # codecov.io
+      CODECOV_TOKEN: f3b591ca-b380-4b6d-9f92-995da0ac11f4
 
     steps:
     - checkout
@@ -39,4 +41,6 @@ jobs:
         key: v1-dependencies-{{ checksum "build.gradle" }}
 
     # run tests!
-    - run: ./gradlew clean test --tests com.freestudy.api.* --no-daemon
+    - run: ./gradlew check
+    - run: ./gradlew jacocoTestReport
+    - run: bash <(curl -s https://codecov.io/bash)
