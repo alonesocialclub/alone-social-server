@@ -1,15 +1,14 @@
 package social.alone.server.event.type;
 
-import social.alone.server.BaseControllerTest;
-import social.alone.server.DisplayName;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import social.alone.server.BaseControllerTest;
+import social.alone.server.DisplayName;
 
 import java.util.stream.IntStream;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,7 +19,7 @@ public class EventTypeControllerTest extends BaseControllerTest {
   @DisplayName("이벤트 타입을 조회")
   public void queryEvents__happy() throws Exception {
     // Given
-    IntStream.range(0, 30).forEach(i -> this.createEventType("event category" + i));
+    IntStream.range(0, 10).forEach(i -> this.createEventType("event category" + i));
 
     // When
     var perform = this.mockMvc.perform(

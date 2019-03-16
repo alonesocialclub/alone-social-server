@@ -1,13 +1,12 @@
 package social.alone.server.auth;
 
-import social.alone.server.BaseControllerTest;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
+import social.alone.server.BaseControllerTest;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -94,6 +93,39 @@ public class AuthControllerTest extends BaseControllerTest {
 
             )
     );
+  }
+
+  @Test
+  public void loginInvalidDto() throws Exception {
+    LoginRequestDto loginRequestDto = new LoginRequestDto("notemail", "");
+
+    // When
+    var perform = mockMvc.perform(
+            post("/api/auth/login")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(loginRequestDto))
+    );
+
+    // Then
+    perform.andDo(print())
+            .andExpect(status().isBadRequest());
+  }
+
+
+  @Test
+  public void loginNotFound() throws Exception {
+    LoginRequestDto loginRequestDto = new LoginRequestDto("notfound@email.com", "123123");
+
+    // When
+    var perform = mockMvc.perform(
+            post("/api/auth/login")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(loginRequestDto))
+    );
+
+    // Then
+    perform.andDo(print())
+            .andExpect(status().isNotFound());
   }
 
 }

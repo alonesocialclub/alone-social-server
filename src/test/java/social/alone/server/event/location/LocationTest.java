@@ -22,4 +22,10 @@ public class LocationTest {
     var l = Location.of("도산대로", "할리스", 123.123, 123.123);
     assertThat(l.getPlaceUrl()).isNull();
   }
+
+  @Test
+  public void imageUrlByName() {
+    var l = Location.of("도산대로", "할리스", 123.123, 123.123);
+    assertThat(l.getImageUrl()).contains("cafe/hollys.jpg");
+  }
 }

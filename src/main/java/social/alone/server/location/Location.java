@@ -37,7 +37,6 @@ public class Location {
     this.imageUrl = getImageUrlByName();
   }
 
-  @Builder
   public static Location of(
           String address,
           String name,
@@ -62,10 +61,6 @@ public class Location {
   private String getImageUrlByName() {
     int idx = (int)(Math.random() * 3);
     String defaultImage = IMAGE_HOST + "/cafe/random/" + idx + ".jpg";
-
-    if (this.name == null){
-      return defaultImage;
-    }
 
     if (this.name.contains("스타벅스")){
       return IMAGE_HOST + "/cafe/starbucks.jpg";
