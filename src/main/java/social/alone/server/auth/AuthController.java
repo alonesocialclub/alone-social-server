@@ -50,16 +50,14 @@ public class AuthController extends BaseController {
       return BadRequest(errors);
     }
 
-    Optional<User> user = userRepository.findByEmail(loginRequestDto.getEmail());
+    Optional<User> byEmail = userRepository.findByEmail(loginRequestDto.getEmail());
 
-    if (user.isEmpty()) {
+    if (byEmail.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
-    var userResource = new UserResource(user.get());
+    var userResource = new UserResource(byEmail.orElseThrow());
     userResource.setToken(authenticate(loginRequestDto.getEmail(), loginRequestDto.getPassword()));
-
-
     return ResponseEntity.ok(userResource);
   }
 
