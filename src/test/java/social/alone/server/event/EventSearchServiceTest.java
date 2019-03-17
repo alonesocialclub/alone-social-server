@@ -39,11 +39,11 @@ public class EventSearchServiceTest {
     eventQueryParams.setLatitude(127.026503385182);
     eventQueryParams.setLongitude(37.4991561765984);
 
-    given(eventRepository.findAll(eq(pageable))).willReturn(Page.empty());
+    given(eventRepository.search(eq(pageable), eq(eventQueryParams))).willReturn(Page.empty());
 
     Page<Event> results = eventSearchService.findAllBy(pageable, user, eventQueryParams);
 
     assertThat(results.isEmpty()).isTrue();
-    verify(eventRepository, times(1)).findAll(pageable);
+    verify(eventRepository, times(1)).search(pageable, eventQueryParams);
   }
 }

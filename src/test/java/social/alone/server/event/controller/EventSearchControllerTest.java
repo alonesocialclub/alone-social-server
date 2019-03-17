@@ -72,7 +72,7 @@ public class EventSearchControllerTest extends BaseControllerTest {
 
   @Test
   @DisplayName("좌표 기반 쿼리")
-  public void queryEvents__type_location() throws Exception {
+  public void queryEvents__location() throws Exception {
     // Given
     var eventFar = this.createEvent(new Location(
             "역삼",
