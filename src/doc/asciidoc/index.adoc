@@ -69,18 +69,6 @@ include::{snippets}/post-events-invalid/http-request.adoc[]
 .response
 include::{snippets}/post-events-invalid/http-response.adoc[]
 
-[[overview-hypermedia]]
-=== 하이퍼미디어
-
-하이퍼미디어를 응답에 담겨있는 리소스는 다른 리소스에 대한 링크를 가지고 있다. 링크는 `_links`라는 키로 제공한다. 이상적으로는 클라이언트는 URI를 직접 생성하지 않고, 리소스에서 제공하는 링크를 사용하지 않아야 하지만 개발 생산성의 이유로 강제하지는 않는다.
-
-[[resources]]
-== API 리소스
-
-인덱스는 서비스 진입점을 제공한다. `/api` `GET` 요청을 사용하여 api endpoint를 나열한 인덱스에 접근할 수 있다.
-
-include::{snippets}/index/response-body.adoc[]
-
 
 [[resources-events]]
 == 이벤트 (/api/events)
