@@ -1,10 +1,10 @@
 package social.alone.server.location;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,12 +16,12 @@ import javax.persistence.Id;
 public class Location {
 
   final static String IMAGE_HOST = "https://alone.social";
+  final static String DEFAULT_IMAGE = "https://alone.social/cafe/random/0.jpg";
 
   @Id
   @GeneratedValue
   private Integer id;
 
-  @Builder
   public Location(
           String address,
           String name,
@@ -56,11 +56,12 @@ public class Location {
 
   private String placeUrl;
 
-  private String imageUrl;
+  @Column(nullable = false)
+  private String imageUrl = DEFAULT_IMAGE;
 
   private String getImageUrlByName() {
     int idx = (int)(Math.random() * 3);
-    String defaultImage = IMAGE_HOST + "/cafe/random/" + idx + ".jpg";
+    String randomImage = IMAGE_HOST + "/cafe/random/" + idx + ".jpg";
 
     if (this.name.contains("스타벅스")){
       return IMAGE_HOST + "/cafe/starbucks.jpg";
@@ -79,6 +80,6 @@ public class Location {
       return IMAGE_HOST + "/cafe/paulbassett.jpg";
     }
 
-    return defaultImage;
+    return randomImage;
   }
 }
