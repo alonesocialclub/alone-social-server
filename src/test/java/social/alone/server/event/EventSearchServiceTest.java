@@ -1,5 +1,6 @@
 package social.alone.server.event;
 
+import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventQueryType;
 import social.alone.server.user.User;
 import org.junit.Test;

@@ -1,5 +1,6 @@
 package social.alone.server.event;
 
+import social.alone.server.event.repository.EventRepository;
 import social.alone.server.location.Location;
 import social.alone.server.user.UserRepository;
 import org.junit.Ignore;

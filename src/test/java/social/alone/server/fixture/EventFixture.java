@@ -3,7 +3,7 @@ package social.alone.server.fixture;
 
 import social.alone.server.event.Event;
 import social.alone.server.event.EventDto;
-import social.alone.server.event.EventRepository;
+import social.alone.server.event.repository.EventRepository;
 import social.alone.server.location.Location;
 import social.alone.server.user.User;
 
