@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import social.alone.server.auth.SignUpRequestDto;
 import social.alone.server.event.Event;
 import social.alone.server.event.EventDto;
-import social.alone.server.event.EventRepository;
+import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeRepository;
 import social.alone.server.link.Link;
@@ -98,6 +98,12 @@ public class BaseControllerTest {
 
   protected Event createEvent() {
     return createEvent(LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(6));
+  }
+
+  protected Event createEvent(Location location){
+    var event = createEvent();
+    event.updateLocation(location);
+    return this.eventRepository.save(event);
   }
 
   protected Event createEvent(LocalDateTime startedAt, LocalDateTime endedAt){

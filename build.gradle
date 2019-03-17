@@ -1,6 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.1.1.RELEASE'
+        querydslPluginVersion = '1.0.10'
     }
     repositories {
         mavenCentral()
@@ -14,6 +15,7 @@ buildscript {
         classpath("org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2")
         classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.20.1")
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7"
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVersion}")
     }
 }
 
@@ -30,9 +32,7 @@ apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.palantir.docker'
 apply plugin: 'jacoco'
 apply plugin: "org.sonarqube"
-
-
-
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 group = 'social.alone'
 version = '0.0.1'
@@ -52,6 +52,9 @@ dependencies {
     implementation('org.springframework.security:spring-security-oauth2-client')
     implementation('mysql:mysql-connector-java')
     implementation('com.h2database:h2')
+
+    compile("com.querydsl:querydsl-jpa")
+    compile("com.querydsl:querydsl-apt")
 
     implementation('io.jsonwebtoken:jjwt:0.5.1')
     implementation('org.modelmapper:modelmapper:2.3.2')
@@ -119,3 +122,24 @@ sonarqube {
         property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/jacoco.exec"
     }
 }
+
+def querydslSrcDir = 'src/main/generated'
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslSrcDir]
+        }
+    }
+}
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+

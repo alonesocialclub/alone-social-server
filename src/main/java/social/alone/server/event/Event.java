@@ -146,6 +146,9 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     return text;
   }
 
+  public void updateLocation(Location location){
+    this.location = location;
+  }
 
   private void activityLogEventCreate() {
     if (!owner.isAdmin()) {

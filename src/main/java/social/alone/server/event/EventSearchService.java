@@ -1,12 +1,11 @@
 package social.alone.server.event;
 
-import social.alone.server.event.type.EventQueryType;
-import social.alone.server.user.User;
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import social.alone.server.event.repository.EventRepository;
+import social.alone.server.user.User;
 
 import java.util.Optional;
 
@@ -26,18 +25,10 @@ public class EventSearchService {
           Optional<User> user,
           EventQueryParams eventQueryParams
   ) {
-    // TODO make query builder?
-    if (user.isEmpty() || EventQueryType.ALL.equals(eventQueryParams.getType())) {
-      return this.eventRepository.findAll(pageable);
-    }
-
-    switch (eventQueryParams.getType()) {
-      case OWNER:
-        return this.eventRepository.findByOwner(user.get(), pageable);
-      case JOINER:
-        return this.eventRepository.findByUsersContaining(user.get(), pageable);
-      default:
-        throw new IllegalIdentifierException("Invalid query parameter for type, type=OWNER|ALL|JOINER");
+    if (user.isEmpty()){
+      return eventRepository.search(pageable, eventQueryParams);
+    } else {
+      return eventRepository.search(pageable, user.get(), eventQueryParams);
     }
   }
 }

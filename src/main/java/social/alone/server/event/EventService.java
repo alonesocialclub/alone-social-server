@@ -1,5 +1,6 @@
 package social.alone.server.event;
 
+import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.event.type.EventTypeRepository;
 import social.alone.server.location.Location;

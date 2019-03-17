@@ -1,22 +1,23 @@
-package social.alone.server.event;
+package social.alone.server.event.controller;
 
-import social.alone.server.BaseControllerTest;
-import social.alone.server.DisplayName;
-import social.alone.server.event.type.EventType;
-import social.alone.server.event.type.EventTypeDto;
-import social.alone.server.location.Location;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import social.alone.server.BaseControllerTest;
+import social.alone.server.DisplayName;
+import social.alone.server.event.Event;
+import social.alone.server.event.EventDto;
+import social.alone.server.event.type.EventType;
+import social.alone.server.event.type.EventTypeDto;
+import social.alone.server.location.Location;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -25,7 +26,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -161,115 +161,6 @@ public class EventControllerTest extends BaseControllerTest {
             .andExpect(jsonPath("_links.index").exists());
   }
 
-
-  @Test
-  @DisplayName("30개의 이벤트를 페이징 조회")
-  public void queryEvents__happy() throws Exception {
-    // Given
-    IntStream.range(0, 10).forEach(__ -> this.createEvent());
-
-    // When
-    var perform = this.mockMvc.perform(
-            get("/api/events")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaType.APPLICATION_JSON_UTF8)
-                    .param("page", "0")
-                    .param("size", "2")
-                    .param("sort", "name,desc")
-    );
-
-    // Then
-    perform
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("content[0].id").exists())
-            .andDo(
-                    document("query-events",
-                            requestParameters(
-                                    parameterWithName("page").description("페이지"),
-                                    parameterWithName("size").description("페이지의 크기"),
-                                    parameterWithName("sort").description("<:field>,<:sort> 형태. 값을 URL encoding 해야한다. 예시 참고")
-                            )
-                    ));
-  }
-
-  @Test
-  @DisplayName("내가 만든 이벤트")
-  public void queryEvents__type_owner() throws Exception {
-    // Given
-    IntStream.range(0, 10).forEach(__ -> this.createEvent());
-
-    // When
-    var perform = this.mockMvc.perform(
-            get("/api/events")
-                    .param("type", "OWNER")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaType.APPLICATION_JSON_UTF8)
-    );
-
-    // Then
-    perform
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("content.length()").value(10));
-  }
-
-  @Test
-  @DisplayName("좌표 기반 쿼리")
-  public void queryEvents__type_location() throws Exception {
-    // Given
-    IntStream.range(0, 10).forEach(__ -> this.createEvent());
-
-    // When
-    var perform = this.mockMvc.perform(
-            get("/api/events")
-                    .param("longitude", "37.503951")
-                    .param("latitude", "127.046842")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaType.APPLICATION_JSON_UTF8)
-    );
-
-    // Then
-    perform
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("content.length()").value(10));
-  }
-
-  @Test
-  @DisplayName("기존 이벤트 하나 조회")
-  public void getEvent() throws Exception {
-    // Given
-    Event event = createEvent();
-
-    // When
-    var perform = this.mockMvc.perform(get("/api/events/{id}", event.getId()));
-
-    // Then
-    perform.andExpect(status().isOk());
-    perform.andExpect(jsonPath("id").exists());
-    perform.andExpect(jsonPath("name").exists());
-    perform.andExpect(jsonPath("description").exists());
-    perform.andDo(
-            document("get-event",
-                    pathParameters(
-                            parameterWithName("id").description("event id")
-
-                    )
-            ));
-  }
-
-
-  @Test
-  @DisplayName("기존 이벤트 하나 조회, 이벤트가 없을 때")
-  public void getEvent__not_found() throws Exception {
-    // When
-    var perform = this.mockMvc.perform(get("/api/events/{id}", 0));
-
-    // Then
-    perform.andExpect(status().isNotFound());
-  }
-
   @Test
   @DisplayName("이벤트 수정")
   public void updateEvent__happy() throws Exception {
@@ -359,50 +250,6 @@ public class EventControllerTest extends BaseControllerTest {
     // Then
     perform.andDo(print());
     perform.andExpect(status().isNoContent());
-  }
-
-  @Test
-  public void eventJoin() throws Exception {
-    // Given
-    Event event = createEvent();
-    // When
-    var perform = this.mockMvc.perform(
-            post("/api/events/{id}/users", event.getId())
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
-    );
-
-    // Then
-    perform.andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.users.length()").value(1));
-
-    perform.andDo(document("events-users-update"));
-  }
-
-  @Test
-  public void eventJoinCancel() throws Exception {
-    // Given
-    Event event = createEvent();
-    var token = buildAuthToken();
-    // When
-    this.mockMvc.perform(
-            post("/api/events/{id}/users", event.getId())
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, token)
-    );
-    var perform = this.mockMvc.perform(
-            delete("/api/events/{id}/users", event.getId())
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, token)
-    );
-
-    // Then
-    perform.andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.users.length()").value(0));
-
-    perform.andDo(document("events-users-update-cancel"));
   }
 
   @Test

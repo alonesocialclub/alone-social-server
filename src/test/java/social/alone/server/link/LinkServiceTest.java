@@ -1,7 +1,7 @@
 package social.alone.server.link;
 
 import social.alone.server.event.Event;
-import social.alone.server.event.EventRepository;
+import social.alone.server.event.repository.EventRepository;
 import social.alone.server.fixture.EventFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;

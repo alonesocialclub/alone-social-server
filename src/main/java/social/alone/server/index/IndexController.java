@@ -1,7 +1,7 @@
 package social.alone.server.index;
 
 
-import social.alone.server.event.EventController;
+import social.alone.server.event.controller.EventController;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
