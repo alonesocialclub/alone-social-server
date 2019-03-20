@@ -77,6 +77,7 @@ public class EventControllerTest extends BaseControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("id").isNumber())
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("location.imageUrl").isNotEmpty())
             .andDo(
                     document("post-events",
                             requestHeaders(
