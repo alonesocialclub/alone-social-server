@@ -48,7 +48,7 @@ public class Location {
 
   private String placeUrl;
 
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "varchar(255) default 'https://alone.social/cafe/random/0.jpg'")
   private String imageUrl = DEFAULT_IMAGE;
 
   private String getImageUrlByName() {
