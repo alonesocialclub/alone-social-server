@@ -24,6 +24,7 @@ public class EventDto {
   @NotEmpty
   private String description;
 
+  // TODO FIX, reflection
   @Setter
   private Location location;
 
