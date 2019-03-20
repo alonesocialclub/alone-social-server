@@ -37,14 +37,6 @@ public class Location {
     this.imageUrl = getImageUrlByName();
   }
 
-  public static Location of(
-          String address,
-          String name,
-          Double longitude,
-          Double latitude
-  ) {
-    return new Location(address, name, longitude, latitude, null);
-  }
 
   private String address;
 
