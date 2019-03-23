@@ -1,4 +1,4 @@
-package social.alone.server.user;
+package social.alone.server.user.controller;
 
 import social.alone.server.common.controller.BaseController;
 import social.alone.server.oauth2.user.CurrentUser;
@@ -8,6 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import social.alone.server.user.User;
+import social.alone.server.user.UserDto;
+import social.alone.server.user.UserResource;
+import social.alone.server.user.UserService;
 
 import javax.validation.Valid;
 
