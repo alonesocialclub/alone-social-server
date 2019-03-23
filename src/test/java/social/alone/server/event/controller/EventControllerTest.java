@@ -12,7 +12,7 @@ import social.alone.server.event.Event;
 import social.alone.server.event.EventDto;
 import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeDto;
-import social.alone.server.location.Location;
+import social.alone.server.location.LocationDto;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -33,11 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class EventControllerTest extends BaseControllerTest {
 
-  private Location location;
+  private LocationDto location;
 
   @Before
   public void setUp() {
-    location = new Location(
+    location = new LocationDto(
             "서울 서초구 강남대로61길 3",
             "스타벅스",
             127.026503385182,
@@ -111,7 +111,7 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("입력값이 없는 경우에")
   public void createEventTest__empty_input() throws Exception {
     // Given
-    EventDto eventDto = EventDto.builder().build();
+    EventDto eventDto = EventDto.builder().location(location).build();
 
     // When
     var perform = mockMvc
@@ -196,8 +196,12 @@ public class EventControllerTest extends BaseControllerTest {
   @DisplayName("이벤트 수정, 없는 이벤트에 대해서")
   public void updateEvent__not_found() throws Exception {
     // Given
-    Event event = createEvent();
-    EventDto eventDto = this.modelMapper.map(event, EventDto.class);
+    EventDto eventDto = EventDto
+            .builder()
+            .name("하하하")
+            .location(location)
+            .description("해해해")
+            .build();
     int eventIdNotExists = -1;
 
     // When
@@ -205,7 +209,7 @@ public class EventControllerTest extends BaseControllerTest {
             put("/api/events/{id}", eventIdNotExists)
                     .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(this.objectMapper.writeValueAsString(eventDto))
+                    .content(objectMapper.writeValueAsString(eventDto))
     );
 
     perform.andDo(print());
@@ -218,6 +222,7 @@ public class EventControllerTest extends BaseControllerTest {
     // Given
     Event event = createEvent();
     EventDto eventDto = EventDto.builder()
+            .location(location)
             .startedAt(LocalDateTime.of(2018, 11, 16, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
             .build();

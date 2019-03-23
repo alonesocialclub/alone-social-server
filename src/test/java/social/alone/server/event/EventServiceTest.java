@@ -1,14 +1,14 @@
 package social.alone.server.event;
 
-import social.alone.server.event.repository.EventRepository;
-import social.alone.server.location.Location;
-import social.alone.server.user.UserRepository;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import social.alone.server.event.repository.EventRepository;
+import social.alone.server.location.LocationDto;
+import social.alone.server.user.UserRepository;
 
 import java.time.LocalDateTime;
 
@@ -40,7 +40,7 @@ public class EventServiceTest {
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
             .location(
-                    new Location("남부순환로", "스타벅스", 123.123123, 123.123, "https://naver.com")
+                    new LocationDto("남부순환로", "스타벅스", 123.123123, 123.123, "https://naver.com")
             )
             .build();
 

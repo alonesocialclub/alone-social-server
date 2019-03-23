@@ -2,17 +2,6 @@ package social.alone.server;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import social.alone.server.auth.SignUpRequestDto;
-import social.alone.server.event.Event;
-import social.alone.server.event.EventDto;
-import social.alone.server.event.repository.EventRepository;
-import social.alone.server.event.type.EventType;
-import social.alone.server.event.type.EventTypeRepository;
-import social.alone.server.link.Link;
-import social.alone.server.link.LinkRepository;
-import social.alone.server.location.Location;
-import social.alone.server.user.User;
-import social.alone.server.user.UserRepository;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
@@ -27,6 +16,18 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import social.alone.server.auth.SignUpRequestDto;
+import social.alone.server.event.Event;
+import social.alone.server.event.EventDto;
+import social.alone.server.event.repository.EventRepository;
+import social.alone.server.event.type.EventType;
+import social.alone.server.event.type.EventTypeRepository;
+import social.alone.server.link.Link;
+import social.alone.server.link.LinkRepository;
+import social.alone.server.location.Location;
+import social.alone.server.location.LocationDto;
+import social.alone.server.user.User;
+import social.alone.server.user.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -107,7 +108,7 @@ public class BaseControllerTest {
   }
 
   protected Event createEvent(LocalDateTime startedAt, LocalDateTime endedAt){
-    Location location = new Location(
+    LocationDto location = new LocationDto(
             "서울 서초구 강남대로61길 3",
             "스타벅스",
             127.026503385182,
@@ -124,6 +125,7 @@ public class BaseControllerTest {
             .location(location)
             .build();
     Event event = new Event(eventDto, user);
+    event.updateLocation(location.buildLocation());
     return this.eventRepository.save(event);
   }
 

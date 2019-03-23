@@ -43,7 +43,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
 
   @ManyToOne(
     fetch = FetchType.EAGER,
-    cascade = { CascadeType.PERSIST}, optional = false
+    cascade = { CascadeType.PERSIST, CascadeType.MERGE}, optional = false
   )
   @JoinColumn(name="location_id")
   private Location location;
@@ -80,27 +80,28 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
           joinColumns = @JoinColumn(name = "event_id"),
           inverseJoinColumns = @JoinColumn(name = "user_id")
   )
-  private Set<User> users;
+  private Set<User> users = new HashSet<>();
 
   public Event(EventDto eventDto, User user) {
     this.name = eventDto.getName();
     this.description = eventDto.getDescription();
-    this.location = eventDto.getLocation();
     this.startedAt = eventDto.getStartedAt();
     this.endedAt = eventDto.getEndedAt();
     this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
     this.owner = user;
-    this.users = new HashSet<>();
     this.activityLogEventCreate();
   }
 
   void update(EventDto eventDto) {
     this.name = eventDto.getName();
     this.description = eventDto.getDescription();
-    this.location = eventDto.getLocation();
     this.startedAt = eventDto.getStartedAt();
     this.endedAt = eventDto.getEndedAt();
     this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
+  }
+
+  void update(Location location){
+    this.location = location;
   }
 
   void joinEvent(User user) {

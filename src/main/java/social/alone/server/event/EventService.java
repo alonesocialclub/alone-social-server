@@ -36,15 +36,26 @@ public class EventService {
 
   public Event create(EventDto eventDto, User user_) {
     User user = userRepository.findById(user_.getId()).orElseThrow();
-
     Event event = new Event(eventDto, user);
-
-    return update(event, eventDto);
+    event.update(eventDto);
+    updateLocation(event, eventDto);
+    updateEventTypes(event, eventDto);
+    return this.eventRepository.save(event);
   }
 
   public Event update(Event event, EventDto eventDto) {
-    eventDto = updatewtihlocation(eventDto);
-    event = this.eventRepository.save(event);
+    event.update(eventDto);
+    updateLocation(event, eventDto);
+    updateEventTypes(event, eventDto);
+    return this.eventRepository.save(event);
+  }
+
+  private void updateLocation(Event event, EventDto eventDto) {
+    Location location = getLocation(eventDto);
+    event.update(location);
+  }
+
+  private void updateEventTypes(Event event, EventDto eventDto) {
     if (eventDto.getEventTypes() != null) {
       var eventTypes = eventTypeRepository.findAllById(
               eventDto
@@ -55,18 +66,14 @@ public class EventService {
       );
       event.setEventTypes(new HashSet<>(eventTypes));
     }
-    event.update(eventDto);
-    return event;
   }
 
-  private EventDto updatewtihlocation(EventDto eventDto){
-   Location location = eventDto.getLocation();
-
-    locationRepository
+  private Location getLocation(EventDto eventDto) {
+    Location location = eventDto.getLocation();
+    return locationRepository
             .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName())
-            .ifPresent(eventDto::setLocation);
+            .orElse(location);
 
-    return eventDto;
   }
 
   public void delete(Integer eventId) {
