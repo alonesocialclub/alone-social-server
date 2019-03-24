@@ -1,15 +1,15 @@
 package social.alone.server.event;
 
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import social.alone.server.event.type.EventType;
 import social.alone.server.infra.slack.SlackMessagable;
 import social.alone.server.infra.slack.SlackMessageEvent;
 import social.alone.server.link.Link;
 import social.alone.server.location.Location;
 import social.alone.server.user.User;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,8 +19,8 @@ import java.util.Set;
 
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id", callSuper = false)
 @ToString(of = {"name", "startedAt"})
 public class Event extends AbstractAggregateRoot<Event> implements SlackMessagable {
@@ -41,13 +41,6 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   @Column
   private LocalDateTime endedAt;
 
-  @ManyToOne(
-    fetch = FetchType.EAGER,
-    cascade = { CascadeType.PERSIST, CascadeType.MERGE}, optional = false
-  )
-  @JoinColumn(name="location_id")
-  private Location location;
-
   @Column
   private int limitOfEnrollment;
 
@@ -59,11 +52,15 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   @UpdateTimestamp
   protected LocalDateTime updatedAt;
 
+  @ManyToOne(
+          fetch = FetchType.EAGER,
+          cascade = { CascadeType.PERSIST, CascadeType.MERGE}, optional = false
+  )
+  @JoinColumn(name="location_id")
+  private Location location;
+
   @ManyToOne
   private User owner;
-
-  @Setter(value = AccessLevel.NONE)
-  private EventStatus statusStatus;
 
   @ManyToMany(cascade = {CascadeType.PERSIST})
   @JoinTable(
