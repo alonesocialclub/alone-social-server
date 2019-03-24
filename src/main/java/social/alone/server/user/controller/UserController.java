@@ -1,13 +1,13 @@
 package social.alone.server.user.controller;
 
-import social.alone.server.common.controller.BaseController;
-import social.alone.server.oauth2.user.CurrentUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import social.alone.server.common.controller.BaseController;
+import social.alone.server.oauth2.user.CurrentUser;
 import social.alone.server.user.User;
 import social.alone.server.user.UserDto;
 import social.alone.server.user.UserResource;
@@ -17,14 +17,10 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/api/users")
+@RequiredArgsConstructor
 public class UserController extends BaseController {
 
-  private UserService userService;
-
-  @Autowired
-  public UserController(UserService userService) {
-    this.userService = userService;
-  }
+  private final UserService userService;
 
   @GetMapping("/me")
   @PreAuthorize("hasRole('USER')")
@@ -44,7 +40,7 @@ public class UserController extends BaseController {
       return BadRequest(errors);
     }
 
-    User updatedUser = userService.update(getOrNotFound(user), userDto);
+    User updatedUser = userService.update(user, userDto);
 
     return buildResponse(updatedUser);
   }
