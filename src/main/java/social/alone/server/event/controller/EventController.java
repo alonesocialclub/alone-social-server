@@ -68,7 +68,8 @@ public class EventController extends BaseController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity deleteEvent(
-          @PathVariable("id") Integer eventId) {
+          @PathVariable("id") Long eventId
+  ) {
 
     eventService.delete(eventId);
     return ResponseEntity.noContent().build();

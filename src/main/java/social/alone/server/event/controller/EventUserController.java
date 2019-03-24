@@ -24,7 +24,7 @@ public class EventUserController {
 
   @PostMapping
   public ResponseEntity joinEvent(
-          @PathVariable("id") Integer eventId,
+          @PathVariable("id") Long eventId,
           @CurrentUser User user
   ) {
     Event event = eventService.joinEvent(eventId, user.getId());
@@ -33,7 +33,7 @@ public class EventUserController {
 
   @DeleteMapping
   public ResponseEntity joinEventCancel(
-          @PathVariable("id") Integer eventId,
+          @PathVariable("id") Long eventId,
           @CurrentUser User user
   ) {
     Event event = eventService.joinEventCancel(eventId, user.getId());

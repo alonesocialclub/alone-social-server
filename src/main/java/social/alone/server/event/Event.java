@@ -26,8 +26,8 @@ import java.util.Set;
 public class Event extends AbstractAggregateRoot<Event> implements SlackMessagable {
 
   @Id
-  @GeneratedValue
-  private Integer id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @Column
   private String name;
