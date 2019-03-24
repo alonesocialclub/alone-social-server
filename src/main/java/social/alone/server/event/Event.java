@@ -29,26 +29,19 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column
   private String name;
 
-  @Column
   private String description;
 
-  @Column
   private LocalDateTime startedAt;
 
-  @Column
   private LocalDateTime endedAt;
 
-  @Column
   private int limitOfEnrollment;
 
-  @Column
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  @Column
   @UpdateTimestamp
   protected LocalDateTime updatedAt;
 
