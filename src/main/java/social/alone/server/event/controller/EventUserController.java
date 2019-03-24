@@ -1,8 +1,7 @@
 package social.alone.server.event.controller;
 
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,15 +15,14 @@ import social.alone.server.user.User;
 
 @Controller
 @RequestMapping(value = "/api/events/{id}/users")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EventUserController {
 
-  @Autowired
-  EventService eventService;
+  private final EventService eventService;
 
   @PostMapping
   public ResponseEntity joinEvent(
-          @PathVariable("id") Integer eventId,
+          @PathVariable("id") Long eventId,
           @CurrentUser User user
   ) {
     Event event = eventService.joinEvent(eventId, user.getId());
@@ -33,7 +31,7 @@ public class EventUserController {
 
   @DeleteMapping
   public ResponseEntity joinEventCancel(
-          @PathVariable("id") Integer eventId,
+          @PathVariable("id") Long eventId,
           @CurrentUser User user
   ) {
     Event event = eventService.joinEventCancel(eventId, user.getId());

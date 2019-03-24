@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @Getter
 @EqualsAndHashCode(of = "id")
 @Entity
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Link {
 
 
   @Id
-  @GeneratedValue
-  private Integer id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @ManyToOne
   private Event event;
@@ -27,11 +27,9 @@ public class Link {
     this.event = event;
   }
 
-  @Column
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  @Column
   @UpdateTimestamp
   protected LocalDateTime updatedAt;
 

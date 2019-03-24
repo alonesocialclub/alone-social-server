@@ -1,15 +1,15 @@
 package social.alone.server.event;
 
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import social.alone.server.event.type.EventType;
 import social.alone.server.infra.slack.SlackMessagable;
 import social.alone.server.infra.slack.SlackMessageEvent;
 import social.alone.server.link.Link;
 import social.alone.server.location.Location;
 import social.alone.server.user.User;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,51 +19,41 @@ import java.util.Set;
 
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id", callSuper = false)
 @ToString(of = {"name", "startedAt"})
 public class Event extends AbstractAggregateRoot<Event> implements SlackMessagable {
 
   @Id
-  @GeneratedValue
-  private Integer id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-  @Column
   private String name;
 
-  @Column
   private String description;
 
-  @Column
   private LocalDateTime startedAt;
 
-  @Column
   private LocalDateTime endedAt;
 
+  private int limitOfEnrollment;
+
+  @CreationTimestamp
+  private LocalDateTime createdAt;
+
+  @UpdateTimestamp
+  protected LocalDateTime updatedAt;
+
   @ManyToOne(
-    fetch = FetchType.EAGER,
-    cascade = { CascadeType.PERSIST, CascadeType.MERGE}, optional = false
+          fetch = FetchType.EAGER,
+          cascade = { CascadeType.PERSIST, CascadeType.MERGE}, optional = false
   )
   @JoinColumn(name="location_id")
   private Location location;
 
-  @Column
-  private int limitOfEnrollment;
-
-  @Column
-  @CreationTimestamp
-  private LocalDateTime createdAt;
-
-  @Column
-  @UpdateTimestamp
-  protected LocalDateTime updatedAt;
-
   @ManyToOne
   private User owner;
-
-  @Setter(value = AccessLevel.NONE)
-  private EventStatus statusStatus;
 
   @ManyToMany(cascade = {CascadeType.PERSIST})
   @JoinTable(

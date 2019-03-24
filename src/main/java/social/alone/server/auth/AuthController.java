@@ -1,13 +1,6 @@
 package social.alone.server.auth;
 
-import social.alone.server.common.controller.BaseController;
-import social.alone.server.common.exception.BadRequestException;
-import social.alone.server.user.User;
-import social.alone.server.user.UserRepository;
-import social.alone.server.oauth2.user.TokenProvider;
-import social.alone.server.user.UserResource;
-import social.alone.server.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import social.alone.server.common.controller.BaseController;
+import social.alone.server.common.exception.BadRequestException;
+import social.alone.server.oauth2.user.TokenProvider;
+import social.alone.server.user.User;
+import social.alone.server.user.UserRepository;
+import social.alone.server.user.UserResource;
+import social.alone.server.user.UserService;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -26,19 +26,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController extends BaseController {
 
-  @Autowired
-  private AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
 
-  @Autowired
-  private TokenProvider tokenProvider;
+  private final TokenProvider tokenProvider;
 
   @PostMapping("/login")
   public ResponseEntity<?> authenticateUser(

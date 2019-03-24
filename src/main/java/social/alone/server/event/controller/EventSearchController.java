@@ -1,7 +1,6 @@
 package social.alone.server.event.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class EventSearchController extends BaseController {
 
-  @Autowired
   private final EventSearchService eventSearchService;
 
   @GetMapping
@@ -42,8 +40,9 @@ public class EventSearchController extends BaseController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity getEvent(@PathVariable("id") Event event) {
-
+  public ResponseEntity getEvent(
+          @PathVariable("id") Event event
+  ) {
     if (event == null) {
       return ResponseEntity.notFound().build();
     }

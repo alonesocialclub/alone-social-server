@@ -76,12 +76,12 @@ public class EventService {
 
   }
 
-  public void delete(Integer eventId) {
+  public void delete(Long eventId) {
     Optional<Event> event = this.eventRepository.findById(eventId);
     event.ifPresent(this.eventRepository::delete);
   }
 
-  public Event joinEvent(Integer eventId, Long userId) {
+  public Event joinEvent(Long eventId, Long userId) {
     User user = this.userRepository.findById(userId).orElseThrow();
     var event = this.eventRepository.findById(eventId).orElseThrow();
     event.joinEvent(user);
@@ -89,7 +89,7 @@ public class EventService {
   }
 
   // MAKE DRY
-  public Event joinEventCancel(Integer eventId, Long userId) {
+  public Event joinEventCancel(Long eventId, Long userId) {
     Event event = this.eventRepository.findById(eventId).orElseThrow();
     User user = this.userRepository.findById(userId).orElseThrow();
     event.joinCancelEvent(user);

@@ -1,13 +1,15 @@
 package social.alone.server.event.controller;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import social.alone.server.common.controller.BaseController;
-import social.alone.server.event.*;
+import social.alone.server.event.Event;
+import social.alone.server.event.EventDto;
+import social.alone.server.event.EventService;
+import social.alone.server.event.EventValidator;
 import social.alone.server.oauth2.user.CurrentUser;
 import social.alone.server.user.User;
 
@@ -15,12 +17,10 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/api/events")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EventController extends BaseController {
 
-  @Autowired
   private final EventValidator eventValidator;
-  @Autowired
   private final EventService eventService;
 
 
@@ -68,7 +68,8 @@ public class EventController extends BaseController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity deleteEvent(
-          @PathVariable("id") Integer eventId) {
+          @PathVariable("id") Long eventId
+  ) {
 
     eventService.delete(eventId);
     return ResponseEntity.noContent().build();

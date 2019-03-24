@@ -10,7 +10,6 @@ import java.util.List;
 
 @Builder
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = {"interests"})
 public class UserDto {

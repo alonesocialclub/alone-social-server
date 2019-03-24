@@ -4,10 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -19,8 +16,8 @@ public class Location {
   final static String DEFAULT_IMAGE = "https://alone.social/cafe/random/0.jpg";
 
   @Id
-  @GeneratedValue
-  private Integer id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   public Location(
           String address,
