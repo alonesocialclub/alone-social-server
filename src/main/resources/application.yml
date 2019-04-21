@@ -1,6 +1,16 @@
 server:
   use-forward-headers: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, env
+  endpoint:
+    health:
+      show-details: always
+
+
 spring:
   profiles:
     active: local

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 management:
   endpoints:
     web:
@@ -6,3 +7,5 @@ management:
   endpoint:
     health:
       show-details: always
+=======
+>>>>>>> 02d5bad... Change index controller text for deploying change checking
