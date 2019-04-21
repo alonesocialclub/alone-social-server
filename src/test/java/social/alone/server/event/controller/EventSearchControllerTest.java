@@ -32,6 +32,8 @@ public class EventSearchControllerTest extends BaseControllerTest {
                     .param("page", "0")
                     .param("size", "2")
                     .param("sort", "name,desc")
+                    .param("longitude", "37.477117")
+                    .param("latitude", "126.961224")
     );
 
     // Then
@@ -44,7 +46,9 @@ public class EventSearchControllerTest extends BaseControllerTest {
                             requestParameters(
                                     parameterWithName("page").description("페이지"),
                                     parameterWithName("size").description("페이지의 크기"),
-                                    parameterWithName("sort").description("<:field>,<:sort> 형태. 값을 URL encoding 해야한다. 예시 참고")
+                                    parameterWithName("sort").description("<:field>,<:sort> 형태. 값을 URL encoding 해야한다. 예시 참고"),
+                                    parameterWithName("longitude").description("경도"),
+                                    parameterWithName("latitude").description("위도")
                             )
                     ));
   }
