@@ -108,7 +108,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/**/*.html",
                     "/**/*.css",
                     "/**/*.js",
-                    "/events/{id}/links/*"
+                    "/events/{id}/links/*",
+                    "/actuator/**"
               )
             .permitAll()
             .mvcMatchers(HttpMethod.GET, "/api/**")
