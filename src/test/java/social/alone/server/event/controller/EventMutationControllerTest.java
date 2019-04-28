@@ -42,7 +42,8 @@ public class EventMutationControllerTest extends BaseControllerTest {
             "스타벅스",
             127.026503385182,
             37.4991561765984,
-            "http://place.map.daum.net/27290899");
+            "http://place.map.daum.net/27290899"
+    );
   }
 
   @Test
@@ -218,6 +219,7 @@ public class EventMutationControllerTest extends BaseControllerTest {
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
 
+    // Then
     perform.andDo(print());
     perform.andDo(document("events-update"));
     perform.andExpect(status().isOk());

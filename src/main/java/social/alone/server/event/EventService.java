@@ -30,23 +30,18 @@ public class EventService {
 
   public Event create(EventDto eventDto, User user_) {
     User user = userRepository.findById(user_.getId()).orElseThrow();
-    Event event = new Event(eventDto, user);
-    event.update(eventDto);
-    updateLocation(event, eventDto);
-    updateEventTypes(event, eventDto);
-    return this.eventRepository.save(event);
-  }
-
-  public Event update(Event event, EventDto eventDto) {
-    event.update(eventDto);
-    updateLocation(event, eventDto);
-    updateEventTypes(event, eventDto);
-    return this.eventRepository.save(event);
-  }
-
-  private void updateLocation(Event event, EventDto eventDto) {
     Location location = getLocation(eventDto);
-    event.update(location);
+    Event event = new Event(eventDto, user, location);
+    updateEventTypes(event, eventDto);
+    return this.eventRepository.save(event);
+  }
+
+  public Event update(Event event, EventDto eventDto){
+    Location location = getLocation(eventDto);
+    updateEventTypes(event, eventDto);
+    event.updateLocation(location);
+    event.updateByEventDto(eventDto);
+    return this.eventRepository.save(event);
   }
 
   private void updateEventTypes(Event event, EventDto eventDto) {

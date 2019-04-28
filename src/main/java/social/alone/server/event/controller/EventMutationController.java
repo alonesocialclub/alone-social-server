@@ -72,5 +72,4 @@ public class EventMutationController extends BaseController {
     return ResponseEntity.noContent().build();
   }
 
-
 }

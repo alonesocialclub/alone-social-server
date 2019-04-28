@@ -72,26 +72,25 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   )
   private Set<User> users = new HashSet<>();
 
-  public Event(EventDto eventDto, User user) {
-    this.name = eventDto.getName();
-    this.description = eventDto.getDescription();
-    this.startedAt = eventDto.getStartedAt();
-    this.endedAt = eventDto.getEndedAt();
-    this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
+  public Event(EventDto eventDto, User user, Location location) {
+    this.updateByEventDto(eventDto);
     this.owner = user;
+    this.location = location;
     this.activityLogEventCreate();
   }
 
-  void update(EventDto eventDto) {
+  public Event(EventDto eventDto, User user) {
+    this.owner = user;
+    this.updateByEventDto(eventDto);
+    this.activityLogEventCreate();
+  }
+
+  public void updateByEventDto(EventDto eventDto){
     this.name = eventDto.getName();
     this.description = eventDto.getDescription();
     this.startedAt = eventDto.getStartedAt();
     this.endedAt = eventDto.getEndedAt();
     this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
-  }
-
-  void update(Location location){
-    this.location = location;
   }
 
   void joinEvent(User user) {
