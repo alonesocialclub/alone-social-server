@@ -4,3 +4,9 @@
 [![codecov](https://codecov.io/gh/holdonnn/alone-social-server/branch/master/graph/badge.svg?token=pvbZtieN9L)](https://codecov.io/gh/holdonnn/alone-social-server)
 
 server for [https://alone.social](https://alone.social)
+
+## deploy
+
+```bash
+$ ./deploy.sh
+```
