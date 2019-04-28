@@ -23,7 +23,7 @@ import java.util.Set;
 public class EventType {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   private Long id;
 
   @Column(nullable = false, unique = true)

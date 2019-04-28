@@ -2,11 +2,15 @@
   "name": "브라운홀릭",
   "description": "브라운홀릭",
   "location": {
+    "name": "브라운홀릭",
     "address": "서울 강남구 강남대로98길 25",
-    "name": "브라운홀릭"
+    "placeUrl": "http://place.map.daum.net/14666479",
+    "latitude": 37.5010549835616,
+    "longitude": 127.028702549419,
+    "imageUrl": null
   },
-  "startedAt": "2019-02-03T16:27",
-  "endedAt": "2019-02-03T19:27",
+  "startedAt": "2019-04-28T16:37",
+  "endedAt": "2019-04-28T19:37",
   "limitOfEnrollment": 5,
   "eventTypes": [
     {

@@ -2,6 +2,8 @@ package social.alone.server.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.event.type.EventTypeRepository;
@@ -9,8 +11,6 @@ import social.alone.server.location.Location;
 import social.alone.server.location.LocationRepository;
 import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -33,7 +33,6 @@ public class EventService {
   public Event create(EventDto eventDto, User user_) {
     User user = userRepository.findById(user_.getId()).orElseThrow();
     Location location = getLocation(eventDto);
-    log.info(location.toString());
     Event event = new Event(eventDto, user, location);
     updateEventTypes(event, eventDto);
     return this.eventRepository.save(event);
@@ -41,7 +40,6 @@ public class EventService {
 
   public Event update(Event event, EventDto eventDto){
     Location location = getLocation(eventDto);
-    log.info(location.toString());
     updateEventTypes(event, eventDto);
     event.updateLocation(location);
     event.updateByEventDto(eventDto);
@@ -64,7 +62,11 @@ public class EventService {
   private Location getLocation(EventDto eventDto) {
     Location location = eventDto.getLocation();
     var by = locationRepository
-            .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName());
+            .findByLongitudeAndLatitudeAndName(
+                    location.getLongitude(),
+                    location.getLatitude(),
+                    location.getName()
+            );
     return by.orElseGet(() -> locationRepository.save(location));
   }
 

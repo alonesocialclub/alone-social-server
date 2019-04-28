@@ -16,7 +16,7 @@ public class Link {
 
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   private Long id;
 
   @ManyToOne

@@ -18,7 +18,7 @@ public class Location {
   final static String DEFAULT_IMAGE = "https://alone.social/cafe/random/0.jpg";
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   private Long id;
 
   public Location(

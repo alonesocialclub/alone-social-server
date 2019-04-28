@@ -26,7 +26,7 @@ import java.util.Set;
 public class Event extends AbstractAggregateRoot<Event> implements SlackMessagable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   private Long id;
 
   private String name;
@@ -45,10 +45,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   @UpdateTimestamp
   protected LocalDateTime updatedAt;
 
-  @ManyToOne(
-          fetch = FetchType.EAGER,
-          cascade = { CascadeType.PERSIST, CascadeType.MERGE}, optional = false
-  )
+  @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name="location_id")
   private Location location;
 

@@ -14,6 +14,7 @@ import java.util.Set;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventDto {
@@ -25,7 +26,6 @@ public class EventDto {
   @NotEmpty
   private String description;
 
-  @Setter
   @NotNull
   private LocationDto location;
 
