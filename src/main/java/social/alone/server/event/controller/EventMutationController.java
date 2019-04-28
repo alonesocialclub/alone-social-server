@@ -23,7 +23,6 @@ public class EventMutationController extends BaseController {
   private final EventValidator eventValidator;
   private final EventService eventService;
 
-
   @PostMapping
   public ResponseEntity createEvent(
           @CurrentUser User user,

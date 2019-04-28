@@ -1,6 +1,7 @@
 package social.alone.server.event;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.event.type.EventTypeRepository;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ public class EventService {
   public Event create(EventDto eventDto, User user_) {
     User user = userRepository.findById(user_.getId()).orElseThrow();
     Location location = getLocation(eventDto);
+    log.info(location.toString());
     Event event = new Event(eventDto, user, location);
     updateEventTypes(event, eventDto);
     return this.eventRepository.save(event);
@@ -38,6 +41,7 @@ public class EventService {
 
   public Event update(Event event, EventDto eventDto){
     Location location = getLocation(eventDto);
+    log.info(location.toString());
     updateEventTypes(event, eventDto);
     event.updateLocation(location);
     event.updateByEventDto(eventDto);
@@ -59,9 +63,10 @@ public class EventService {
 
   private Location getLocation(EventDto eventDto) {
     Location location = eventDto.getLocation();
-    return locationRepository
-            .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName())
-            .orElseGet(() -> locationRepository.save(location));
+    return locationRepository.save(location);
+//    return locationRepository
+//            .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName())
+//            .orElseGet(() -> locationRepository.save(location));
 
   }
 
