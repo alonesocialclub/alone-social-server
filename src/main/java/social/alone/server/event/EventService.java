@@ -66,7 +66,7 @@ public class EventService {
     Location location = eventDto.getLocation();
     return locationRepository
             .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName())
-            .orElse(location);
+            .orElseGet(() -> locationRepository.save(location));
 
   }
 

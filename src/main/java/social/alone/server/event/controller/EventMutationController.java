@@ -30,9 +30,7 @@ public class EventMutationController extends BaseController {
           @RequestBody @Valid EventDto eventDto,
           Errors errors
   ) {
-
     eventValidator.validate(eventDto, errors);
-
     if (errors.hasErrors()) {
       return BadRequest(errors);
     }
@@ -70,7 +68,6 @@ public class EventMutationController extends BaseController {
   public ResponseEntity deleteEvent(
           @PathVariable("id") Long eventId
   ) {
-
     eventService.delete(eventId);
     return ResponseEntity.noContent().build();
   }
