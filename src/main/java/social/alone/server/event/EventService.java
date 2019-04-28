@@ -63,11 +63,9 @@ public class EventService {
 
   private Location getLocation(EventDto eventDto) {
     Location location = eventDto.getLocation();
-    return locationRepository.save(location);
-//    return locationRepository
-//            .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName())
-//            .orElseGet(() -> locationRepository.save(location));
-
+    var by = locationRepository
+            .findByLongitudeAndLatitudeAndName(location.getLongitude(), location.getLatitude(), location.getName());
+    return by.orElseGet(() -> locationRepository.save(location));
   }
 
   public void delete(Long eventId) {
