@@ -3,9 +3,11 @@ package social.alone.server.location;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class LocationDto {
 
   private String address;

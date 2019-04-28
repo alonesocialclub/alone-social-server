@@ -104,7 +104,78 @@ public class EventMutationControllerTest extends BaseControllerTest {
                             )
                     )
             );
+  }
 
+  @Test
+  public void createEventDuplicated__Test() throws Exception {
+    // Given
+    EventType eventType1 = createEventType("밥 같이 먹어요");
+    EventType eventType2 = createEventType("조금 떠들어요");
+    var token = buildAuthToken();
+    Set<EventTypeDto> eventTypes = new HashSet<>(Arrays.asList(eventType1.toDto(), eventType2.toDto()));
+    EventDto event = EventDto.builder()
+            .name("낙성대 주말 코딩")
+            .description("오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.")
+            .startedAt(LocalDateTime.of(2018, 11, 11, 12, 0))
+            .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
+            .limitOfEnrollment(5)
+            .location(location)
+            .eventTypes(eventTypes)
+            .build();
+
+    // When
+    mockMvc
+            .perform(
+                    post("/api/events/")
+                            .header(HttpHeaders.AUTHORIZATION, token)
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
+                            .content(objectMapper.writeValueAsString(event))
+            );
+
+    // When
+    var perform = mockMvc
+            .perform(
+                    post("/api/events/")
+                            .header(HttpHeaders.AUTHORIZATION, token)
+                            .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .accept(MediaType.APPLICATION_JSON_UTF8)
+                            .content(objectMapper.writeValueAsString(event))
+            );
+
+    // Then
+    perform
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("id").isNumber())
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("location.imageUrl").isNotEmpty())
+            .andDo(
+                    document("post-events",
+                            requestHeaders(
+                                    headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                    headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                            ),
+                            relaxedRequestFields(
+                                    fieldWithPath("name").description("모임 이름"),
+                                    fieldWithPath("description").description("모임 설명"),
+                                    fieldWithPath("location.address").description("모임 장소 주소"),
+                                    fieldWithPath("location.name").description("모임 장소 이름"),
+                                    fieldWithPath("location.placeUrl").description("모임 장소 url"),
+                                    fieldWithPath("location.latitude").description("모임 장소 latitude"),
+                                    fieldWithPath("location.longitude").description("모임 장소 longitude"),
+                                    fieldWithPath("location.imageUrl").description("모임 장소 imageUrl"),
+                                    fieldWithPath("eventTypes[].id").description("모임 성격 id"),
+                                    fieldWithPath("eventTypes[].value").description("모임 성격 값"),
+                                    fieldWithPath("startedAt").description("모임 시작 시간"),
+                                    fieldWithPath("endedAt").description("모임 종료 시간"),
+                                    fieldWithPath("limitOfEnrollment").description("모임 정원")
+                            ),
+                            relaxedResponseFields(
+                                    fieldWithPath("id").description("event id")
+                            )
+                    )
+            );
   }
 
   @Test
