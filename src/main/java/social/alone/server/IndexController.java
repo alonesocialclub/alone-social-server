@@ -5,7 +5,7 @@ import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import social.alone.server.event.controller.EventController;
+import social.alone.server.event.controller.EventMutationController;
 
 @RestController
 public class IndexController {
@@ -18,8 +18,8 @@ public class IndexController {
     @GetMapping("/api")
     public ResourceSupport apiIndex() {
         var index = new ResourceSupport();
-        index.add(ControllerLinkBuilder.linkTo(EventController.class).withRel("events"));
-        index.add(ControllerLinkBuilder.linkTo(EventController.class).slash(":id").withRel("events/:id"));
+        index.add(ControllerLinkBuilder.linkTo(EventMutationController.class).withRel("events"));
+        index.add(ControllerLinkBuilder.linkTo(EventMutationController.class).slash(":id").withRel("events/:id"));
         return index;
     }
 

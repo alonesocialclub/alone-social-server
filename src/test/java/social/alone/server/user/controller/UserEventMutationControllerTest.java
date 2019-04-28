@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class UserEventControllerTest extends BaseControllerTest {
+public class UserEventMutationControllerTest extends BaseControllerTest {
 
   @Test
   public void queryEventsTest() throws Exception {

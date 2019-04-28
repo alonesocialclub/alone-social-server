@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping(value = "/api/events")
 @RequiredArgsConstructor
-public class EventController extends BaseController {
+public class EventMutationController extends BaseController {
 
   private final EventValidator eventValidator;
   private final EventService eventService;
