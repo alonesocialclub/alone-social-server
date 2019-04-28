@@ -1,5 +1,6 @@
 package social.alone.server.event;
 
+import lombok.RequiredArgsConstructor;
 import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.event.type.EventTypeRepository;
@@ -16,23 +17,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class EventService {
 
-  private EventRepository eventRepository;
+  private final EventRepository eventRepository;
 
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-  private EventTypeRepository eventTypeRepository;
+  private final EventTypeRepository eventTypeRepository;
 
-  private LocationRepository locationRepository;
-
-
-  public EventService(EventRepository eventRepository, EventTypeRepository eventTypeRepository, UserRepository userRepository, LocationRepository locationRepository) {
-    this.eventRepository = eventRepository;
-    this.userRepository = userRepository;
-    this.eventTypeRepository = eventTypeRepository;
-    this.locationRepository = locationRepository;
-  }
+  private final LocationRepository locationRepository;
 
   public Event create(EventDto eventDto, User user_) {
     User user = userRepository.findById(user_.getId()).orElseThrow();
