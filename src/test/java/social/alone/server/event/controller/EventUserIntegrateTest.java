@@ -3,7 +3,7 @@ package social.alone.server.event.controller;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import social.alone.server.event.Event;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventUserControllerTest extends BaseControllerTest {
+public class EventUserIntegrateTest extends BaseIntegrateTest {
 
   @Test
   public void eventJoin() throws Exception {

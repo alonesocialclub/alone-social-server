@@ -1,6 +1,6 @@
 package social.alone.server.oauth;
 
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import org.junit.Test;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class OauthControllerTest extends BaseControllerTest {
+public class OauthIntegrateTest extends BaseIntegrateTest {
 
   @Test
   public void testOauth2AuthorizeFacebook() throws Exception {

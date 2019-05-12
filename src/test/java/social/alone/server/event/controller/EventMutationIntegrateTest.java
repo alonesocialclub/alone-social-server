@@ -6,13 +6,14 @@ import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import social.alone.server.DisplayName;
 import social.alone.server.event.Event;
 import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.location.LocationDto;
+import social.alone.server.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class EventMutationControllerTest extends BaseControllerTest {
+public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   private LocationDto location;
 
@@ -279,17 +280,32 @@ public class EventMutationControllerTest extends BaseControllerTest {
   public void deleteEvent() throws Exception {
     // Given
     Event event = createEvent();
+    User user =  event.getOwner();
 
     // When
     var perform = this.mockMvc.perform(
             delete("/api/events/{id}", event.getId())
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+    );
+
+    // Then
+    perform.andDo(print());
+    perform.andExpect(status().isNoContent());
+  }
+
+  @Test
+  @DisplayName("이벤트 삭제, 없을 때")
+  public void deleteEvent__not_found() throws Exception {
+    // When
+    var perform = this.mockMvc.perform(
+            delete("/api/events/{id}", 0)
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
     );
 
     // Then
     perform.andDo(print());
-    perform.andExpect(status().isNoContent());
+    perform.andExpect(status().isNotFound());
   }
 
   @Test

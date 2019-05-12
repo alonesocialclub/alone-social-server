@@ -2,7 +2,7 @@ package social.alone.server.event.type;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import social.alone.server.DisplayName;
 
 import java.util.stream.IntStream;
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventTypeControllerTest extends BaseControllerTest {
+public class EventTypeIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 타입을 조회")

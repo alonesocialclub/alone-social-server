@@ -1,6 +1,6 @@
 package social.alone.server.index;
 
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.containsString;
@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class IndexControllerTest extends BaseControllerTest {
+public class IndexIntegrateTest extends BaseIntegrateTest {
 
   @Test
   public void indexTest() throws Exception {

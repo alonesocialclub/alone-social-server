@@ -12,11 +12,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import social.alone.server.auth.email.AuthTokenGenerator;
+import social.alone.server.auth.email.LoginRequestDto;
 import social.alone.server.auth.email.SignUpRequestDto;
+import social.alone.server.auth.oauth2.user.TokenProvider;
 import social.alone.server.event.Event;
 import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.repository.EventRepository;
@@ -43,7 +51,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @Ignore
 @Transactional
-public class BaseControllerTest {
+public class BaseIntegrateTest {
+  protected final static String USER_EMAIL = "user-me@gmail.com";
+  protected User user;
 
   private static final AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -68,9 +78,26 @@ public class BaseControllerTest {
   @Autowired
   protected LinkRepository linkRepository;
 
+  @Autowired
+  private AuthenticationManager authenticationManager;
+
+  @Autowired
+  private TokenProvider tokenProvider;
+
+  @BeforeTransaction
+  public void setUp() {
+    this.user = createUser(USER_EMAIL);
+  }
+
+
   protected User createUser() {
     var next = atomicInteger.incrementAndGet();
     User user = new User("foo" + next + "@test.com", "1234", "local");
+    return this.userRepository.save(user);
+  }
+
+  protected User createUser(String email) {
+    User user = new User(email, "1234", "local");
     return this.userRepository.save(user);
   }
 
@@ -93,6 +120,18 @@ public class BaseControllerTest {
 
     String response = perform.andReturn().getResponse().getContentAsString();
     String token = JsonPath.parse(response).read("token").toString();
+
+    return "Bearer " + token;
+  }
+
+  protected String login(User user) throws Exception {
+    Authentication authentication = authenticationManager.authenticate(
+            new TestingAuthenticationToken(user, user.getPassword())
+    );
+
+    String token = tokenProvider.createToken(authentication);
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
 
     return "Bearer " + token;
   }

@@ -2,7 +2,7 @@ package social.alone.server.event.controller;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import social.alone.server.DisplayName;
 import social.alone.server.event.Event;
 import social.alone.server.location.Location;
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventSearchControllerTest extends BaseControllerTest {
+public class EventSearchIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("30개의 이벤트를 페이징 조회")

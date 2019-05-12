@@ -3,7 +3,7 @@ package social.alone.server.auth;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import social.alone.server.auth.email.LoginRequestDto;
 import social.alone.server.auth.email.SignUpRequestDto;
 
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AuthControllerTest extends BaseControllerTest {
+public class AuthIntegrateTest extends BaseIntegrateTest {
 
   @Test
   public void signupTest() throws Exception {

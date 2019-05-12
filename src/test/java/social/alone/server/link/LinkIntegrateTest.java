@@ -1,6 +1,6 @@
 package social.alone.server.link;
 
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import social.alone.server.event.Event;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class LinkControllerTest extends BaseControllerTest {
+public class LinkIntegrateTest extends BaseIntegrateTest {
 
   @Test
   public void createLinkTest() throws Exception {

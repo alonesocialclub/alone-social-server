@@ -3,7 +3,7 @@ package social.alone.server.user.controller;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import social.alone.server.BaseControllerTest;
+import social.alone.server.BaseIntegrateTest;
 import social.alone.server.event.Event;
 
 import java.util.Arrays;
@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class UserEventMutationControllerTest extends BaseControllerTest {
+public class UserEventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   public void queryEventsTest() throws Exception {

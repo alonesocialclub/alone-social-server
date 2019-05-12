@@ -15,7 +15,6 @@ import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -70,11 +69,6 @@ public class EventService {
                     location.getName()
             );
     return by.orElseGet(() -> locationRepository.save(location));
-  }
-
-  public void delete(Long eventId) {
-    Optional<Event> event = this.eventRepository.findById(eventId);
-    event.ifPresent(this.eventRepository::delete);
   }
 
   public Event joinEvent(Long eventId, Long userId) {
