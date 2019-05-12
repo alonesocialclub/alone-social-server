@@ -1,24 +1,22 @@
 package social.alone.server.auth.oauth2.user;
 
-import social.alone.server.common.config.AppProperties;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import social.alone.server.common.config.AppProperties;
 
 import java.util.Date;
 
 @Service
+@RequiredArgsConstructor
 public class TokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
-    private AppProperties appProperties;
-
-    public TokenProvider(AppProperties appProperties) {
-        this.appProperties = appProperties;
-    }
+    private final AppProperties appProperties;
 
     public String createToken(Authentication authentication) {
         UserPrincipalAdapter userPrincipalAdapter = (UserPrincipalAdapter) authentication.getPrincipal();
@@ -34,7 +32,7 @@ public class TokenProvider {
                 .compact();
     }
 
-    public Long getUserIdFromToken(String token) {
+    Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(appProperties.getAuth().getTokenSecret())
                 .parseClaimsJws(token)
@@ -43,7 +41,7 @@ public class TokenProvider {
         return Long.parseLong(claims.getSubject());
     }
 
-    public boolean validateToken(String authToken) {
+    boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
             return true;
