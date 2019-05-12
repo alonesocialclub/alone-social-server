@@ -1,20 +1,17 @@
-package social.alone.server.auth;
+package social.alone.server.auth.email;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import social.alone.server.auth.LoginRequestDto;
+import social.alone.server.auth.SignUpRequestDto;
 import social.alone.server.common.controller.BaseController;
 import social.alone.server.common.exception.BadRequestException;
-import social.alone.server.auth.oauth2.user.TokenProvider;
 import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
 import social.alone.server.user.UserResource;
@@ -29,13 +26,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthController extends BaseController {
 
-  private final AuthenticationManager authenticationManager;
+  private final AuthTokenGenerator authTokenGenerator;
 
   private final UserRepository userRepository;
 
   private final UserService userService;
-
-  private final TokenProvider tokenProvider;
 
   @PostMapping("/login/email")
   public ResponseEntity<?> authenticateUser(
@@ -54,7 +49,10 @@ public class AuthController extends BaseController {
     }
 
     var userResource = new UserResource(byEmail.orElseThrow());
-    userResource.setToken(authenticate(loginRequestDto.getEmail(), loginRequestDto.getPassword()));
+
+    var token = authTokenGenerator.byEmailPassword(loginRequestDto.getEmail(), loginRequestDto.getPassword());
+
+    userResource.setToken(token);
     return ResponseEntity.ok(userResource);
   }
 
@@ -80,23 +78,11 @@ public class AuthController extends BaseController {
             .buildAndExpand(user.getId()).toUri();
 
     var userResource = new UserResource(user);
-    userResource.setToken(authenticate(signUpRequestDto.getEmail(), signUpRequestDto.getPassword()));
+    var token = authTokenGenerator.byEmailPassword(signUpRequestDto.getEmail(), signUpRequestDto.getPassword());
+    userResource.setToken(token);
 
     return ResponseEntity.created(location)
             .body(userResource);
   }
-
-  private String authenticate(String email, String password) {
-    Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(email, password)
-    );
-
-    String token = tokenProvider.createToken(authentication);
-
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    return token;
-  }
-
 
 }
