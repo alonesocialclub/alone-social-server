@@ -1,6 +1,7 @@
 package social.alone.server.user;
 
 
+import lombok.RequiredArgsConstructor;
 import social.alone.server.auth.email.SignUpRequestDto;
 import social.alone.server.common.exception.ResourceNotFoundException;
 import social.alone.server.interest.InterestService;
@@ -15,21 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-  private InterestService interestService;
+  private final InterestService interestService;
 
-  private PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-  @Autowired
-  public UserService(UserRepository userRepository, InterestService interestService, PasswordEncoder passwordEncoder) {
-
-    this.userRepository = userRepository;
-    this.interestService = interestService;
-    this.passwordEncoder = passwordEncoder;
-  }
 
   @Override
   public UserDetails loadUserByUsername(String email)
