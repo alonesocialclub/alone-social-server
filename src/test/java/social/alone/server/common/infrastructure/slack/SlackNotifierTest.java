@@ -1,4 +1,4 @@
-package social.alone.server.infra.slack;
+package social.alone.server.common.infrastructure.slack;
 
 import org.junit.Ignore;
 import org.junit.Test;

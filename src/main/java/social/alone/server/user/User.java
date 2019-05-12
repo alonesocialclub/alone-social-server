@@ -2,8 +2,8 @@ package social.alone.server.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import social.alone.server.event.Event;
-import social.alone.server.infra.slack.SlackMessagable;
-import social.alone.server.infra.slack.SlackMessageEvent;
+import social.alone.server.common.infrastructure.slack.SlackMessagable;
+import social.alone.server.common.infrastructure.slack.SlackMessageEvent;
 import social.alone.server.interest.Interest;
 import social.alone.server.oauth2.user.OAuth2UserInfo;
 import lombok.*;

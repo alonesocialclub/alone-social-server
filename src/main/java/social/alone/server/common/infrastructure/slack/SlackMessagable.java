@@ -1,4 +1,4 @@
-package social.alone.server.infra.slack;
+package social.alone.server.common.infrastructure.slack;
 
 public interface SlackMessagable {
   SlackMessageEvent buildSlackMessageEvent(String message);

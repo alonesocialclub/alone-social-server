@@ -1,4 +1,4 @@
-package social.alone.server.infra.slack;
+package social.alone.server.common.infrastructure.slack;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

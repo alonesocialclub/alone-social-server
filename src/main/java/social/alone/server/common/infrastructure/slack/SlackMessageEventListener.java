@@ -1,4 +1,4 @@
-package social.alone.server.infra.slack;
+package social.alone.server.common.infrastructure.slack;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
