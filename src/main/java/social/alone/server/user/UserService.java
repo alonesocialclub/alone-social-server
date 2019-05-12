@@ -4,7 +4,7 @@ package social.alone.server.user;
 import social.alone.server.auth.SignUpRequestDto;
 import social.alone.server.common.exception.ResourceNotFoundException;
 import social.alone.server.interest.InterestService;
-import social.alone.server.oauth2.user.UserPrincipalAdapter;
+import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

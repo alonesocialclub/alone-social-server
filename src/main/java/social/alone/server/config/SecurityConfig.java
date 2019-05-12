@@ -1,12 +1,12 @@
 package social.alone.server.config;
 
 
-import social.alone.server.oauth2.CustomOAuth2UserService;
-import social.alone.server.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import social.alone.server.oauth2.OAuth2AuthenticationFailureHandler;
-import social.alone.server.oauth2.OAuth2AuthenticationSuccessHandler;
-import social.alone.server.oauth2.user.RestAuthenticationEntryPoint;
-import social.alone.server.oauth2.user.TokenAuthenticationFilter;
+import social.alone.server.auth.oauth2.CustomOAuth2UserService;
+import social.alone.server.auth.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import social.alone.server.auth.oauth2.OAuth2AuthenticationFailureHandler;
+import social.alone.server.auth.oauth2.OAuth2AuthenticationSuccessHandler;
+import social.alone.server.auth.oauth2.user.RestAuthenticationEntryPoint;
+import social.alone.server.auth.oauth2.user.TokenAuthenticationFilter;
 import social.alone.server.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

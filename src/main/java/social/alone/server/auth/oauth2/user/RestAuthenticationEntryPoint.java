@@ -1,4 +1,4 @@
-package social.alone.server.oauth2.user;
+package social.alone.server.auth.oauth2.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

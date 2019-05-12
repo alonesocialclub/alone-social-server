@@ -1,7 +1,7 @@
-package social.alone.server.oauth2.user;
+package social.alone.server.auth.oauth2.user;
 
 
-import social.alone.server.oauth2.OAuth2AuthenticationProcessingException;
+import social.alone.server.auth.oauth2.OAuth2AuthenticationProcessingException;
 import social.alone.server.user.AuthProvider;
 
 import java.util.Map;

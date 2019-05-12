@@ -1,4 +1,4 @@
-package social.alone.server.oauth2.user;
+package social.alone.server.auth.oauth2.user;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.lang.annotation.*;

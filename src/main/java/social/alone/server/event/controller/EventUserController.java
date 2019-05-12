@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import social.alone.server.event.Event;
 import social.alone.server.event.EventService;
-import social.alone.server.oauth2.user.CurrentUser;
+import social.alone.server.auth.oauth2.user.CurrentUser;
 import social.alone.server.user.User;
 
 @Controller

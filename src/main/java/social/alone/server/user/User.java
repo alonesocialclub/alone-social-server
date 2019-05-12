@@ -5,7 +5,7 @@ import social.alone.server.event.Event;
 import social.alone.server.common.infrastructure.slack.SlackMessagable;
 import social.alone.server.common.infrastructure.slack.SlackMessageEvent;
 import social.alone.server.interest.Interest;
-import social.alone.server.oauth2.user.OAuth2UserInfo;
+import social.alone.server.auth.oauth2.user.OAuth2UserInfo;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

@@ -1,4 +1,4 @@
-package social.alone.server.oauth2;
+package social.alone.server.auth.oauth2;
 
 import org.springframework.util.SerializationUtils;
 

@@ -12,7 +12,7 @@ import social.alone.server.common.controller.BaseController;
 import social.alone.server.event.Event;
 import social.alone.server.event.EventQueryParams;
 import social.alone.server.event.EventSearchService;
-import social.alone.server.oauth2.user.CurrentUser;
+import social.alone.server.auth.oauth2.user.CurrentUser;
 import social.alone.server.user.User;
 
 import javax.validation.Valid;

@@ -1,4 +1,4 @@
-package social.alone.server.oauth2.user;
+package social.alone.server.auth.oauth2.user;
 
 import social.alone.server.user.User;
 import social.alone.server.user.UserRole;

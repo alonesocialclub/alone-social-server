@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import social.alone.server.common.controller.BaseController;
 import social.alone.server.common.exception.BadRequestException;
-import social.alone.server.oauth2.user.TokenProvider;
+import social.alone.server.auth.oauth2.user.TokenProvider;
 import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
 import social.alone.server.user.UserResource;

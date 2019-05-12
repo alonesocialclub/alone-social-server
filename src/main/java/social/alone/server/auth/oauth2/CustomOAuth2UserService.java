@@ -1,11 +1,11 @@
-package social.alone.server.oauth2;
+package social.alone.server.auth.oauth2;
 
 import social.alone.server.user.AuthProvider;
 import social.alone.server.user.User;
-import social.alone.server.oauth2.user.OAuth2UserInfo;
-import social.alone.server.oauth2.user.OAuth2UserInfoFactory;
+import social.alone.server.auth.oauth2.user.OAuth2UserInfo;
+import social.alone.server.auth.oauth2.user.OAuth2UserInfoFactory;
 import social.alone.server.user.UserRepository;
-import social.alone.server.oauth2.user.UserPrincipalAdapter;
+import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;

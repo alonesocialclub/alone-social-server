@@ -1,8 +1,8 @@
-package social.alone.server.oauth2;
+package social.alone.server.auth.oauth2;
 
 import social.alone.server.config.AppProperties;
 import social.alone.server.common.exception.BadRequestException;
-import social.alone.server.oauth2.user.TokenProvider;
+import social.alone.server.auth.oauth2.user.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;

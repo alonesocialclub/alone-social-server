@@ -10,7 +10,7 @@ import social.alone.server.event.Event;
 import social.alone.server.event.EventDto;
 import social.alone.server.event.EventService;
 import social.alone.server.event.EventValidator;
-import social.alone.server.oauth2.user.CurrentUser;
+import social.alone.server.auth.oauth2.user.CurrentUser;
 import social.alone.server.user.User;
 
 import javax.validation.Valid;

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import social.alone.server.common.controller.BaseController;
-import social.alone.server.oauth2.user.CurrentUser;
+import social.alone.server.auth.oauth2.user.CurrentUser;
 import social.alone.server.user.User;
 import social.alone.server.user.UserDto;
 import social.alone.server.user.UserResource;
