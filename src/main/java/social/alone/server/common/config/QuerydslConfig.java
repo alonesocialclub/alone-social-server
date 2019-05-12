@@ -1,4 +1,4 @@
-package social.alone.server.config;
+package social.alone.server.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;

@@ -3,7 +3,7 @@ package social.alone.server.common.validate;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.validation.Errors;
-import social.alone.server.IndexController;
+import social.alone.server.common.IndexController;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;

@@ -1,6 +1,6 @@
 package social.alone.server.common.infrastructure.slack;
 
-import social.alone.server.config.AppProperties;
+import social.alone.server.common.config.AppProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

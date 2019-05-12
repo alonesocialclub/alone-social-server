@@ -1,4 +1,4 @@
-package social.alone.server;
+package social.alone.server.common;
 
 
 import org.springframework.hateoas.ResourceSupport;

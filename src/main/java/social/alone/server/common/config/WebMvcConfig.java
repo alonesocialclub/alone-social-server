@@ -1,4 +1,4 @@
-package social.alone.server.config;
+package social.alone.server.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

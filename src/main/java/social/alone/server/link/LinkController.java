@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import social.alone.server.config.AppProperties;
+import social.alone.server.common.config.AppProperties;
 import social.alone.server.event.Event;
 
 @Controller

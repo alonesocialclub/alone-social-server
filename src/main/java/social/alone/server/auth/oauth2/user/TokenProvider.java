@@ -1,6 +1,6 @@
 package social.alone.server.auth.oauth2.user;
 
-import social.alone.server.config.AppProperties;
+import social.alone.server.common.config.AppProperties;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
