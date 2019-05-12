@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import social.alone.server.auth.SignUpRequestDto;
 import social.alone.server.event.Event;
-import social.alone.server.event.EventDto;
+import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeRepository;

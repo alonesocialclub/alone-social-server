@@ -1,4 +1,4 @@
-package social.alone.server.event;
+package social.alone.server.event.type;
 
 public enum EventStatus {
 

@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import social.alone.server.event.Event;
-import social.alone.server.event.EventQueryParams;
+import social.alone.server.event.type.EventQueryParams;
 import social.alone.server.event.QEvent;
 import social.alone.server.user.User;
 

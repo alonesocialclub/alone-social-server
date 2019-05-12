@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import social.alone.server.BaseControllerTest;
 import social.alone.server.DisplayName;
 import social.alone.server.event.Event;
-import social.alone.server.event.EventDto;
+import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.location.LocationDto;

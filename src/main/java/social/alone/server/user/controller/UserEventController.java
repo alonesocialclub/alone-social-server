@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import social.alone.server.event.Event;
-import social.alone.server.event.EventQueryParams;
-import social.alone.server.event.EventSearchService;
+import social.alone.server.event.type.EventQueryParams;
+import social.alone.server.event.service.EventSearchService;
 import social.alone.server.user.User;
 
 import javax.validation.Valid;

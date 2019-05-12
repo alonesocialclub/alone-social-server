@@ -1,9 +1,11 @@
-package social.alone.server.event;
+package social.alone.server.event.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import social.alone.server.event.Event;
+import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.event.type.EventTypeRepository;

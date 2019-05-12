@@ -6,7 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.repository.EventRepository;
+import social.alone.server.event.service.EventService;
 import social.alone.server.location.LocationDto;
 import social.alone.server.user.UserRepository;
 

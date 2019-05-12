@@ -1,6 +1,7 @@
 package social.alone.server.event;
 
 import org.junit.Test;
+import social.alone.server.event.dto.EventDto;
 import social.alone.server.location.LocationDto;
 import social.alone.server.user.User;
 

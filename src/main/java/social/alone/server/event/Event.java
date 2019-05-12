@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
+import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.type.EventType;
 import social.alone.server.common.infrastructure.slack.SlackMessagable;
 import social.alone.server.common.infrastructure.slack.SlackMessageEvent;
@@ -90,7 +91,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     this.limitOfEnrollment = eventDto.getLimitOfEnrollment();
   }
 
-  void joinEvent(User user) {
+  public void joinEvent(User user) {
     if (this.owner.equals(user)) {
       return;
     }
@@ -98,7 +99,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     this.users.add(user);
   }
 
-  void joinCancelEvent(User user) {
+  public void joinCancelEvent(User user) {
     if (this.owner.equals(user)) {
       return;
     }

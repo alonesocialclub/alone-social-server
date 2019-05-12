@@ -3,7 +3,7 @@ package social.alone.server.event.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import social.alone.server.event.Event;
-import social.alone.server.event.EventQueryParams;
+import social.alone.server.event.type.EventQueryParams;
 import social.alone.server.user.User;
 
 public interface EventRepositoryCustom {

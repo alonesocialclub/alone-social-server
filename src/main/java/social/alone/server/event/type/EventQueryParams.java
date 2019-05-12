@@ -1,4 +1,4 @@
-package social.alone.server.event;
+package social.alone.server.event.type;
 
 import social.alone.server.event.type.Coordinate;
 import social.alone.server.event.type.EventQueryType;

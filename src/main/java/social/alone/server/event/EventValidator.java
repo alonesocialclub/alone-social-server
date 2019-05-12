@@ -3,6 +3,7 @@ package social.alone.server.event;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import social.alone.server.event.dto.EventDto;
 
 @Component
 public class EventValidator {

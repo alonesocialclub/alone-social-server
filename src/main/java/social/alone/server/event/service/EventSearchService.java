@@ -1,9 +1,11 @@
-package social.alone.server.event;
+package social.alone.server.event.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import social.alone.server.event.Event;
+import social.alone.server.event.type.EventQueryParams;
 import social.alone.server.event.repository.EventRepository;
 import social.alone.server.user.User;
 
