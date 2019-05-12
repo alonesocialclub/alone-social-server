@@ -1,4 +1,4 @@
-package social.alone.server.auth;
+package social.alone.server.auth.email;
 
 import lombok.*;
 

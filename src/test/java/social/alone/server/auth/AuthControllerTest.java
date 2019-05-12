@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import social.alone.server.BaseControllerTest;
+import social.alone.server.auth.email.LoginRequestDto;
+import social.alone.server.auth.email.SignUpRequestDto;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;

@@ -1,7 +1,7 @@
 package social.alone.server.user;
 
 
-import social.alone.server.auth.SignUpRequestDto;
+import social.alone.server.auth.email.SignUpRequestDto;
 import social.alone.server.common.exception.ResourceNotFoundException;
 import social.alone.server.interest.InterestService;
 import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
