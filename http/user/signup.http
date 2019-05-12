@@ -1,4 +1,4 @@
-POST {{host}}/api/auth/signup
+POST {{host}}/api/auth/signup/email
 Content-Type: application/json
 
 < ./user.json

@@ -86,7 +86,7 @@ public class BaseControllerTest {
             .build();
 
     var perform = mockMvc.perform(
-            post("/api/auth/signup")
+            post("/api/auth/signup/email")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(data))
     ).andExpect(status().isCreated());

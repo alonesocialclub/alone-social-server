@@ -26,7 +26,7 @@ public class AuthControllerTest extends BaseControllerTest {
 
     // When
     var perform = mockMvc.perform(
-            post("/api/auth/signup")
+            post("/api/auth/signup/email")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaTypes.HAL_JSON)
                     .content(objectMapper.writeValueAsString(data))
@@ -64,7 +64,7 @@ public class AuthControllerTest extends BaseControllerTest {
             .build();
 
     mockMvc.perform(
-            post("/api/auth/signup")
+            post("/api/auth/signup/email")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(signUpRequestDto))
     ).andExpect(status().isCreated());
@@ -72,7 +72,7 @@ public class AuthControllerTest extends BaseControllerTest {
     // When
     LoginRequestDto loginRequestDto = modelMapper.map(signUpRequestDto, LoginRequestDto.class);
     var perform = mockMvc.perform(
-            post("/api/auth/login")
+            post("/api/auth/login/email")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(loginRequestDto))
     );
@@ -101,7 +101,7 @@ public class AuthControllerTest extends BaseControllerTest {
 
     // When
     var perform = mockMvc.perform(
-            post("/api/auth/login")
+            post("/api/auth/login/email")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(loginRequestDto))
     );
@@ -118,7 +118,7 @@ public class AuthControllerTest extends BaseControllerTest {
 
     // When
     var perform = mockMvc.perform(
-            post("/api/auth/login")
+            post("/api/auth/login/email")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(loginRequestDto))
     );

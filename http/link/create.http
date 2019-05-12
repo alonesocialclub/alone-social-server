@@ -1,11 +1,11 @@
-POST {{host}}/api/auth/signup
+POST {{host}}/api/auth/signup/email
 Content-Type: application/json
 
 < ../user/user.json
 
 ###
 
-POST {{host}}/api/auth/login
+POST {{host}}/api/auth/login/email
 Accept: application/json
 Content-Type: application/json
 

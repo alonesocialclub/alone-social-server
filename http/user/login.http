@@ -1,4 +1,4 @@
-POST {{host}}/api/auth/login
+POST {{host}}/api/auth/login/email
 Accept: application/json
 Content-Type: application/json
 

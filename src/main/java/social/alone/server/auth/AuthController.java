@@ -37,7 +37,7 @@ public class AuthController extends BaseController {
 
   private final TokenProvider tokenProvider;
 
-  @PostMapping("/login")
+  @PostMapping("/login/email")
   public ResponseEntity<?> authenticateUser(
           @Valid @RequestBody LoginRequestDto loginRequestDto,
           Errors errors
@@ -58,7 +58,7 @@ public class AuthController extends BaseController {
     return ResponseEntity.ok(userResource);
   }
 
-  @PostMapping("/signup")
+  @PostMapping("/signup/email")
   public ResponseEntity<?> registerUser(
           @Valid @RequestBody SignUpRequestDto signUpRequestDto,
           Errors errors
