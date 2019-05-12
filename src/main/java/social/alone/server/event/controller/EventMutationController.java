@@ -27,12 +27,14 @@ public class EventMutationController extends BaseController {
     private final EventDeleteService eventDeleteService;
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity createEvent(
             @CurrentUser User user,
             @RequestBody @Valid EventDto eventDto,
             Errors errors
     ) {
         eventValidator.validate(eventDto, errors);
+
         if (errors.hasErrors()) {
             return BadRequest(errors);
         }
@@ -43,6 +45,7 @@ public class EventMutationController extends BaseController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity updateEvent(
             @PathVariable("id") Event event,
             @RequestBody @Valid EventDto eventDto,
@@ -72,16 +75,16 @@ public class EventMutationController extends BaseController {
             @CurrentUser User user,
             @PathVariable("id") Event event
     ) {
-
         if (event == null) {
             return NotFound();
         }
 
-//        if (!user.equals(event.getOwner())) {
-//            return forbidden();
-//        }
+        if (!user.equals(event.getOwner())) {
+            return forbidden();
+        }
 
         eventDeleteService.delete(event.getId());
+
         return ResponseEntity.noContent().build();
     }
 

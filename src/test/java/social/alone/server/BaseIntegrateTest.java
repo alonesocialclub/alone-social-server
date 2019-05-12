@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,7 @@ import social.alone.server.location.LocationDto;
 import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -52,130 +54,142 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Ignore
 @Transactional
 public class BaseIntegrateTest {
-  protected final static String USER_EMAIL = "user-me@gmail.com";
-  protected User user;
+    protected final static String USER_EMAIL = "user-me@gmail.com";
+    protected User user;
 
-  private static final AtomicInteger atomicInteger = new AtomicInteger(0);
+    private static final AtomicInteger atomicInteger = new AtomicInteger(0);
 
-  @Autowired
-  protected MockMvc mockMvc;
+    @Autowired
+    protected MockMvc mockMvc;
 
-  @Autowired
-  protected ObjectMapper objectMapper;
+    @Autowired
+    protected ObjectMapper objectMapper;
 
-  @Autowired
-  protected ModelMapper modelMapper;
+    @Autowired
+    protected ModelMapper modelMapper;
 
-  @Autowired
-  protected EventRepository eventRepository;
+    @Autowired
+    protected EventRepository eventRepository;
 
-  @Autowired
-  protected UserRepository userRepository;
+    @Autowired
+    protected UserRepository userRepository;
 
-  @Autowired
-  protected EventTypeRepository eventTypeRepository;
+    @Autowired
+    protected EventTypeRepository eventTypeRepository;
 
-  @Autowired
-  protected LinkRepository linkRepository;
+    @Autowired
+    protected LinkRepository linkRepository;
 
-  @Autowired
-  private AuthenticationManager authenticationManager;
+    @BeforeTransaction
+    public void setUp() {
+        this.user = createUser(USER_EMAIL);
+    }
 
-  @Autowired
-  private TokenProvider tokenProvider;
+    @AfterTransaction
+    public void setDown() {
+        this.userRepository.delete(this.user);
+    }
 
-  @BeforeTransaction
-  public void setUp() {
-    this.user = createUser(USER_EMAIL);
-  }
+    @Deprecated
+    protected User createUser() {
+        var next = atomicInteger.incrementAndGet();
+        User user = new User("foo" + next + "@test.com", "1234", "local");
+        return this.userRepository.save(user);
+    }
 
-
-  protected User createUser() {
-    var next = atomicInteger.incrementAndGet();
-    User user = new User("foo" + next + "@test.com", "1234", "local");
-    return this.userRepository.save(user);
-  }
-
-  protected User createUser(String email) {
-    User user = new User(email, "1234", "local");
-    return this.userRepository.save(user);
-  }
+    protected User createUser(String email) {
+        User user = new User(email, "1234", "local");
+        return this.userRepository.save(user);
+    }
 
 
-  protected String buildAuthToken() throws Exception {
+    protected String buildAuthToken() throws Exception {
 
-    var next = atomicInteger.incrementAndGet();
+        var next = atomicInteger.incrementAndGet();
 
-    SignUpRequestDto data = SignUpRequestDto.builder()
-            .email(next + "@test.com")
-            .password("12345678")
-            .name("Jeff")
-            .build();
+        SignUpRequestDto data = SignUpRequestDto.builder()
+                .email(next + "@test.com")
+                .password("12345678")
+                .name("Jeff")
+                .build();
 
-    var perform = mockMvc.perform(
-            post("/api/auth/signup/email")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(objectMapper.writeValueAsString(data))
-    ).andExpect(status().isCreated());
+        var perform = mockMvc.perform(
+                post("/api/auth/signup/email")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(data))
+        ).andExpect(status().isCreated());
 
-    String response = perform.andReturn().getResponse().getContentAsString();
-    String token = JsonPath.parse(response).read("token").toString();
+        String response = perform.andReturn().getResponse().getContentAsString();
+        String token = JsonPath.parse(response).read("token").toString();
 
-    return "Bearer " + token;
-  }
+        return "Bearer " + token;
+    }
 
-  protected String login(User user) throws Exception {
-    Authentication authentication = authenticationManager.authenticate(
-            new TestingAuthenticationToken(user, user.getPassword())
-    );
 
-    String token = tokenProvider.createToken(authentication);
+    protected Event createEvent(User user){
+        LocalDateTime startedAt = LocalDateTime.now().plusDays(3);
+        LocalDateTime endedAt = LocalDateTime.now().plusDays(6);
+        LocationDto location = new LocationDto(
+                "서울 서초구 강남대로61길 3",
+                "스타벅스",
+                127.026503385182,
+                37.4991561765984,
+                "http://place.map.daum.net/27290899");
+        var next = atomicInteger.incrementAndGet();
+        EventDto eventDto = EventDto.builder()
+                .name("event" + next)
+                .description("Rest")
+                .startedAt(startedAt)
+                .endedAt(endedAt)
+                .limitOfEnrollment(5)
+                .location(location)
+                .build();
+        Event event = new Event(eventDto, user);
+        event.updateLocation(location.buildLocation());
+        return this.eventRepository.save(event);
+    }
 
-    SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    return "Bearer " + token;
-  }
+    protected Event createEvent() {
+        return createEvent(LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(6));
+    }
 
-  protected Event createEvent() {
-    return createEvent(LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(6));
-  }
+    protected Event createEvent(Location location) {
+        var event = createEvent();
+        event.updateLocation(location);
+        return this.eventRepository.save(event);
+    }
 
-  protected Event createEvent(Location location){
-    var event = createEvent();
-    event.updateLocation(location);
-    return this.eventRepository.save(event);
-  }
+    protected Event createEvent(LocalDateTime startedAt, LocalDateTime endedAt) {
+        LocationDto location = new LocationDto(
+                "서울 서초구 강남대로61길 3",
+                "스타벅스",
+                127.026503385182,
+                37.4991561765984,
+                "http://place.map.daum.net/27290899");
+        User user = this.createUser();
+        var next = atomicInteger.incrementAndGet();
+        EventDto eventDto = EventDto.builder()
+                .name("event" + next)
+                .description("Rest")
+                .startedAt(startedAt)
+                .endedAt(endedAt)
+                .limitOfEnrollment(5)
+                .location(location)
+                .build();
+        Event event = new Event(eventDto, user);
+        event.updateLocation(location.buildLocation());
+        return this.eventRepository.save(event);
+    }
 
-  protected Event createEvent(LocalDateTime startedAt, LocalDateTime endedAt){
-    LocationDto location = new LocationDto(
-            "서울 서초구 강남대로61길 3",
-            "스타벅스",
-            127.026503385182,
-            37.4991561765984,
-            "http://place.map.daum.net/27290899");
-    User user = this.createUser();
-    var next = atomicInteger.incrementAndGet();
-    EventDto eventDto = EventDto.builder()
-            .name("event" + next)
-            .description("Rest")
-            .startedAt(startedAt)
-            .endedAt(endedAt)
-            .limitOfEnrollment(5)
-            .location(location)
-            .build();
-    Event event = new Event(eventDto, user);
-    event.updateLocation(location.buildLocation());
-    return this.eventRepository.save(event);
-  }
+    protected Link createLink() {
+        Event event = createEvent();
+        Link link = event.createLink();
+        return this.linkRepository.save(link);
+    }
 
-  protected Link createLink() {
-    Event event = createEvent();
-    Link link = event.createLink();
-    return this.linkRepository.save(link);
-  }
-
-  protected EventType createEventType(String value) {
-    EventType eventType = EventType.of(value);
-    return eventTypeRepository.save(eventType);
-  }
+    protected EventType createEventType(String value) {
+        EventType eventType = EventType.of(value);
+        return eventTypeRepository.save(eventType);
+    }
 }

@@ -2,16 +2,19 @@ package social.alone.server.event.controller;
 
 import com.jayway.jsonpath.JsonPath;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.DisplayName;
 import social.alone.server.event.Event;
 import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeDto;
+import social.alone.server.location.Location;
 import social.alone.server.location.LocationDto;
 import social.alone.server.user.User;
 
@@ -34,20 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
-  private LocationDto location;
-
-  @Before
-  public void setUp() {
-    location = new LocationDto(
-            "서울 서초구 강남대로61길 3",
-            "스타벅스",
-            127.026503385182,
-            37.4991561765984,
-            "http://place.map.daum.net/27290899"
-    );
-  }
-
   @Test
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventTest() throws Exception {
     // Given
     EventType eventType1 = createEventType("밥 같이 먹어요");
@@ -59,7 +50,13 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .startedAt(LocalDateTime.of(2018, 11, 11, 12, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 14, 0))
             .limitOfEnrollment(5)
-            .location(location)
+            .location(new LocationDto(
+                    "서울 서초구 강남대로61길 3",
+                    "스타벅스",
+                    127.026503385182,
+                    37.4991561765984,
+                    "http://place.map.daum.net/27290899"
+            ))
             .eventTypes(eventTypes)
             .build();
 
@@ -67,7 +64,6 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     var perform = mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(event))
@@ -109,16 +105,15 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
   }
 
   @Test
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventDuplicated__Test() throws Exception {
     // Given
-    var token = buildAuthToken();
     var payload = "{\"name\":\"투썸플레이스 포스코사거리점\",\"description\":\"투썸플레이스 포스코사거리점\",\"location\":{\"name\":\"투썸플레이스 포스코사거리점\",\"address\":\"서울 강남구 테헤란로 508\",\"placeUrl\":\"http://place.map.daum.net/26452947\",\"latitude\":37.50670826384592,\"longitude\":127.0580393520872,\"imageUrl\":null},\"startedAt\":\"2019-04-28T14:09\",\"endedAt\":\"2019-04-28T17:09\",\"limitOfEnrollment\":5,\"eventTypes\":[]}";
 
     // When
     mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, token)
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(payload)
@@ -129,7 +124,6 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     var perform = mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, token)
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(payload)
@@ -143,15 +137,23 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("입력값이 없는 경우에")
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventTest__empty_input() throws Exception {
     // Given
-    EventDto eventDto = EventDto.builder().location(location).build();
+    EventDto eventDto = EventDto.builder()
+            .location(new LocationDto(
+                    "서울 서초구 강남대로61길 3",
+                    "스타벅스",
+                    127.026503385182,
+                    37.4991561765984,
+                    "http://place.map.daum.net/27290899"
+            ))
+            .build();
 
     // When
     var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(eventDto))
             );
@@ -166,6 +168,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 시작일은 종료일보다 이전이여야 한다.")
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventTest_invalid_input() throws Exception {
     // Given
     EventDto eventDto = EventDto.builder()
@@ -174,14 +177,19 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .startedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 11, 0, 0))
             .limitOfEnrollment(5)
-            .location(location)
+            .location(new LocationDto(
+                    "서울 서초구 강남대로61길 3",
+                    "스타벅스",
+                    127.026503385182,
+                    37.4991561765984,
+                    "http://place.map.daum.net/27290899"
+            ))
             .build();
 
     // When
     var perform = mockMvc
             .perform(
                     post("/api/events")
-                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(eventDto))
@@ -198,14 +206,21 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 수정")
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void updateEvent__happy() throws Exception {
     // Given
-    Event event = createEvent();
+    Event event = createEvent(this.user);
     String updatedName = "updated event";
     EventDto eventDto = EventDto
             .builder()
             .name(updatedName)
-            .location(location)
+            .location(new LocationDto(
+                    "서울 서초구 강남대로61길 3",
+                    "스타벅스",
+                    127.026503385182,
+                    37.4991561765984,
+                    "http://place.map.daum.net/27290899"
+            ))
             .description(event.getDescription())
             .startedAt(event.getStartedAt())
             .endedAt(event.getEndedAt())
@@ -215,7 +230,6 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
-                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
     );
@@ -229,12 +243,19 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 수정, 없는 이벤트에 대해서")
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void updateEvent__not_found() throws Exception {
     // Given
     EventDto eventDto = EventDto
             .builder()
             .name("하하하")
-            .location(location)
+            .location(new LocationDto(
+                    "서울 서초구 강남대로61길 3",
+                    "스타벅스",
+                    127.026503385182,
+                    37.4991561765984,
+                    "http://place.map.daum.net/27290899"
+            ))
             .description("해해해")
             .build();
     int eventIdNotExists = -1;
@@ -242,7 +263,6 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     // When
     var perform = this.mockMvc.perform(
             put("/api/events/{id}", eventIdNotExists)
-                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(eventDto))
     );
@@ -253,11 +273,18 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 수정, 시작시간을 종료시간 이후의 값을 넣는 경우")
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void updateEvent__invalid_startedAt_endedAt() throws Exception {
     // Given
     Event event = createEvent();
     EventDto eventDto = EventDto.builder()
-            .location(location)
+            .location(new LocationDto(
+                    "서울 서초구 강남대로61길 3",
+                    "스타벅스",
+                    127.026503385182,
+                    37.4991561765984,
+                    "http://place.map.daum.net/27290899"
+            ))
             .startedAt(LocalDateTime.of(2018, 11, 16, 0, 0))
             .endedAt(LocalDateTime.of(2018, 11, 15, 0, 0))
             .build();
@@ -277,10 +304,10 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 삭제")
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void deleteEvent() throws Exception {
     // Given
-    Event event = createEvent();
-    User user =  event.getOwner();
+    Event event = createEvent(this.user);
 
     // When
     var perform = this.mockMvc.perform(
@@ -295,6 +322,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 삭제, 없을 때")
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void deleteEvent__not_found() throws Exception {
     // When
     var perform = this.mockMvc.perform(
@@ -310,6 +338,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트에 장소가 중복으로 insert 되지 않아야 한다")
+  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void eventLocationDuplicated() throws Exception {
     // Given
     var startedAt = LocalDateTime.now().plusDays(3);
@@ -321,7 +350,13 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .startedAt(startedAt)
             .endedAt(endedAt)
             .limitOfEnrollment(5)
-            .location(location)
+            .location(new LocationDto(
+                    "서울 서초구 강남대로61길 3",
+                    "스타벅스",
+                    127.026503385182,
+                    37.4991561765984,
+                    "http://place.map.daum.net/27290899"
+            ))
             .build();
     EventDto event2 = EventDto.builder()
             .name("낙성대 주말 코딩2")
@@ -329,14 +364,19 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .startedAt(startedAt)
             .endedAt(endedAt)
             .limitOfEnrollment(5)
-            .location(location)
+            .location(new LocationDto(
+                    "서울 서초구 강남대로61길 3",
+                    "스타벅스",
+                    127.026503385182,
+                    37.4991561765984,
+                    "http://place.map.daum.net/27290899"
+            ))
             .build();
 
     // When
     mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(event1))
@@ -346,7 +386,6 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     mockMvc
             .perform(
                     post("/api/events/")
-                            .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(event2))
