@@ -1,6 +1,7 @@
 package social.alone.server.event.type;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,14 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/api/event-types")
+@RequiredArgsConstructor
 public class EventTypeController {
 
-  private EventTypeRepository eventTypeRepository;
-
-  @Autowired
-  public EventTypeController(EventTypeRepository eventTypeRepository) {
-    this.eventTypeRepository = eventTypeRepository;
-  }
+  private final EventTypeRepository eventTypeRepository;
 
   @GetMapping
   public ResponseEntity queryEvents(

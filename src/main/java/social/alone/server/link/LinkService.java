@@ -1,23 +1,18 @@
 package social.alone.server.link;
 
 
-import social.alone.server.event.Event;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import social.alone.server.event.Event;
 
 import javax.transaction.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class LinkService {
 
-  private LinkRepository linkRepository;
-
-  @Autowired
-  public LinkService(LinkRepository linkRepository){
-
-    this.linkRepository = linkRepository;
-  }
+  private final LinkRepository linkRepository;
 
   public Link createLink(Event event){
     Link link = event.createLink();

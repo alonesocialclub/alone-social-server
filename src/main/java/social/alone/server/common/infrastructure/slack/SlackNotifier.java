@@ -1,5 +1,6 @@
 package social.alone.server.common.infrastructure.slack;
 
+import lombok.RequiredArgsConstructor;
 import social.alone.server.common.config.AppProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,17 +12,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class SlackNotifier {
 
-  private AppProperties appProperties;
+  private final AppProperties appProperties;
 
-  private RestTemplate restTemplate;
-
-  @Autowired
-  public SlackNotifier(AppProperties appProperties, RestTemplate restTemplate) {
-    this.appProperties = appProperties;
-    this.restTemplate = restTemplate;
-  }
+  private final RestTemplate restTemplate;
 
   @Async
   public void send(String text) {
