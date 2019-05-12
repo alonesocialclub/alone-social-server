@@ -1,12 +1,6 @@
 package social.alone.server.auth.oauth2;
 
-import social.alone.server.user.AuthProvider;
-import social.alone.server.user.User;
-import social.alone.server.auth.oauth2.user.OAuth2UserInfo;
-import social.alone.server.auth.oauth2.user.OAuth2UserInfoFactory;
-import social.alone.server.user.UserRepository;
-import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -15,14 +9,20 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import social.alone.server.auth.oauth2.user.OAuth2UserInfo;
+import social.alone.server.auth.oauth2.user.OAuth2UserInfoFactory;
+import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
+import social.alone.server.user.AuthProvider;
+import social.alone.server.user.User;
+import social.alone.server.user.UserRepository;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
