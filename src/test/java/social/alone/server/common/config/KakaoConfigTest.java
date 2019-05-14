@@ -19,5 +19,7 @@ public class KakaoConfigTest {
     @Test
     public void test() {
         assertThat(config.getApiKey()).isNotEmpty();
+        assertThat(config.getSearchKeywordUrl()).isNotEmpty();
     }
+
 }

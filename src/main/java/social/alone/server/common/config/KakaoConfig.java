@@ -13,7 +13,14 @@ public class KakaoConfig {
     @NotEmpty
     private String apiKey;
 
+    @NotEmpty
+    private String searchKeywordUrl;
+
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
+    }
+
+    public void setSearchKeywordUrl(String searchKeywordUrl) {
+        this.searchKeywordUrl = searchKeywordUrl;
     }
 }

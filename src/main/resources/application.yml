@@ -81,6 +81,7 @@ app:
     channel: https://hooks.slack.com/services/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
   kakao:
     apiKey: 33c8e28de27079b503fb03ceb535a0c3
+    searchKeywordUrl: https://dapi.kakao.com
 
 logging:
   level:
