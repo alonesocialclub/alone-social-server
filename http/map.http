@@ -1,0 +1,4 @@
+GET https://dapi.kakao.com/v2/local/search/keyword.json?query=낙성대카페
+Authorization: KakaoAK {{kakaoKey}}
+# https://developers.kakao.com/docs/restapi/local#%ED%82%A4%EC%9B%8C%EB%93%9C-%EA%B2%80%EC%83%89
+###
