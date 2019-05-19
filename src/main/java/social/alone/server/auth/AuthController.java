@@ -1,18 +1,13 @@
 package social.alone.server.auth;
 
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import social.alone.server.auth.email.LoginRequestDto;
 import social.alone.server.auth.email.SignUpRequestDto;
 import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo;
-import social.alone.server.auth.oauth2.user.OAuth2UserInfo;
 import social.alone.server.common.controller.BaseController;
 import social.alone.server.common.exception.BadRequestException;
 import social.alone.server.user.User;
@@ -38,7 +33,7 @@ public class AuthController extends BaseController {
 
     @PostMapping("/login/facebook")
     public ResponseEntity<?> facebookLogin(
-            @Valid @NotEmpty String accessToken,
+            @RequestBody @Valid @NotEmpty String accessToken,
             Errors errors
     ) {
 
