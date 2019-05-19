@@ -1,6 +1,7 @@
 package social.alone.server.location;
 
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class KakaoApiRestTemplateTest {
     private KakaoApiRestTemplate kakaoApiRestTemplate;
 
     @Test
+    @Ignore
     public void test() {
         RestTemplate kakao = kakaoApiRestTemplate.kakaoLocalSearchApi();
         var result = kakao.getForObject("/v2/local/search/keyword.json?query={query}", String.class, "낙성대");

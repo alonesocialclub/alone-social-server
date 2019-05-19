@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import social.alone.server.common.config.AppProperties;
+import social.alone.server.user.User;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Date;
 
 @Service
@@ -20,7 +22,15 @@ public class TokenProvider {
 
     public String createToken(Authentication authentication) {
         UserPrincipalAdapter userPrincipalAdapter = (UserPrincipalAdapter) authentication.getPrincipal();
+        return token(userPrincipalAdapter);
+    }
 
+    public String createToken(User user) {
+        UserPrincipalAdapter userPrincipalAdapter = UserPrincipalAdapter.create(user);
+        return token(userPrincipalAdapter);
+    }
+
+    private String token(UserPrincipalAdapter userPrincipalAdapter) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
 
@@ -31,6 +41,7 @@ public class TokenProvider {
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();
     }
+
 
     Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()

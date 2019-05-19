@@ -5,10 +5,13 @@ management:
   endpoints:
     web:
       exposure:
-        include: info, health, env
+        include: info, health, env, mappings
   endpoint:
     health:
       show-details: always
+    mappings:
+      enabled: true
+
 
 
 spring:
@@ -82,6 +85,8 @@ app:
   kakao:
     apiKey: 33c8e28de27079b503fb03ceb535a0c3
     searchKeywordUrl: https://dapi.kakao.com
+  facebook:
+    graphUrl: https://graph.facebook.com/v3.3
 
 logging:
   level:

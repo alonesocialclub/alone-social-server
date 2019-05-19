@@ -12,20 +12,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import social.alone.server.auth.email.AuthTokenGenerator;
-import social.alone.server.auth.email.LoginRequestDto;
 import social.alone.server.auth.email.SignUpRequestDto;
-import social.alone.server.auth.oauth2.user.TokenProvider;
 import social.alone.server.event.Event;
 import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.repository.EventRepository;
@@ -38,7 +31,6 @@ import social.alone.server.location.LocationDto;
 import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
