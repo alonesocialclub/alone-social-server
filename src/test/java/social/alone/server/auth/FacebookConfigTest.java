@@ -18,7 +18,7 @@ public class FacebookConfigTest {
 
     @Test
     public void test() {
-        assertThat(config.getGraphUrl()).isEqualTo("https://graph.facebook.com/v3.0");
+        assertThat(config.getGraphUrl()).isEqualTo("https://graph.facebook.com/v3.3");
     }
 
 }
