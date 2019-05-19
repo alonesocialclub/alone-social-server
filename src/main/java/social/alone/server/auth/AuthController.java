@@ -1,4 +1,4 @@
-package social.alone.server.auth.email;
+package social.alone.server.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import social.alone.server.auth.email.LoginRequestDto;
+import social.alone.server.auth.email.SignUpRequestDto;
 import social.alone.server.common.controller.BaseController;
 import social.alone.server.common.exception.BadRequestException;
 import social.alone.server.user.User;
@@ -80,7 +82,10 @@ public class AuthController extends BaseController {
                 .buildAndExpand(user.getId()).toUri();
 
         var userResource = new UserResource(user);
-        var token = authTokenGenerator.byEmailPassword(signUpRequestDto.getEmail(), signUpRequestDto.getPassword());
+        var token = authTokenGenerator.byEmailPassword(
+                signUpRequestDto.getEmail(),
+                signUpRequestDto.getPassword()
+        );
         userResource.setToken(token);
 
         return ResponseEntity.created(location)

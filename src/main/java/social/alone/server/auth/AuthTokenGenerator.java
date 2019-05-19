@@ -1,4 +1,4 @@
-package social.alone.server.auth.email;
+package social.alone.server.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
