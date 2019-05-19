@@ -12,8 +12,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FacebookUserInfoFetcher {
 
-    private final FacebookConfig config;
-
     private final FacebookUserInfoRestTemplate facebookUserInfoRestTemplate;
 
     public OAuth2UserInfo getUserInfo(String accessToken) {
