@@ -2,17 +2,14 @@ package social.alone.server.user;
 
 
 import lombok.RequiredArgsConstructor;
-import social.alone.server.auth.email.SignUpRequestDto;
-import social.alone.server.common.exception.ResourceNotFoundException;
-import social.alone.server.interest.InterestService;
-import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
+import social.alone.server.common.exception.ResourceNotFoundException;
+import social.alone.server.interest.InterestService;
 
 @Service
 @Transactional
@@ -22,8 +19,6 @@ public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
 
   private final InterestService interestService;
-
-  private final PasswordEncoder passwordEncoder;
 
 
   @Override
@@ -43,19 +38,6 @@ public class UserService implements UserDetailsService {
     );
 
     return UserPrincipalAdapter.create(user);
-  }
-
-  public User createLocalAuthUser(
-          SignUpRequestDto signUpRequestDto
-  ) {
-
-    User user = User.builder()
-            .name(signUpRequestDto.getName())
-            .email(signUpRequestDto.getEmail())
-            .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
-            .build();
-
-    return userRepository.save(user);
   }
 
   // TODO FIX
