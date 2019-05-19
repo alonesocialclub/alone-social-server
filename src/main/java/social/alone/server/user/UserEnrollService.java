@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,4 +33,11 @@ public class UserEnrollService {
 
         return userRepository.save(user);
     }
+
+    public User enrollByFacebook(
+            FacebookOAuth2UserInfo userInfo) {
+        Optional<User> byEmail = userRepository.findByEmailAndProvider(userInfo.getEmail(), AuthProvider.facebook);
+        return byEmail.orElseGet(() -> userRepository.save(new User(userInfo, AuthProvider.facebook)));
+    }
+
 }

@@ -30,7 +30,7 @@ public class TokenProvider {
         return token(userPrincipalAdapter);
     }
 
-    public String token(UserPrincipalAdapter userPrincipalAdapter) {
+    private String token(UserPrincipalAdapter userPrincipalAdapter) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
 

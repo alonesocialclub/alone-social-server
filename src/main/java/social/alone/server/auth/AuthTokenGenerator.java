@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import social.alone.server.auth.oauth2.user.TokenProvider;
+import social.alone.server.user.User;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,12 @@ public class AuthTokenGenerator {
         );
 
         String token = tokenProvider.createToken(authentication);
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return token;
+    }
+
+    public String byUser(User user){
+        return tokenProvider.createToken(user);
     }
 }
