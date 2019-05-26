@@ -58,3 +58,5 @@ connect.sh
 http/http-client.env.json
 
 src/main/generated
+
+alone-social-club-firebase-adminsdk.json

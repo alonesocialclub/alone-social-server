@@ -52,6 +52,8 @@ dependencies {
     implementation('org.springframework.security:spring-security-oauth2-client')
     implementation('mysql:mysql-connector-java')
     implementation('com.h2database:h2')
+    implementation('com.google.firebase:firebase-admin:6.8.0')
+
 
     compile("com.querydsl:querydsl-jpa")
     compile("com.querydsl:querydsl-apt")
