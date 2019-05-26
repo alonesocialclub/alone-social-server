@@ -159,7 +159,7 @@ include::{snippets}/query-event-types/response-body.adoc[]
 |===
 |Path|Type|Description
 
-|`+faceBookAccessToken+`
+|`+facebookAccessToken+`
 |`+String+`
 |페이스북 엑세스 토큰
 
@@ -203,7 +203,7 @@ include::{snippets}/login-email/http-request.adoc[]
 include::{snippets}/login-email/response-body.adoc[]
 
 [[resources-auths]]
-== Oauth 인증 (/oauth2)
+== Oauth2 인증 (/oauth2)
 
 페이스북 로그인을 지원한다
 
