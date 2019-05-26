@@ -1,0 +1,11 @@
+
+
+#POST server.money-whip.com/api/push/tokens
+POST {{host}}/api/push/tokens
+Content-Type: application/json
+
+{
+  "fcmToken": "feUDElR39ZU:APA91bG0rzF8uvVCnteoMHwO1p8u46ol7m81wu-nKVhPl9926yCC2dCp3ljaTJTbHiHZBRdRADArjpwibRB_KsL7kgDugjSEkuCaUzxslnif5F-MMuNwqqIFPonXd3_m6lbYQtge4DfG"
+}
+
+###
