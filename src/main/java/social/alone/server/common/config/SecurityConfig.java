@@ -116,6 +116,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .mvcMatchers(HttpMethod.POST, "/api/events/{id}/links")
             .permitAll()
+            .mvcMatchers(HttpMethod.POST, "/api/push/tokens")
+            .permitAll()
             .antMatchers("/api/auth/**", "/oauth2/**")
             .permitAll()
             .anyRequest()
