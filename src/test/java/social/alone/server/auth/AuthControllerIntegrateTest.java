@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AuthIntegrateTest extends BaseIntegrateTest {
+public class AuthControllerIntegrateTest extends BaseIntegrateTest {
 
   @Test
   public void signupTest() throws Exception {
