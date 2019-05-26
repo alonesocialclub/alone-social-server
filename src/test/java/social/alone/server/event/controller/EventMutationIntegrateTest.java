@@ -290,7 +290,6 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             put("/api/events/{id}", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
-                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
     );
 
     // Then
@@ -324,7 +323,6 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     var perform = this.mockMvc.perform(
             delete("/api/events/{id}", 0)
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
     );
 
     // Then

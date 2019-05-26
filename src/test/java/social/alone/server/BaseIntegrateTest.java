@@ -19,6 +19,7 @@ import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import social.alone.server.auth.email.SignUpRequestDto;
+import social.alone.server.auth.oauth2.user.TokenProvider;
 import social.alone.server.event.Event;
 import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.repository.EventRepository;
@@ -32,6 +33,7 @@ import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -59,6 +61,9 @@ public class BaseIntegrateTest {
 
     @Autowired
     protected ModelMapper modelMapper;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @Autowired
     protected EventRepository eventRepository;
@@ -89,25 +94,10 @@ public class BaseIntegrateTest {
     }
 
 
-    protected String buildAuthToken() throws Exception {
-
-        var next = atomicInteger.incrementAndGet();
-
-        SignUpRequestDto data = SignUpRequestDto.builder()
-                .email(next + "@test.com")
-                .password("12345678")
-                .name("Jeff")
-                .build();
-
-        var perform = mockMvc.perform(
-                post("/api/auth/signup/email")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(data))
-        ).andExpect(status().isCreated());
-
-        String response = perform.andReturn().getResponse().getContentAsString();
-        String token = JsonPath.parse(response).read("token").toString();
-
+    protected String createUserAndBuildAuthToken() throws Exception {
+        String random = UUID.randomUUID().toString();
+        var user = createUser(random);
+        var token = tokenProvider.createToken(user);
         return "Bearer " + token;
     }
 

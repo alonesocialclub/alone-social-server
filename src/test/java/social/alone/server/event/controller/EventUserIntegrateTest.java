@@ -23,7 +23,7 @@ public class EventUserIntegrateTest extends BaseIntegrateTest {
     var perform = this.mockMvc.perform(
             post("/api/events/{id}/users", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .header(HttpHeaders.AUTHORIZATION, buildAuthToken())
+                    .header(HttpHeaders.AUTHORIZATION, createUserAndBuildAuthToken())
     );
 
     // Then
@@ -38,7 +38,7 @@ public class EventUserIntegrateTest extends BaseIntegrateTest {
   public void eventJoinCancel() throws Exception {
     // Given
     Event event = createEvent();
-    var token = buildAuthToken();
+    var token = createUserAndBuildAuthToken();
     // When
     this.mockMvc.perform(
             post("/api/events/{id}/users", event.getId())

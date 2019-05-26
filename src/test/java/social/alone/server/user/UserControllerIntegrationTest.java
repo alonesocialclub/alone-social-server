@@ -60,8 +60,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @Test
     public void putUsersMeTest() throws Exception {
         // Given
-        var token = buildAuthToken();
-
+        var token = createUserAndBuildAuthToken();
         List<InterestDto> interestDtoList = Arrays.asList(
                 InterestDto.builder().value("서예").build(),
                 InterestDto.builder().value("스타트업").build()
@@ -111,7 +110,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @Test
     public void putUsersMeTest__too_much_interests() throws Exception {
         // Given
-        var token = buildAuthToken();
+        var token = createUserAndBuildAuthToken();
         List<InterestDto> interestDtoList = Arrays.asList(
                 InterestDto.of("사후세계"),
                 InterestDto.builder().value("스타트업").build(),
@@ -146,7 +145,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @Test
     public void putUsersMeTest__invalid_email_format() throws Exception {
         // Given
-        var token = buildAuthToken();
+        var token = createUserAndBuildAuthToken();
         UserDto userDto = UserDto.builder()
                 .name("foo")
                 .email("invalid.email.com")
