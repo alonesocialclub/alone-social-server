@@ -17,117 +17,118 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class AuthControllerIntegrateTest extends BaseIntegrateTest {
 
-  @Test
-  public void signupTest() throws Exception {
-    // Given
-    SignUpRequestDto data = SignUpRequestDto.builder()
-            .email("signupTest@test.com")
-            .password("123456785678")
-            .name("Jeff")
-            .build();
 
-    // When
-    var perform = mockMvc.perform(
-            post("/api/auth/signup/email")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaTypes.HAL_JSON)
-                    .content(objectMapper.writeValueAsString(data))
-    );
+    @Test
+    public void signupTest() throws Exception {
+        // Given
+        SignUpRequestDto data = SignUpRequestDto.builder()
+                .email("signupTest@test.com")
+                .password("123456785678")
+                .name("Jeff")
+                .build();
 
-    // Then
-    perform
-            .andDo(print())
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath("id").isNumber())
-            .andExpect(jsonPath("token").isString());
+        // When
+        var perform = mockMvc.perform(
+                post("/api/auth/signup/email")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaTypes.HAL_JSON)
+                        .content(objectMapper.writeValueAsString(data))
+        );
 
-    perform
-            .andDo(
-                    document(
-                            "signup-email",
-                            requestFields(
-                                    fieldWithPath("email").description("로그인에 사용할 이메일"),
-                                    fieldWithPath("password").description("비밀번호"),
-                                    fieldWithPath("name").description("이름")
-                            )
+        // Then
+        perform
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").isNumber())
+                .andExpect(jsonPath("token").isString());
 
-                    )
-            );
-  }
+        perform
+                .andDo(
+                        document(
+                                "signup-email",
+                                requestFields(
+                                        fieldWithPath("email").description("로그인에 사용할 이메일"),
+                                        fieldWithPath("password").description("비밀번호"),
+                                        fieldWithPath("name").description("이름")
+                                )
 
-  @Test
-  public void loginTest() throws Exception {
+                        )
+                );
+    }
 
-    // given
-    SignUpRequestDto signUpRequestDto = SignUpRequestDto.builder()
-            .email("loginTest@test.com")
-            .password("12345678")
-            .name("Jeff")
-            .build();
+    @Test
+    public void loginTest() throws Exception {
 
-    mockMvc.perform(
-            post("/api/auth/signup/email")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(objectMapper.writeValueAsString(signUpRequestDto))
-    ).andExpect(status().isCreated());
+        // given
+        SignUpRequestDto signUpRequestDto = SignUpRequestDto.builder()
+                .email("loginTest@test.com")
+                .password("12345678")
+                .name("Jeff")
+                .build();
 
-    // When
-    LoginRequestDto loginRequestDto = modelMapper.map(signUpRequestDto, LoginRequestDto.class);
-    var perform = mockMvc.perform(
-            post("/api/auth/login/email")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(objectMapper.writeValueAsString(loginRequestDto))
-    );
+        mockMvc.perform(
+                post("/api/auth/signup/email")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(signUpRequestDto))
+        ).andExpect(status().isCreated());
 
-    // Then
-    perform.andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("id").isNumber())
-            .andExpect(jsonPath("token").isString());
+        // When
+        LoginRequestDto loginRequestDto = modelMapper.map(signUpRequestDto, LoginRequestDto.class);
+        var perform = mockMvc.perform(
+                post("/api/auth/login/email")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(loginRequestDto))
+        );
 
-    perform.andDo(
-            document(
-                    "login-email",
-                    requestFields(
-                            fieldWithPath("email").description("로그인에 사용할 이메일"),
-                            fieldWithPath("password").description("비밀번호")
-                    )
+        // Then
+        perform.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").isNumber())
+                .andExpect(jsonPath("token").isString());
 
-            )
-    );
-  }
+        perform.andDo(
+                document(
+                        "login-email",
+                        requestFields(
+                                fieldWithPath("email").description("로그인에 사용할 이메일"),
+                                fieldWithPath("password").description("비밀번호")
+                        )
 
-  @Test
-  public void loginInvalidDto() throws Exception {
-    LoginRequestDto loginRequestDto = new LoginRequestDto("notemail", "");
+                )
+        );
+    }
 
-    // When
-    var perform = mockMvc.perform(
-            post("/api/auth/login/email")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(objectMapper.writeValueAsString(loginRequestDto))
-    );
+    @Test
+    public void loginInvalidDto() throws Exception {
+        LoginRequestDto loginRequestDto = new LoginRequestDto("notemail", "");
 
-    // Then
-    perform.andDo(print())
-            .andExpect(status().isBadRequest());
-  }
+        // When
+        var perform = mockMvc.perform(
+                post("/api/auth/login/email")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(loginRequestDto))
+        );
+
+        // Then
+        perform.andDo(print())
+                .andExpect(status().isBadRequest());
+    }
 
 
-  @Test
-  public void loginNotFound() throws Exception {
-    LoginRequestDto loginRequestDto = new LoginRequestDto("notfound@email.com", "123123");
+    @Test
+    public void loginNotFound() throws Exception {
+        LoginRequestDto loginRequestDto = new LoginRequestDto("notfound@email.com", "123123");
 
-    // When
-    var perform = mockMvc.perform(
-            post("/api/auth/login/email")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(objectMapper.writeValueAsString(loginRequestDto))
-    );
+        // When
+        var perform = mockMvc.perform(
+                post("/api/auth/login/email")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(loginRequestDto))
+        );
 
-    // Then
-    perform.andDo(print())
-            .andExpect(status().isNotFound());
-  }
+        // Then
+        perform.andDo(print())
+                .andExpect(status().isNotFound());
+    }
 
 }

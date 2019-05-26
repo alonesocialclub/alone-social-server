@@ -33,7 +33,7 @@ public class AuthController extends BaseController {
 
     @PostMapping("/login/facebook")
     public ResponseEntity<?> facebookLogin(
-            @RequestBody @Valid @NotEmpty String accessToken,
+            @RequestBody @Valid @NotEmpty String facebookAccessToken,
             Errors errors
     ) {
 
@@ -41,7 +41,7 @@ public class AuthController extends BaseController {
             return BadRequest(errors);
         }
 
-        User user = userEnrollService.byFacebook(accessToken);
+        User user = userEnrollService.byFacebook(facebookAccessToken);
         String token = authTokenGenerator.byUser(user);
 
         var userResource = new UserResource(user);

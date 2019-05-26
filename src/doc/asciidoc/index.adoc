@@ -68,6 +68,29 @@ include::{snippets}/post-events-invalid/http-request.adoc[]
 include::{snippets}/post-events-invalid/http-response.adoc[]
 
 
+[[resources-auth]]
+== 인증 (/api/auth)
+
+페이스북 엑세스 토큰을 통해 유저 로그인을 진행한다
+
+[[resources-auth-facebook-login]]
+
+.request
+```
+POST /api/events HTTP/1.1
+Host: server.money-whip.com
+Content-Type: application/json;charset=UTF-8
+Content-Length: 444
+
+{
+  "facebookAccessToken": "12341234"
+}
+```
+
+.response
+include::{snippets}/login-email/response-body.adoc[]
+
+
 [[resources-events]]
 == 이벤트 (/api/events)
 
