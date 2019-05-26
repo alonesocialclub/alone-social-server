@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.transaction.BeforeTransaction;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.interest.InterestDto;
 
@@ -22,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerIntegrationTest extends BaseIntegrateTest {
 
     @Test
-    @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
     public void getUsersMeTest() throws Exception {
         // When
         var perform = mockMvc
@@ -36,11 +35,11 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         perform
                 .andDo(print())
                 .andDo(
-                        document("get-user-me")
+                        document("get-createdUser-me")
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").isNotEmpty())
-                .andExpect(jsonPath("id").value(this.user.getId()));
+                .andExpect(jsonPath("id").value(this.createdUser.getId()));
     }
 
     @Test
@@ -172,14 +171,12 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     }
 
     @Test
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
     public void getUsersId() throws Exception {
-        // Given
-        var user = createUser();
-
         // When
         var perform = mockMvc
                 .perform(
-                        get("/api/users/{id}", user.getId())
+                        get("/api/users/{id}", createdUser.getId())
                                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 );
@@ -188,9 +185,9 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         perform
                 .andDo(print())
                 .andDo(
-                        document("get-user-id")
+                        document("get-createdUser-id")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(user.getId()));
+                .andExpect(jsonPath("id").value(createdUser.getId()));
     }
 }

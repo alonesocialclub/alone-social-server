@@ -1,8 +1,6 @@
 package social.alone.server.event.controller;
 
 import com.jayway.jsonpath.JsonPath;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
@@ -14,9 +12,7 @@ import social.alone.server.event.Event;
 import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeDto;
-import social.alone.server.location.Location;
 import social.alone.server.location.LocationDto;
-import social.alone.server.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -38,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventTest() throws Exception {
     // Given
     EventType eventType1 = createEventType("밥 같이 먹어요");
@@ -105,7 +101,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
   }
 
   @Test
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventDuplicated__Test() throws Exception {
     // Given
     var payload = "{\"name\":\"투썸플레이스 포스코사거리점\",\"description\":\"투썸플레이스 포스코사거리점\",\"location\":{\"name\":\"투썸플레이스 포스코사거리점\",\"address\":\"서울 강남구 테헤란로 508\",\"placeUrl\":\"http://place.map.daum.net/26452947\",\"latitude\":37.50670826384592,\"longitude\":127.0580393520872,\"imageUrl\":null},\"startedAt\":\"2019-04-28T14:09\",\"endedAt\":\"2019-04-28T17:09\",\"limitOfEnrollment\":5,\"eventTypes\":[]}";
@@ -137,7 +133,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("입력값이 없는 경우에")
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventTest__empty_input() throws Exception {
     // Given
     EventDto eventDto = EventDto.builder()
@@ -168,7 +164,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 시작일은 종료일보다 이전이여야 한다.")
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventTest_invalid_input() throws Exception {
     // Given
     EventDto eventDto = EventDto.builder()
@@ -206,10 +202,10 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 수정")
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void updateEvent__happy() throws Exception {
     // Given
-    Event event = createEvent(this.user);
+    Event event = createEvent(this.createdUser);
     String updatedName = "updated event";
     EventDto eventDto = EventDto
             .builder()
@@ -243,7 +239,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 수정, 없는 이벤트에 대해서")
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void updateEvent__not_found() throws Exception {
     // Given
     EventDto eventDto = EventDto
@@ -273,7 +269,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 수정, 시작시간을 종료시간 이후의 값을 넣는 경우")
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void updateEvent__invalid_startedAt_endedAt() throws Exception {
     // Given
     Event event = createEvent();
@@ -304,10 +300,10 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 삭제")
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void deleteEvent() throws Exception {
     // Given
-    Event event = createEvent(this.user);
+    Event event = createEvent(this.createdUser);
 
     // When
     var perform = this.mockMvc.perform(
@@ -322,7 +318,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트 삭제, 없을 때")
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void deleteEvent__not_found() throws Exception {
     // When
     var perform = this.mockMvc.perform(
@@ -338,7 +334,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("이벤트에 장소가 중복으로 insert 되지 않아야 한다")
-  @WithUserDetails(value = USER_EMAIL, userDetailsServiceBeanName = "userService")
+  @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void eventLocationDuplicated() throws Exception {
     // Given
     var startedAt = LocalDateTime.now().plusDays(3);

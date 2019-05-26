@@ -46,8 +46,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Ignore
 @Transactional
 public class BaseIntegrateTest {
-    protected final static String USER_EMAIL = "user-me@gmail.com";
-    protected User user;
+    protected final static String CREATED_USER_EMAIL = "createdUser-me@gmail.com";
+    protected User createdUser;
 
     private static final AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -74,22 +74,16 @@ public class BaseIntegrateTest {
 
     @BeforeTransaction
     public void setUp() {
-        this.user = createUser(USER_EMAIL);
+        this.createdUser = createUser(CREATED_USER_EMAIL);
     }
 
     @AfterTransaction
     public void setDown() {
-        this.userRepository.delete(this.user);
+        this.userRepository.delete(this.createdUser);
     }
 
-    @Deprecated
-    protected User createUser() {
-        var next = atomicInteger.incrementAndGet();
-        User user = new User("foo" + next + "@test.com", "1234", "local");
-        return this.userRepository.save(user);
-    }
 
-    protected User createUser(String email) {
+    private User createUser(String email) {
         User user = new User(email, "1234", "local");
         return this.userRepository.save(user);
     }
@@ -159,7 +153,6 @@ public class BaseIntegrateTest {
                 127.026503385182,
                 37.4991561765984,
                 "http://place.map.daum.net/27290899");
-        User user = this.createUser();
         var next = atomicInteger.incrementAndGet();
         EventDto eventDto = EventDto.builder()
                 .name("event" + next)
@@ -169,7 +162,7 @@ public class BaseIntegrateTest {
                 .limitOfEnrollment(5)
                 .location(location)
                 .build();
-        Event event = new Event(eventDto, user);
+        Event event = new Event(eventDto, this.createdUser);
         event.updateLocation(location.buildLocation());
         return this.eventRepository.save(event);
     }
