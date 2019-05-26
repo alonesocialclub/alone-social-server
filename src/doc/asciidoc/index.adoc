@@ -167,10 +167,9 @@ include::{snippets}/query-event-types/response-body.adoc[]
 
 .request
 ```
-POST /api/events HTTP/1.1
+POST /api/auth/login/facebook HTTP/1.1
 Host: server.money-whip.com
 Content-Type: application/json;charset=UTF-8
-Content-Length: 444
 
 {
   "facebookAccessToken": "12341234"
