@@ -59,4 +59,4 @@ http/http-client.env.json
 
 src/main/generated
 
-alone-social-club-firebase-adminsdk.json
+src/main/resources/alone-social-club-firebase-adminsdk.json
