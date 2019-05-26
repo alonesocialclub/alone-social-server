@@ -68,28 +68,6 @@ include::{snippets}/post-events-invalid/http-request.adoc[]
 include::{snippets}/post-events-invalid/http-response.adoc[]
 
 
-[[resources-auth]]
-== 인증 (/api/auth)
-
-페이스북 엑세스 토큰을 통해 유저 로그인을 진행한다
-
-[[resources-auth-facebook-login]]
-
-.request
-```
-POST /api/events HTTP/1.1
-Host: server.money-whip.com
-Content-Type: application/json;charset=UTF-8
-Content-Length: 444
-
-{
-  "facebookAccessToken": "12341234"
-}
-```
-
-.response
-include::{snippets}/login-email/response-body.adoc[]
-
 
 [[resources-events]]
 == 이벤트 (/api/events)
@@ -170,13 +148,33 @@ include::{snippets}/query-event-types/response-body.adoc[]
 
 
 [[resources-auths]]
-== 이메일 인증 (/api/auth)
+== 인증 (/api/auth)
 
-이메일/패스워드 기반 로그인, 회원가입을 지원한다.
+이메일 혹은 페이스북 엑세스 토큰 인증을 지원
 
+=== 페이스북 토큰 인증
+
+페이스북 엑세스 토큰을 통해 유저 로그인을 진행한다
+
+[[resources-auth-facebook-login]]
+
+.request
+```
+POST /api/events HTTP/1.1
+Host: server.money-whip.com
+Content-Type: application/json;charset=UTF-8
+Content-Length: 444
+
+{
+  "facebookAccessToken": "12341234"
+}
+```
+
+.response
+include::{snippets}/login-email/response-body.adoc[]
 
 [[resources-auth-signup]]
-=== 회원가입
+=== 이메일 회원가입
 
 `POST` 요청을 사용해서 이메일/패스워드 기반으로 회원가입을 한다.
 include::{snippets}/signup-email/request-fields.adoc[]
@@ -187,7 +185,7 @@ include::{snippets}/signup-email/http-request.adoc[]
 include::{snippets}/signup-email/response-body.adoc[]
 
 [[resources-auth-login]]
-=== 로그인
+=== 이메일 로그인
 
 `POST` 요청을 사용해서 이메일/패스워드 기반으로 로그인을 한다.
 include::{snippets}/login-email/request-fields.adoc[]
