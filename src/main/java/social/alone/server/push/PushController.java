@@ -1,9 +1,6 @@
 package social.alone.server.push;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,27 +10,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import social.alone.server.auth.oauth2.user.CurrentUser;
 import social.alone.server.user.User;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-
 @Controller
 @RequestMapping(value = "/api/push")
 @RequiredArgsConstructor
 public class PushController {
 
+    private final FcmTokenRepository fcmTokenRepository;
 
     @PostMapping("/tokens")
     public ResponseEntity enrollFcmToken(
-            @RequestBody @Valid @NotEmpty String fcmToken,
+            @RequestBody FcmTokenRequest req,
             @CurrentUser User user
     ) {
 
+        fcmTokenRepository.save(new FcmToken(req.getFcmToken()));
+
         // See documentation on defining a message payload.
         Message message = Message.builder()
-                .putData("score", "850")
-                .putData("time", "2:45")
-                .setNotification(new Notification("title~", "body~"))
-                .setToken(fcmToken)
+                .setApnsConfig(
+                        ApnsConfig
+                                .builder()
+                                .setAps(
+                                        Aps
+                                                .builder()
+                                                .setAlert(ApsAlert.builder().setBody("body").build())
+                                                .build()
+                                )
+                                .build()
+                )
+                .setNotification(new Notification("title~!!", "body~"))
+                .setToken(req.getFcmToken())
                 .build();
 
 
@@ -42,7 +48,7 @@ public class PushController {
             return ResponseEntity.ok(response);
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
+            return ResponseEntity.ok("foo");
         }
-        return ResponseEntity.notFound().build();
     }
 }
