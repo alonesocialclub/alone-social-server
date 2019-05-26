@@ -152,11 +152,18 @@ include::{snippets}/query-event-types/response-body.adoc[]
 
 이메일 혹은 페이스북 엑세스 토큰 인증을 지원
 
+[[resources-auth-facebook-login]]
 === 페이스북 토큰 인증
 
 페이스북 엑세스 토큰을 통해 유저 로그인을 진행한다
+|===
+|Path|Type|Description
 
-[[resources-auth-facebook-login]]
+|`+faceBookAccessToken+`
+|`+String+`
+|페이스북 엑세스 토큰
+
+|===
 
 .request
 ```
