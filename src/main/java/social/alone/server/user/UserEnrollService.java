@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import social.alone.server.auth.FacebookUserInfoFetcher;
 import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,8 @@ public class UserEnrollService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final FacebookUserInfoFetcher facebookUserInfoFetcher;
 
     public User enrollByEmailPassword(
             String email, String password, String name
@@ -34,7 +37,12 @@ public class UserEnrollService {
         return userRepository.save(user);
     }
 
-    public User enrollByFacebook(
+    public User byFacebook(String accessToken){
+        FacebookOAuth2UserInfo userInfo = facebookUserInfoFetcher.getUserInfo(accessToken);
+        return this.enrollByFacebook(userInfo);
+    }
+
+    private User enrollByFacebook(
             FacebookOAuth2UserInfo userInfo) {
         Optional<User> byEmail = userRepository.findByEmailAndProvider(userInfo.getEmail(), AuthProvider.facebook);
         return byEmail.orElseGet(() -> userRepository.save(new User(userInfo, AuthProvider.facebook)));
