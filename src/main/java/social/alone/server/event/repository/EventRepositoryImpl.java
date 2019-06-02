@@ -1,12 +1,13 @@
 package social.alone.server.event.repository;
 
+import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import social.alone.server.event.Event;
-import social.alone.server.event.type.EventQueryParams;
 import social.alone.server.event.QEvent;
+import social.alone.server.event.type.EventQueryParams;
 import social.alone.server.user.User;
 
 import java.util.List;
@@ -52,12 +53,25 @@ public class EventRepositoryImpl extends QuerydslRepositorySupport implements Ev
                       .asc()
       );
     }
-    final List<Event> events = getQuerydsl().applyPagination(pageable, query).fetch();
+    query = query.where(conditionalStartedAt(pageable, eventQueryParams));
+
+
+    final List<Event> events = query
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
     return new PageImpl<>(events, pageable, query.fetchCount());
   }
 
   @Override
   public Page<Event> search(Pageable pageable, EventQueryParams eventQueryParams) {
     return search(pageable, null, eventQueryParams);
+  }
+
+  private Predicate conditionalStartedAt(Pageable pageable, EventQueryParams params){
+      if (params.getStartedAt() == null){
+          return null;
+      }
+      return null;
   }
 }

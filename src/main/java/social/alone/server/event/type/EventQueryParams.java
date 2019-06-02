@@ -1,10 +1,9 @@
 package social.alone.server.event.type;
 
-import social.alone.server.event.type.Coordinate;
-import social.alone.server.event.type.EventQueryType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Getter
@@ -17,6 +16,8 @@ public class EventQueryParams {
 
   @Setter
   private Double latitude;
+
+  private LocalDateTime startedAt;
 
   public void setType(final EventQueryType type) {
     this.type = type == null ? EventQueryType.ALL : type;

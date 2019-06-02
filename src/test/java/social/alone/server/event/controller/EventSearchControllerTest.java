@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventSearchIntegrateTest extends BaseIntegrateTest {
+public class EventSearchControllerTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("30개의 이벤트를 페이징 조회")

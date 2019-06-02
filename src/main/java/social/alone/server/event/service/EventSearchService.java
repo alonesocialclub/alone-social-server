@@ -1,5 +1,6 @@
 package social.alone.server.event.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,10 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class EventSearchService {
 
-  private EventRepository eventRepository;
-
-
-  public EventSearchService(EventRepository eventRepository) {
-    this.eventRepository = eventRepository;
-  }
+  private final EventRepository eventRepository;
 
   public Page<Event> findAllBy(
           Pageable pageable,
