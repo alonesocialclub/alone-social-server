@@ -3,10 +3,7 @@ package social.alone.server.auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import social.alone.server.auth.email.LoginRequestDto;
 import social.alone.server.auth.email.SignUpRequestDto;
@@ -33,7 +30,7 @@ public class AuthController extends BaseController {
 
     @PostMapping("/login/facebook")
     public ResponseEntity<?> facebookLogin(
-            @RequestBody @Valid @NotEmpty String facebookAccessToken,
+            @RequestBody @Valid FacebookLoginDto dto,
             Errors errors
     ) {
 
@@ -41,7 +38,7 @@ public class AuthController extends BaseController {
             return BadRequest(errors);
         }
 
-        User user = userEnrollService.byFacebook(facebookAccessToken);
+        User user = userEnrollService.byFacebook(dto.getFacebookAccessToken());
         String token = authTokenGenerator.byUser(user);
 
         var userResource = new UserResource(user);
