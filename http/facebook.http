@@ -1,4 +1,9 @@
-GET https://graph.facebook.com/v3.3/me?access_token={{access_token}}}
+POST http://localhost:8080/api/auth/login/facebook
 Content-Type: application/json
+
+
+{
+  "facebookAccessToken": "EAABxzTdnFngBAMAyANmOIRTIVocdHZAVyB7wJ08XoNRZCoDGWS3gSZBgbQyZBTAZBhZBZB55wMPLQIIqN61UCX9PYB110cceE2iHx4OAVZAj2UzFKtyLi1FKFnit0qCkbayW8lzq1Fl0C9fVofy0rVpmt4E40Cw6cp8ZA86WOdZCvTNx08LJyDxfIPk0DPidAWwS9u1ZAs6ZAROyFHj3tajoDQLkt7VVw1sYWjs5ZC1iWzuPapwZDZD"
+}
 
 ###
