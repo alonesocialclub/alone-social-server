@@ -2,6 +2,7 @@ package social.alone.server.event.type;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.DisplayName;
 
@@ -22,7 +23,7 @@ public class EventTypeIntegrateTest extends BaseIntegrateTest {
     IntStream.range(0, 10).forEach(i -> this.createEventType("event category" + i));
 
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             get("/api/event-types")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaType.APPLICATION_JSON_UTF8)

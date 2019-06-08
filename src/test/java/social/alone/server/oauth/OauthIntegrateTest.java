@@ -1,5 +1,6 @@
 package social.alone.server.oauth;
 
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class OauthIntegrateTest extends BaseIntegrateTest {
   @Test
   public void testOauth2AuthorizeFacebook() throws Exception {
 
-    var perform = mockMvc.perform(
+    ResultActions perform = mockMvc.perform(
             get("/oauth2/authorize/facebook")
                     .param("redirect_uri", "https://myweb.com")
     );

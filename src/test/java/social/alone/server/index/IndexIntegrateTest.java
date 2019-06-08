@@ -1,5 +1,6 @@
 package social.alone.server.index;
 
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public class IndexIntegrateTest extends BaseIntegrateTest {
 
   @Test
   public void apiIndexTest() throws Exception {
-    var perform = this.mockMvc
+    ResultActions perform = this.mockMvc
             .perform((get("/api")));
 
     perform

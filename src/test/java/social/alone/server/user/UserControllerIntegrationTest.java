@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.interest.InterestDto;
 
@@ -24,7 +25,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
     public void getUsersMeTest() throws Exception {
         // When
-        var perform = mockMvc
+        ResultActions perform = mockMvc
                 .perform(
                         get("/api/users/me")
                                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -45,7 +46,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @Test
     public void getUsersMeTest__without_token() throws Exception {
         // Given & When
-        var perform = mockMvc
+        ResultActions perform = mockMvc
                 .perform(
                         get("/api/users/me")
                                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -60,7 +61,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @Test
     public void putUsersMeTest() throws Exception {
         // Given
-        var token = createUserAndBuildAuthToken();
+        String token = createUserAndBuildAuthToken();
         List<InterestDto> interestDtoList = Arrays.asList(
                 InterestDto.builder().value("서예").build(),
                 InterestDto.builder().value("스타트업").build()
@@ -74,7 +75,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         System.out.println("======================");
 
         // When
-        var perform = mockMvc
+        ResultActions perform = mockMvc
                 .perform(
                         put("/api/users/me")
                                 .header(HttpHeaders.AUTHORIZATION, token)
@@ -110,7 +111,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @Test
     public void putUsersMeTest__too_much_interests() throws Exception {
         // Given
-        var token = createUserAndBuildAuthToken();
+        String token = createUserAndBuildAuthToken();
         List<InterestDto> interestDtoList = Arrays.asList(
                 InterestDto.of("사후세계"),
                 InterestDto.builder().value("스타트업").build(),
@@ -127,7 +128,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
                 .build();
 
         // When
-        var perform = mockMvc
+        ResultActions perform = mockMvc
                 .perform(
                         put("/api/users/me")
                                 .header(HttpHeaders.AUTHORIZATION, token)
@@ -145,14 +146,14 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @Test
     public void putUsersMeTest__invalid_email_format() throws Exception {
         // Given
-        var token = createUserAndBuildAuthToken();
+        String token = createUserAndBuildAuthToken();
         UserDto userDto = UserDto.builder()
                 .name("foo")
                 .email("invalid.email.com")
                 .build();
 
         // When
-        var perform = mockMvc
+        ResultActions perform = mockMvc
 
                 .perform(
                         put("/api/users/me")
@@ -173,7 +174,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
     public void getUsersId() throws Exception {
         // When
-        var perform = mockMvc
+        ResultActions perform = mockMvc
                 .perform(
                         get("/api/users/{id}", createdUser.getId())
                                 .contentType(MediaType.APPLICATION_JSON_UTF8)

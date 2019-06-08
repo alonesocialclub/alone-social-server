@@ -35,8 +35,8 @@ public class EventSearchServiceTest {
   public void findAllBy() {
 
     Optional<User> user = Optional.empty();
-    var pageable = Pageable.unpaged();
-    var eventQueryParams = new EventQueryParams();
+    Pageable pageable = Pageable.unpaged();
+    EventQueryParams eventQueryParams = new EventQueryParams();
     eventQueryParams.setType(EventQueryType.ALL);
     eventQueryParams.setLatitude(127.026503385182);
     eventQueryParams.setLongitude(37.4991561765984);

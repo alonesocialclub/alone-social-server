@@ -96,8 +96,8 @@ public class BaseIntegrateTest {
 
     protected String createUserAndBuildAuthToken() throws Exception {
         String random = UUID.randomUUID().toString();
-        var user = createUser(random);
-        var token = tokenProvider.createToken(user);
+        User user = createUser(random);
+        String token = tokenProvider.createToken(user);
         return "Bearer " + token;
     }
 
@@ -111,7 +111,7 @@ public class BaseIntegrateTest {
                 127.026503385182,
                 37.4991561765984,
                 "http://place.map.daum.net/27290899");
-        var next = atomicInteger.incrementAndGet();
+        Integer next = atomicInteger.incrementAndGet();
         EventDto eventDto = EventDto.builder()
                 .name("event" + next)
                 .description("Rest")
@@ -131,7 +131,7 @@ public class BaseIntegrateTest {
     }
 
     protected Event createEvent(Location location) {
-        var event = createEvent();
+        Event event = createEvent();
         event.updateLocation(location);
         return this.eventRepository.save(event);
     }
@@ -143,7 +143,7 @@ public class BaseIntegrateTest {
                 127.026503385182,
                 37.4991561765984,
                 "http://place.map.daum.net/27290899");
-        var next = atomicInteger.incrementAndGet();
+        Integer next = atomicInteger.incrementAndGet();
         EventDto eventDto = EventDto.builder()
                 .name("event" + next)
                 .description("Rest")

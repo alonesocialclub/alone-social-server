@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,8 +21,8 @@ public class FacebookUserInfoFetcherTest {
     @Test
     @Ignore
     public void test() {
-        var accessToken = "foo";
-        var user = userInfoFetcher.getUserInfo(accessToken);
+        String accessToken = "foo";
+        FacebookOAuth2UserInfo user = userInfoFetcher.getUserInfo(accessToken);
         assertThat(user.getEmail()).isNotEmpty();
         assertThat(user.getId()).isNotEmpty();
         assertThat(user.getName()).isNotEmpty();

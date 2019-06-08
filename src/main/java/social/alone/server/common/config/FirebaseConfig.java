@@ -16,7 +16,7 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void init() throws IOException {
-        var path = "alone-social-club-firebase-adminsdk.json";
+        String path = "alone-social-club-firebase-adminsdk.json";
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream serviceAccount = classLoader.getResourceAsStream(path);
 

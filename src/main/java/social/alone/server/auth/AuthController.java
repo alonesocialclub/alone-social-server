@@ -41,7 +41,7 @@ public class AuthController extends BaseController {
         User user = userEnrollService.byFacebook(dto.getFacebookAccessToken());
         String token = authTokenGenerator.byUser(user);
 
-        var userResource = new UserResource(user);
+        UserResource userResource = new UserResource(user);
         userResource.setToken(token);
         return ResponseEntity.ok(userResource);
     }
@@ -59,12 +59,12 @@ public class AuthController extends BaseController {
 
         Optional<User> byEmail = userRepository.findByEmail(loginRequestDto.getEmail());
 
-        if (byEmail.isEmpty()) {
+        if (!byEmail.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
-        var userResource = new UserResource(byEmail.orElseThrow());
-        var token = authTokenGenerator.byEmailPassword(loginRequestDto.getEmail(), loginRequestDto.getPassword());
+        UserResource userResource = new UserResource(byEmail.get());
+        String token = authTokenGenerator.byEmailPassword(loginRequestDto.getEmail(), loginRequestDto.getPassword());
         userResource.setToken(token);
         return ResponseEntity.ok(userResource);
     }
@@ -94,8 +94,8 @@ public class AuthController extends BaseController {
                 .fromCurrentContextPath().path("/user/me")
                 .buildAndExpand(user.getId()).toUri();
 
-        var userResource = new UserResource(user);
-        var token = authTokenGenerator.byEmailPassword(
+        UserResource userResource = new UserResource(user);
+        String token = authTokenGenerator.byEmailPassword(
                 signUpRequestDto.getEmail(),
                 signUpRequestDto.getPassword()
         );

@@ -112,10 +112,10 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
   }
 
   public String getLinkHtml() {
-    var url = "https://alone.social/events/" + this.id;
+    String url = "https://alone.social/events/" + this.id;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd hh");
-    var description = this.startedAt.format(formatter) + "시 " + this.location.getName() + "에서";
-    var text = String.format(
+    String description = this.startedAt.format(formatter) + "시 " + this.location.getName() + "에서";
+    String text = String.format(
             "<html>" +
                     "<head>" +
                     "<title>%s</title>" +
@@ -140,18 +140,18 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
 
   private void activityLogEventCreate() {
     if (!owner.isAdmin()) {
-      var message = this.getOwner() + "님이 " + this.toString() + "를 생성했습니다.";
+      String message = this.getOwner() + "님이 " + this.toString() + "를 생성했습니다.";
       this.registerEvent(buildSlackMessageEvent(message));
     }
   }
 
   private void activityLogJoinEvent(User user) {
-    var message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 하셨습니다.";
+    String message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 하셨습니다.";
     this.registerEvent(buildSlackMessageEvent(message));
   }
 
   private void activityLogJoinEventCancel(User user) {
-    var message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 취소 하셨습니다.";
+    String message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 취소 하셨습니다.";
     this.registerEvent(buildSlackMessageEvent(message));
   }
 

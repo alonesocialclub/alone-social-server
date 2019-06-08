@@ -17,7 +17,7 @@ public class IndexController {
 
     @GetMapping("/api")
     public ResourceSupport apiIndex() {
-        var index = new ResourceSupport();
+        ResourceSupport index = new ResourceSupport();
         index.add(ControllerLinkBuilder.linkTo(EventMutationController.class).withRel("events"));
         index.add(ControllerLinkBuilder.linkTo(EventMutationController.class).slash(":id").withRel("events/:id"));
         return index;

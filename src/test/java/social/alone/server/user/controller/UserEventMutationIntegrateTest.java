@@ -3,6 +3,7 @@ package social.alone.server.user.controller;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.event.Event;
 
@@ -23,7 +24,7 @@ public class UserEventMutationIntegrateTest extends BaseIntegrateTest {
   public void queryEventsTest() throws Exception {
     List<Event> eventList = Arrays.asList(this.createEvent(), this.createEvent());
 
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             get("/api/users/{id}/events", eventList.get(0).getOwner().getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaType.APPLICATION_JSON_UTF8)

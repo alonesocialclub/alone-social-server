@@ -3,6 +3,7 @@ package social.alone.server.auth;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.auth.email.LoginRequestDto;
 import social.alone.server.auth.email.SignUpRequestDto;
@@ -28,7 +29,7 @@ public class AuthControllerIntegrateTest extends BaseIntegrateTest {
                 .build();
 
         // When
-        var perform = mockMvc.perform(
+        ResultActions perform = mockMvc.perform(
                 post("/api/auth/signup/email")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaTypes.HAL_JSON)
@@ -74,7 +75,7 @@ public class AuthControllerIntegrateTest extends BaseIntegrateTest {
 
         // When
         LoginRequestDto loginRequestDto = modelMapper.map(signUpRequestDto, LoginRequestDto.class);
-        var perform = mockMvc.perform(
+        ResultActions perform = mockMvc.perform(
                 post("/api/auth/login/email")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(loginRequestDto))
@@ -103,7 +104,7 @@ public class AuthControllerIntegrateTest extends BaseIntegrateTest {
         LoginRequestDto loginRequestDto = new LoginRequestDto("notemail", "");
 
         // When
-        var perform = mockMvc.perform(
+        ResultActions perform = mockMvc.perform(
                 post("/api/auth/login/email")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(loginRequestDto))
@@ -120,7 +121,7 @@ public class AuthControllerIntegrateTest extends BaseIntegrateTest {
         LoginRequestDto loginRequestDto = new LoginRequestDto("notfound@email.com", "123123");
 
         // When
-        var perform = mockMvc.perform(
+        ResultActions perform = mockMvc.perform(
                 post("/api/auth/login/email")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(loginRequestDto))

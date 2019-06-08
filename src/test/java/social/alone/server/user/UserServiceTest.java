@@ -66,7 +66,7 @@ public class UserServiceTest {
   @Test
   public void saveTest__fix_email_only() {
     User user = build();
-    var userName = user.getName();
+    String userName = user.getName();
     UserDto userDto = UserDto.builder().email("foo@test.com").build();
 
     userService.update(user, userDto);
@@ -78,7 +78,7 @@ public class UserServiceTest {
   @Test
   public void saveTest__fix_interests_only() {
     User user = build();
-    var userName = user.getName();
+    String userName = user.getName();
     UserDto userDto = UserDto.builder().interests(Collections.singletonList(InterestDto.of("foo"))).build();
 
     userService.update(user, userDto);

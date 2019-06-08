@@ -1,16 +1,19 @@
 package social.alone.server.event.repository;
 
 import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import social.alone.server.event.Event;
 import social.alone.server.event.QEvent;
+import social.alone.server.event.type.Coordinate;
 import social.alone.server.event.type.EventQueryParams;
 import social.alone.server.user.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public class EventRepositoryImpl extends QuerydslRepositorySupport implements EventRepositoryCustom {
 
@@ -21,7 +24,7 @@ public class EventRepositoryImpl extends QuerydslRepositorySupport implements Ev
   @Override
   public Page<Event> search(Pageable pageable, User user, EventQueryParams eventQueryParams) {
     QEvent event = QEvent.event;
-    var query = from(event);
+    JPQLQuery<Event>query = from(event);
     switch (eventQueryParams.getType()) {
       case OWNER:
         if (user != null) {
@@ -41,9 +44,9 @@ public class EventRepositoryImpl extends QuerydslRepositorySupport implements Ev
     }
 
     // TODO Extract
-    var coordinate = eventQueryParams.getCoordinate();
+    Optional<Coordinate> coordinate = eventQueryParams.getCoordinate();
     if (coordinate.isPresent()) {
-      var exactCoordinate = coordinate.get();
+      Coordinate exactCoordinate = coordinate.get();
       query = query.orderBy(
               (
                       (event.location.longitude.subtract(exactCoordinate.getLongitude()).abs())

@@ -21,8 +21,8 @@ public class SlackNotifier {
 
   @Async
   public void send(String text) {
-    var url = appProperties.getSlack().getChannel();
-    var msg = new Message(text);
+    String url = appProperties.getSlack().getChannel();
+    Message msg = new Message(text);
     restTemplate.postForEntity(url, msg, String.class);
   }
 
