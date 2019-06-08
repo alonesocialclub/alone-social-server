@@ -65,7 +65,7 @@ public class EventMutationController extends BaseController {
             return BadRequest(errors);
         }
 
-        var updatedEvent = eventService.update(event, eventDto);
+        Event updatedEvent = eventService.update(event, eventDto);
         return ResponseEntity.ok(updatedEvent);
     }
 

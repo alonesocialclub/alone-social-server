@@ -2,6 +2,7 @@ package social.alone.server.event.controller;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.DisplayName;
 import social.alone.server.event.Event;
@@ -25,7 +26,7 @@ public class EventSearchControllerTest extends BaseIntegrateTest {
     IntStream.range(0, 10).forEach(__ -> this.createEvent());
 
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             get("/api/events")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaType.APPLICATION_JSON_UTF8)
@@ -60,7 +61,7 @@ public class EventSearchControllerTest extends BaseIntegrateTest {
     IntStream.range(0, 10).forEach(__ -> this.createEvent());
 
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             get("/api/events")
                     .param("type", "OWNER")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -78,21 +79,21 @@ public class EventSearchControllerTest extends BaseIntegrateTest {
   @DisplayName("좌표 기반 쿼리")
   public void queryEvents__location() throws Exception {
     // Given
-    var eventFar = this.createEvent(new Location(
+    Event eventFar = this.createEvent(new Location(
             "역삼",
             "할리스",
             127.0318613,
             37.4991894,
             "http://place.map.daum.net/27290899"
     ));
-    var eventNear = this.createEvent(new Location(
+    Event eventNear = this.createEvent(new Location(
             "낙성대",
             "가빈 커피로스터즈",
             126.9630652,
             37.4765389,
             "http://place.map.daum.net/27290899"
     ));
-    var eventFarFar = this.createEvent(new Location(
+    Event eventFarFar = this.createEvent(new Location(
             "역삼",
             "할리스",
             129.0318613,
@@ -102,7 +103,7 @@ public class EventSearchControllerTest extends BaseIntegrateTest {
 
 
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             get("/api/events")
                     .param("longitude", "37.477117")
                     .param("latitude", "126.961224")
@@ -127,7 +128,7 @@ public class EventSearchControllerTest extends BaseIntegrateTest {
     Event event = createEvent();
 
     // When
-    var perform = this.mockMvc.perform(get("/api/events/{id}", event.getId()));
+    ResultActions perform = this.mockMvc.perform(get("/api/events/{id}", event.getId()));
 
     // Then
     perform.andExpect(status().isOk());
@@ -148,7 +149,7 @@ public class EventSearchControllerTest extends BaseIntegrateTest {
   @DisplayName("기존 이벤트 하나 조회, 이벤트가 없을 때")
   public void getEvent__not_found() throws Exception {
     // When
-    var perform = this.mockMvc.perform(get("/api/events/{id}", 0));
+    ResultActions perform = this.mockMvc.perform(get("/api/events/{id}", 0));
 
     // Then
     perform.andExpect(status().isNotFound());

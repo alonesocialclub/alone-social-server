@@ -4,6 +4,7 @@ package social.alone.server.push;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -16,7 +17,7 @@ public class PushControllerTest  extends BaseIntegrateTest {
     @Ignore
     public void pushtest() throws Exception {
         // Given & When
-        var perform = mockMvc
+        ResultActions perform = mockMvc
                 .perform(
                         post("/api/push/tokens")
                                 .contentType(MediaType.APPLICATION_JSON_UTF8)

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.user.User;
 import social.alone.server.user.UserEnrollService;
 import social.alone.server.user.UserRepository;
@@ -47,12 +48,12 @@ public class AuthControllerMockTest {
     @Test
     public void facebook() throws Exception {
         User user = new User("facebook@email.com", "1234", "local");
-        var facebookAccessToken = "abcde";
+        String facebookAccessToken = "abcde";
         given(userEnrollService.byFacebook(facebookAccessToken)).willReturn(user);
         given(authTokenGenerator.byUser(user)).willReturn("fofofofofofofo");
 
 
-        var perform = mockMvc.perform(
+        ResultActions perform = mockMvc.perform(
                 post("/api/auth/login/facebook")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"facebookAccessToken\": \""+ facebookAccessToken + "\"}")

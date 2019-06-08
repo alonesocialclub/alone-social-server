@@ -3,6 +3,7 @@ package social.alone.server.event.controller;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.event.Event;
 
@@ -20,7 +21,7 @@ public class EventUserIntegrateTest extends BaseIntegrateTest {
     // Given
     Event event = createEvent();
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             post("/api/events/{id}/users", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .header(HttpHeaders.AUTHORIZATION, createUserAndBuildAuthToken())
@@ -38,14 +39,14 @@ public class EventUserIntegrateTest extends BaseIntegrateTest {
   public void eventJoinCancel() throws Exception {
     // Given
     Event event = createEvent();
-    var token = createUserAndBuildAuthToken();
+    String token = createUserAndBuildAuthToken();
     // When
     this.mockMvc.perform(
             post("/api/events/{id}/users", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .header(HttpHeaders.AUTHORIZATION, token)
     );
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             delete("/api/events/{id}/users", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .header(HttpHeaders.AUTHORIZATION, token)

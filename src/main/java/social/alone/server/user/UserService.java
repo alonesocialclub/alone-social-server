@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
 import social.alone.server.common.exception.ResourceNotFoundException;
+import social.alone.server.interest.Interest;
 import social.alone.server.interest.InterestService;
+
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 @Transactional
@@ -46,7 +50,7 @@ public class UserService implements UserDetailsService {
     User user = userRepository.findById(user_.getId()).get();
 
     if (userDto.getInterests() != null) {
-      var interests = interestService.saveAll(userDto.getInterests());
+      HashSet<Interest> interests = interestService.saveAll(userDto.getInterests());
       user.setInterests(interests);
     }
 

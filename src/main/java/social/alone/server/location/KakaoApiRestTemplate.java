@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -40,7 +41,7 @@ public class KakaoApiRestTemplate {
                 HttpRequest request,
                 byte[] body,
                 ClientHttpRequestExecution execution) throws IOException {
-            var headers = request.getHeaders();
+            HttpHeaders headers = request.getHeaders();
             headers.set("Authorization", "KakaoAK " + kakaoConfig.getApiKey());
             headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 

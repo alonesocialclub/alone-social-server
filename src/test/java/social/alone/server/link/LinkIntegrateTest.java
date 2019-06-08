@@ -1,5 +1,6 @@
 package social.alone.server.link;
 
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.event.Event;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class LinkIntegrateTest extends BaseIntegrateTest {
     Event event = createEvent();
 
     // when
-    var perform = mockMvc.perform(
+    ResultActions perform = mockMvc.perform(
             post("/api/events/{id}/links", event.getId())
     );
 
@@ -52,7 +53,7 @@ public class LinkIntegrateTest extends BaseIntegrateTest {
   public void createLinkTest__not_found() throws Exception {
 
     // when
-    var perform = mockMvc.perform(
+    ResultActions perform = mockMvc.perform(
             post("/api/events/{id}/links", -1)
     );
 
@@ -66,7 +67,7 @@ public class LinkIntegrateTest extends BaseIntegrateTest {
     Link link = createLink();
 
     // when
-    var perform = mockMvc.perform(
+    ResultActions perform = mockMvc.perform(
             RestDocumentationRequestBuilders.get(
                     "/api/events/{eventId}/links", link.getEvent().getId()
             ).contentType(

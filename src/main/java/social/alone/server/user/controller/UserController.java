@@ -46,7 +46,7 @@ public class UserController extends BaseController {
   }
 
   private ResponseEntity buildResponse(User user) {
-    var userResource = new UserResource(user);
+    UserResource userResource = new UserResource(user);
     return ResponseEntity.ok(userResource);
   }
 

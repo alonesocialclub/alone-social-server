@@ -14,7 +14,7 @@ public class SlackMessageEventListener {
 
   @EventListener
   public void HandleSlackMessage(SlackMessageEvent event) {
-    var message = event.getMessage();
+    String message = event.getMessage();
     slackNotifier.send(message);
   }
 }

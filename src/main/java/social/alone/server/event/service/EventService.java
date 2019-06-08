@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import social.alone.server.event.Event;
 import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.repository.EventRepository;
+import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.event.type.EventTypeRepository;
 import social.alone.server.location.Location;
@@ -15,6 +16,8 @@ import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -49,7 +52,7 @@ public class EventService {
 
   private void updateEventTypes(Event event, EventDto eventDto) {
     if (eventDto.getEventTypes() != null) {
-      var eventTypes = eventTypeRepository.findAllById(
+      List<EventType> eventTypes = eventTypeRepository.findAllById(
               eventDto
                       .getEventTypes()
                       .stream()
@@ -62,7 +65,7 @@ public class EventService {
 
   private Location getLocation(EventDto eventDto) {
     Location location = eventDto.getLocation();
-    var by = locationRepository
+    Optional<Location> by = locationRepository
             .findByLongitudeAndLatitudeAndName(
                     location.getLongitude(),
                     location.getLatitude(),
@@ -73,7 +76,7 @@ public class EventService {
 
   public Event joinEvent(Long eventId, Long userId) {
     User user = this.userRepository.findById(userId).orElseThrow();
-    var event = this.eventRepository.findById(eventId).orElseThrow();
+    Event event = this.eventRepository.findById(eventId).orElseThrow();
     event.joinEvent(user);
     return this.eventRepository.save(event);
   }

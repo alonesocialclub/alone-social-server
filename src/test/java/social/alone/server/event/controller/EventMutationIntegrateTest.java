@@ -6,6 +6,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.DisplayName;
 import social.alone.server.event.Event;
@@ -57,7 +58,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .build();
 
     // When
-    var perform = mockMvc
+    ResultActions perform = mockMvc
             .perform(
                     post("/api/events/")
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -104,7 +105,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
   @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void createEventDuplicated__Test() throws Exception {
     // Given
-    var payload = "{\"name\":\"투썸플레이스 포스코사거리점\",\"description\":\"투썸플레이스 포스코사거리점\",\"location\":{\"name\":\"투썸플레이스 포스코사거리점\",\"address\":\"서울 강남구 테헤란로 508\",\"placeUrl\":\"http://place.map.daum.net/26452947\",\"latitude\":37.50670826384592,\"longitude\":127.0580393520872,\"imageUrl\":null},\"startedAt\":\"2019-04-28T14:09\",\"endedAt\":\"2019-04-28T17:09\",\"limitOfEnrollment\":5,\"eventTypes\":[]}";
+    String payload = "{\"name\":\"투썸플레이스 포스코사거리점\",\"description\":\"투썸플레이스 포스코사거리점\",\"location\":{\"name\":\"투썸플레이스 포스코사거리점\",\"address\":\"서울 강남구 테헤란로 508\",\"placeUrl\":\"http://place.map.daum.net/26452947\",\"latitude\":37.50670826384592,\"longitude\":127.0580393520872,\"imageUrl\":null},\"startedAt\":\"2019-04-28T14:09\",\"endedAt\":\"2019-04-28T17:09\",\"limitOfEnrollment\":5,\"eventTypes\":[]}";
 
     // When
     mockMvc
@@ -117,7 +118,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .andDo(print());
 
     // When
-    var perform = mockMvc
+    ResultActions perform = mockMvc
             .perform(
                     post("/api/events/")
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -147,7 +148,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .build();
 
     // When
-    var perform = mockMvc
+    ResultActions perform = mockMvc
             .perform(
                     post("/api/events")
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -183,7 +184,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .build();
 
     // When
-    var perform = mockMvc
+    ResultActions perform = mockMvc
             .perform(
                     post("/api/events")
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -224,7 +225,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .build();
 
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
@@ -257,7 +258,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     int eventIdNotExists = -1;
 
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             put("/api/events/{id}", eventIdNotExists)
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(eventDto))
@@ -286,7 +287,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
             .build();
 
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             put("/api/events/{id}", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto))
@@ -305,7 +306,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     Event event = createEvent(this.createdUser);
 
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             delete("/api/events/{id}", event.getId())
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
     );
@@ -320,7 +321,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
   @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void deleteEvent__not_found() throws Exception {
     // When
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             delete("/api/events/{id}", 0)
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
     );
@@ -335,8 +336,8 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
   @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
   public void eventLocationDuplicated() throws Exception {
     // Given
-    var startedAt = LocalDateTime.now().plusDays(3);
-    var endedAt = LocalDateTime.now().plusDays(6);
+    LocalDateTime startedAt = LocalDateTime.now().plusDays(3);
+    LocalDateTime endedAt = LocalDateTime.now().plusDays(6);
 
     EventDto event1 = EventDto.builder()
             .name("낙성대 주말 코딩1")
@@ -385,7 +386,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
                             .content(objectMapper.writeValueAsString(event2))
             );
 
-    var perform = this.mockMvc.perform(
+    ResultActions perform = this.mockMvc.perform(
             get("/api/events")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaType.APPLICATION_JSON_UTF8)
@@ -395,7 +396,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     perform.andDo(print())
             .andExpect(status().isOk());
 
-    var json = perform.andReturn().getResponse().getContentAsString();
+    String json = perform.andReturn().getResponse().getContentAsString();
     String a = JsonPath.parse(json).read("$.content[0].location.id").toString();
     String b = JsonPath.parse(json).read("$.content[1].location.id").toString();
     assertThat(a).isEqualTo(b);

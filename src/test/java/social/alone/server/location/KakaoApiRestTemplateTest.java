@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -22,7 +24,7 @@ public class KakaoApiRestTemplateTest {
     @Ignore
     public void test() {
         RestTemplate kakao = kakaoApiRestTemplate.kakaoLocalSearchApi();
-        var result = kakao.getForObject("/v2/local/search/keyword.json?query={query}", String.class, "낙성대");
+        String result = kakao.getForObject("/v2/local/search/keyword.json?query={query}", String.class, "낙성대");
         assertThat(result).isNotEmpty();
         
         /**
