@@ -59,7 +59,7 @@ public class AuthController extends BaseController {
 
         Optional<User> byEmail = userRepository.findByEmail(loginRequestDto.getEmail());
 
-        if (byEmail.isEmpty()) {
+        if (!byEmail.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 

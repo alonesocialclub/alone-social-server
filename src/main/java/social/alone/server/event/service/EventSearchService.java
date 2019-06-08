@@ -24,7 +24,7 @@ public class EventSearchService {
           Optional<User> user,
           EventQueryParams eventQueryParams
   ) {
-    if (user.isEmpty()){
+    if (!user.isPresent()){
       return eventRepository.search(pageable, eventQueryParams);
     } else {
       return eventRepository.search(pageable, user.get(), eventQueryParams);
