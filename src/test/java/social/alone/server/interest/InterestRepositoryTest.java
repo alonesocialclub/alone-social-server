@@ -28,7 +28,6 @@ public class InterestRepositoryTest extends BaseRepositoryTest {
     // then
     assertThat(interest).isNotNull();
     Assertions.assertThat(interest.getUsers()).isEmpty();
-    Assertions.assertThat(interest.getUsers()).isEqualTo(Set.of());
   }
 
   @Test

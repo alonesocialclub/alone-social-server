@@ -35,7 +35,7 @@ public class EventService {
   private final LocationRepository locationRepository;
 
   public Event create(EventDto eventDto, User user_) {
-    User user = userRepository.findById(user_.getId()).orElseThrow();
+    User user = userRepository.findById(user_.getId()).orElseThrow(RuntimeException::new);
     Location location = getLocation(eventDto);
     Event event = new Event(eventDto, user, location);
     updateEventTypes(event, eventDto);
@@ -75,16 +75,16 @@ public class EventService {
   }
 
   public Event joinEvent(Long eventId, Long userId) {
-    User user = this.userRepository.findById(userId).orElseThrow();
-    Event event = this.eventRepository.findById(eventId).orElseThrow();
+    User user = this.userRepository.findById(userId).orElseThrow(RuntimeException::new);
+    Event event = this.eventRepository.findById(eventId).orElseThrow(RuntimeException::new);
     event.joinEvent(user);
     return this.eventRepository.save(event);
   }
 
   // MAKE DRY
   public Event joinEventCancel(Long eventId, Long userId) {
-    Event event = this.eventRepository.findById(eventId).orElseThrow();
-    User user = this.userRepository.findById(userId).orElseThrow();
+    Event event = this.eventRepository.findById(eventId).orElseThrow(RuntimeException::new);
+    User user = this.userRepository.findById(userId).orElseThrow(RuntimeException::new);
     event.joinCancelEvent(user);
     return this.eventRepository.save(event);
   }

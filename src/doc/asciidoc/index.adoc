@@ -339,3 +339,18 @@ include::{snippets}/get-events-by-user/request-parameters.adoc[]
 include::{snippets}/get-events-by-user/http-request.adoc[]
 .response
 include::{snippets}/get-events-by-user/response-body.adoc[]
+
+
+[[resources-feedback]]
+== 피드백 (/api/feedbacks)
+
+[[post-feedabacks-by-user]]
+
+=== 피드백 보내기
+
+서비스에대한 피드백을 보낼 수 있다.
+
+.request
+include::{snippets}/post-feedbacks/http-request.adoc[]
+.response
+include::{snippets}/post-feedbacks/response-body.adoc[]

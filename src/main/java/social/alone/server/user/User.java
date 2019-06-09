@@ -1,15 +1,15 @@
 package social.alone.server.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import social.alone.server.event.Event;
-import social.alone.server.common.infrastructure.slack.SlackMessagable;
-import social.alone.server.common.infrastructure.slack.SlackMessageEvent;
-import social.alone.server.interest.Interest;
-import social.alone.server.auth.oauth2.user.OAuth2UserInfo;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.AbstractAggregateRoot;
+import social.alone.server.auth.oauth2.user.OAuth2UserInfo;
+import social.alone.server.common.infrastructure.slack.SlackMessagable;
+import social.alone.server.common.infrastructure.slack.SlackMessageEvent;
+import social.alone.server.event.Event;
+import social.alone.server.interest.Interest;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -33,7 +33,7 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
 
   @Builder
   public User(String email, String password, String name) {
-    this.roles = Set.of(UserRole.USER);
+    this.roles.add(UserRole.USER);
     this.interests = new HashSet<>();
 
     this.email = email;
@@ -44,8 +44,7 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
   }
 
   public User(OAuth2UserInfo oAuth2UserInfo, AuthProvider provider) {
-
-    this.roles = Set.of(UserRole.USER);
+    this.roles.add(UserRole.USER);
     this.interests = new HashSet<>();
 
     this.name = oAuth2UserInfo.getName();
@@ -94,7 +93,7 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
 
   @Enumerated(EnumType.STRING)
   @ElementCollection(fetch = FetchType.EAGER)
-  private Set<UserRole> roles;
+  private Set<UserRole> roles = new HashSet<>();
 
 
   @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
