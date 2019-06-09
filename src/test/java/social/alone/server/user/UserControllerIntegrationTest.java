@@ -36,7 +36,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         perform
                 .andDo(print())
                 .andDo(
-                        document("get-createdUser-me")
+                        document("get-user-me")
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").isNotEmpty())
@@ -185,7 +185,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         perform
                 .andDo(print())
                 .andDo(
-                        document("get-createdUser-id")
+                        document("get-user-id")
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(createdUser.getId()));

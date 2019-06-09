@@ -37,7 +37,7 @@ public class UserEventMutationIntegrateTest extends BaseIntegrateTest {
     perform.andDo(print());
     perform.andExpect(status().isOk());
     perform.andDo(
-            document("get-events-by-createdUser",
+            document("get-events-by-user",
                     requestParameters(
                             parameterWithName("page").description("페이지"),
                             parameterWithName("size").description("페이지의 크기"),
