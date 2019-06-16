@@ -12,6 +12,15 @@ management:
     mappings:
       enabled: true
 
+cloud:
+  aws:
+    credentials:
+      instanceProfile: false
+    region:
+      auto: false
+      static: ap-northeast-2
+    stack:
+      auto: false
 
 
 spring:
