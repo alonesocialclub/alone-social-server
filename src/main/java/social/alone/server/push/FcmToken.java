@@ -20,12 +20,12 @@ class FcmToken {
     @Column
     private String value;
 
-//    @ManyToOne
-//    private User user;
+    @ManyToOne
+    private User user;
 
     FcmToken(String value, Optional<User> userMaybe) {
         this.value = value;
-//        this.user = userMaybe.orElse(null);
+        this.user = userMaybe.orElse(null);
     }
 
 }
