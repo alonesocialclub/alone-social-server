@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class FcmToken {
+class FcmToken {
 
     @Id
     @GeneratedValue
@@ -21,7 +21,7 @@ public class FcmToken {
     @Column
     private String value;
 
-    public FcmToken(String value){
+    FcmToken(String value){
         this.value = value;
     }
 
