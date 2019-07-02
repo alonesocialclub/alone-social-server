@@ -1,20 +1,21 @@
 package social.alone.server.push;
 
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-public class PushControllerTest  extends BaseIntegrateTest {
+public class PushControllerTest extends BaseIntegrateTest {
 
 
     @Test
-    @Ignore
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
     public void pushtest() throws Exception {
         // Given & When
         ResultActions perform = mockMvc
@@ -22,10 +23,12 @@ public class PushControllerTest  extends BaseIntegrateTest {
                         post("/api/push/tokens")
                                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                        .content("{\"fcmToken\": \"f6USRsHqSow:APA91bGvQw1iFjyIwpW2T-ezbRJ-v6XH7KrXlTpp0rIdnyPmBUxa4RMz0JWHjIomISGDKMNRt31dAt952ag3cCglMbWjRb656cfQUJ8NcwEwCLULPY4ofJRFVlj0RBOHWir4taW_77fX\"}")
+                                .content("{\"fcmToken\": \"foobar\"}")
                 );
 
         // Then
-        perform.andDo(print());
+        perform
+                .andDo(print())
+                .andDo(document("push-token-create"));
     }
 }

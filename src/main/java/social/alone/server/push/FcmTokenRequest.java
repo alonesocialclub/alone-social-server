@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 
 @NoArgsConstructor
 @Getter
-public class FcmTokenRequest {
+class FcmTokenRequest {
 
     @Valid @NotEmpty
     String fcmToken;
