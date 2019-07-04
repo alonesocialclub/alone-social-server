@@ -18,8 +18,8 @@ buildscript {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7"
         classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVersion}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ktlin_version}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:$ktlin_version") // kotlin-spring 사용을 위해 필요하다.
-        classpath("org.jetbrains.kotlin:kotlin-noarg:$ktlin_version") // kotlin-jpa 사용을 위해 필요하다.
+        classpath("org.jetbrains.kotlin:kotlin-allopen:$ktlin_version")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:$ktlin_version"):wq
 
     }
 }
