@@ -8,7 +8,14 @@ import org.springframework.web.bind.annotation.RestController
 class HelloKotlin {
 
     @GetMapping("/api/kt")
-    fun blog(): String {
+    fun kt(): String {
+        return "kt"
+    }
+
+
+    @GetMapping("/api/exception")
+    fun exception(): String {
+        throw Exception("intended exception raised!")
         return "kt"
     }
 
