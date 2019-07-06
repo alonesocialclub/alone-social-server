@@ -4,12 +4,11 @@ import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import social.alone.server.user.User
 import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 
 @Entity
 class FcmToken(
-        @Column val value: String, userMaybe: Optional<User>
+        @Column val value: String
 ) {
 
     @Id
@@ -25,8 +24,5 @@ class FcmToken(
     @UpdateTimestamp
     private var updatedAt: LocalDateTime = LocalDateTime.now();
 
-    init {
-        this.user = userMaybe.orElse(null)
-    }
 
 }

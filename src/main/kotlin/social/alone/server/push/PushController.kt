@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.user.User
-import java.util.*
 
 @Controller
 @RequestMapping(value = ["/api/push"])
@@ -20,10 +19,10 @@ class PushController {
     @PostMapping("/tokens")
     fun registerToken(
             @RequestBody req: FcmTokenRequest,
-            @CurrentUser user: User
+            @CurrentUser user: User?
     ): ResponseEntity<*> {
 
-        val fcmToken = req.fcmToken?.let { fcmTokenRegisterSvc.register(it, Optional.ofNullable(user)) }
+        val fcmToken = req.fcmToken?.let { fcmTokenRegisterSvc.register(it) }
         println("========$fcmToken")
         return ResponseEntity.noContent().build<Any>()
     }
