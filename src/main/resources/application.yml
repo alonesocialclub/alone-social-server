@@ -53,15 +53,15 @@ spring:
             clinetId: foo
             clinetSecret: bar
           google:
-            clientId: 5014057553-8gm9um6vnli3cle5rgigcdjpdrid14m9.apps.googleusercontent.com
-            clientSecret: tWZKVLxaD_ARWsriiiUFYoIk
+            clientId: foo
+            clientSecret: bar
             redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
           facebook:
-            clientId: 292671931607093
-            clientSecret: e9abe9c68aba2eca0604025cc47097a6
+            clientId: foo
+            clientSecret: bar
             redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
@@ -89,9 +89,9 @@ app:
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
   slack:
-    channel: https://hooks.slack.com/services/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
+    channel: https://hooks.slack.com/services/foo/bar
   kakao:
-    apiKey: 33c8e28de27079b503fb03ceb535a0c3
+    apiKey: 1234
     searchKeywordUrl: https://dapi.kakao.com
   facebook:
     graphUrl: https://graph.facebook.com/v3.3
