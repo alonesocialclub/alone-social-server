@@ -8,21 +8,19 @@ import javax.persistence.*
 
 @Entity
 class FcmToken(
-        @Column val value: String
+        @Column val value: String,
+        @ManyToOne val user: User? = null
 ) {
 
     @Id
     @GeneratedValue
     val id: Long? = null
 
-    @ManyToOne
-    var user: User? = null
-
     @CreationTimestamp
-    private val createdAt: LocalDateTime = LocalDateTime.now();
+    private val createdAt: LocalDateTime = LocalDateTime.now()
 
     @UpdateTimestamp
-    private var updatedAt: LocalDateTime = LocalDateTime.now();
+    private var updatedAt: LocalDateTime = LocalDateTime.now()
 
 
 }

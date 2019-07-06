@@ -14,16 +14,16 @@ import social.alone.server.user.User
 class PushController {
 
     @Autowired
-    lateinit var fcmTokenRegisterSvc: FcmTokenRegisterSvc;
+    lateinit var fcmTokenRegisterSvc: FcmTokenRegisterSvc
 
     @PostMapping("/tokens")
     fun registerToken(
             @RequestBody req: FcmTokenRequest,
             @CurrentUser user: User?
     ): ResponseEntity<*> {
-
-        val fcmToken = req.fcmToken?.let { fcmTokenRegisterSvc.register(it) }
-        println("========$fcmToken")
+        req.fcmToken?.let {
+            fcmTokenRegisterSvc.register(it, user)
+        }
         return ResponseEntity.noContent().build<Any>()
     }
 }

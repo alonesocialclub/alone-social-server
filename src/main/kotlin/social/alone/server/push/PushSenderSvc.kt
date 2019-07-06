@@ -28,6 +28,7 @@ class PushSenderSvc {
 
         try {
             val response = FirebaseMessaging.getInstance().send(message)
+            println(response)
         } catch (e: FirebaseMessagingException) {
             e.printStackTrace()
         }
