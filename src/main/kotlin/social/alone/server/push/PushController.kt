@@ -23,7 +23,7 @@ class PushController {
             @CurrentUser user: User
     ): ResponseEntity<*> {
 
-        val fcmToken = fcmTokenRegisterSvc.register(req.fcmToken, Optional.ofNullable(user))
+        val fcmToken = req.fcmToken?.let { fcmTokenRegisterSvc.register(it, Optional.ofNullable(user)) }
         println("========$fcmToken")
         return ResponseEntity.noContent().build<Any>()
     }

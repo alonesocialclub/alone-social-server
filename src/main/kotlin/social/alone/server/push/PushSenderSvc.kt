@@ -1,15 +1,15 @@
-package social.alone.server.push;
+package social.alone.server.push
 
 
-import com.google.firebase.messaging.*;
-import org.springframework.stereotype.Service;
+import com.google.firebase.messaging.*
+import org.springframework.stereotype.Service
 
 @Service
-public class PushSenderSvc {
+class PushSenderSvc {
 
-    public void send(String fcmToken) {
+    fun send(fcmToken: String) {
         // See documentation on defining a message payload.
-        Message message = Message.builder()
+        val message = Message.builder()
                 .setApnsConfig(
                         ApnsConfig
                                 .builder()
@@ -21,15 +21,16 @@ public class PushSenderSvc {
                                 )
                                 .build()
                 )
-                .setNotification(new Notification("title~!!", "body~"))
+                .setNotification(Notification("title~!!", "body~"))
                 .setToken(fcmToken)
-                .build();
+                .build()
 
 
         try {
-            String response = FirebaseMessaging.getInstance().send(message);
-        } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
+            val response = FirebaseMessaging.getInstance().send(message)
+        } catch (e: FirebaseMessagingException) {
+            e.printStackTrace()
         }
+
     }
 }
