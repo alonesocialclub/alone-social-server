@@ -1,6 +1,9 @@
 package social.alone.server.push
 
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 import social.alone.server.user.User
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -15,6 +18,12 @@ class FcmToken(
 
     @ManyToOne
     var user: User? = null
+
+    @CreationTimestamp
+    private val createdAt: LocalDateTime = LocalDateTime.now();
+
+    @UpdateTimestamp
+    private var updatedAt: LocalDateTime = LocalDateTime.now();
 
     init {
         this.user = userMaybe.orElse(null)
