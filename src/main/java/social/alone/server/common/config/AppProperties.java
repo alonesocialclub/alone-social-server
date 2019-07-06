@@ -18,7 +18,7 @@ public class AppProperties {
   private final OAuth2 oauth2 = new OAuth2();
   private final Link link = new Link();
   private final Slack slack = new Slack();
-  private final Sentry sentry = new Sentry();
+  public final Sentry sentry = new Sentry();
 
   // TODO lombok fix
   public static class Auth {
@@ -71,7 +71,7 @@ public class AppProperties {
 
   @Data
   public static final class Sentry {
-    private String dsn;
+    public String dsn;
   }
 
 
