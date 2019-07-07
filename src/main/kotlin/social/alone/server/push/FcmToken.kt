@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
+@Table(name = "fcm_token", uniqueConstraints = [UniqueConstraint(columnNames = ["value"])])
 class FcmToken(
         @Column val value: String,
         @ManyToOne var user: User? = null
