@@ -9,7 +9,7 @@ import javax.persistence.*
 @Entity
 class FcmToken(
         @Column val value: String,
-        @ManyToOne val user: User? = null
+        @ManyToOne var user: User? = null
 ) {
 
     @Id
@@ -22,5 +22,9 @@ class FcmToken(
     @UpdateTimestamp
     private var updatedAt: LocalDateTime = LocalDateTime.now()
 
+
+    fun updateUser(user: User?){
+        this.user = user;
+    }
 
 }
