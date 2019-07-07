@@ -16,7 +16,6 @@ class HelloKotlin {
     @GetMapping("/api/exception")
     fun exception(): String {
         throw Exception("intended exception raised!")
-        return "kt"
     }
 
 }
