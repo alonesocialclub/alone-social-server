@@ -1,4 +1,4 @@
-package social.alone.server.push
+package social.alone.server.push.domain
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -6,11 +6,16 @@ import social.alone.server.user.User
 import java.time.LocalDateTime
 import javax.persistence.*
 
+
+
 @Entity
-@Table(name = "fcm_token", uniqueConstraints = [UniqueConstraint(columnNames = ["value"])])
-class FcmToken(
-        @Column val value: String,
-        @ManyToOne var user: User? = null
+@Table(name = "notification")
+class Notification(
+        @Column val title: String,
+        @Column val body: String,
+        @Column val data: String? = "{}",
+        @ManyToOne var user: User? = null,
+        @OneToOne var token: FcmToken? = null
 ) {
 
     @Id
@@ -23,10 +28,5 @@ class FcmToken(
 
     @field:UpdateTimestamp
     lateinit var updatedAt: LocalDateTime
-
-
-    fun updateUser(user: User?){
-        this.user = user
-    }
 
 }
