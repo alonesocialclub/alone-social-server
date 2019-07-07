@@ -28,8 +28,8 @@ public class IndexIntegrateTest extends BaseIntegrateTest {
     perform
             .andDo(print())
             .andDo(document("index"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("_links.events").exists());
+            .andExpect(status().isOk());
+
   }
 
 }

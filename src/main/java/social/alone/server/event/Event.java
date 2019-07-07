@@ -28,30 +28,30 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
 
   @Id
   @GeneratedValue
-  private Long id;
+  public Long id;
 
-  private String name;
+  public String name;
 
-  private String description;
+  public String description;
 
-  private LocalDateTime startedAt;
+  public LocalDateTime startedAt;
 
-  private LocalDateTime endedAt;
+  public LocalDateTime endedAt;
 
-  private int limitOfEnrollment;
+  public int limitOfEnrollment;
 
   @CreationTimestamp
-  private LocalDateTime createdAt;
+  public LocalDateTime createdAt;
 
   @UpdateTimestamp
   protected LocalDateTime updatedAt;
 
   @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name="location_id")
-  private Location location;
+  public Location location;
 
   @ManyToOne
-  private User owner;
+  public User owner;
 
   @ManyToMany(cascade = {CascadeType.PERSIST})
   @JoinTable(
@@ -68,7 +68,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
           joinColumns = @JoinColumn(name = "event_id"),
           inverseJoinColumns = @JoinColumn(name = "user_id")
   )
-  private Set<User> users = new HashSet<>();
+  public Set<User> users = new HashSet<>();
 
   public Event(EventDto eventDto, User user, Location location) {
     this.updateByEventDto(eventDto);
@@ -138,19 +138,19 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
     this.location = location;
   }
 
-  private void activityLogEventCreate() {
+  public void activityLogEventCreate() {
     if (!owner.isAdmin()) {
       String message = this.getOwner() + "님이 " + this.toString() + "를 생성했습니다.";
       this.registerEvent(buildSlackMessageEvent(message));
     }
   }
 
-  private void activityLogJoinEvent(User user) {
+  public void activityLogJoinEvent(User user) {
     String message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 하셨습니다.";
     this.registerEvent(buildSlackMessageEvent(message));
   }
 
-  private void activityLogJoinEventCancel(User user) {
+  public void activityLogJoinEventCancel(User user) {
     String message = user.getName() + "님이 " + this.toString() + "를 에 참가 신청을 취소 하셨습니다.";
     this.registerEvent(buildSlackMessageEvent(message));
   }
