@@ -17,11 +17,12 @@ class FcmToken(
     @GeneratedValue
     val id: Long? = null
 
-    @CreationTimestamp
-    private val createdAt: LocalDateTime = LocalDateTime.now()
+    @field:CreationTimestamp
+    lateinit var createdAt: LocalDateTime
 
-    @UpdateTimestamp
-    private var updatedAt: LocalDateTime = LocalDateTime.now()
+
+    @field:UpdateTimestamp
+    lateinit var updatedAt: LocalDateTime
 
 
     fun updateUser(user: User?){
