@@ -58,7 +58,7 @@ public class User extends AbstractAggregateRoot<User> implements SlackMessagable
 
   @Id
   @GeneratedValue
-  private Long id;
+  public Long id;
 
   @CreationTimestamp
   private LocalDateTime createdAt;

@@ -19,7 +19,7 @@ public class Location {
 
   @Id
   @GeneratedValue
-  private Long id;
+  public Long id;
 
   public Location(
           String address,
@@ -37,20 +37,20 @@ public class Location {
   }
 
 
-  private String address;
+  public String address;
 
-  private String name;
+  public String name;
 
-  private Double longitude;
+  public Double longitude;
 
-  private Double latitude;
+  public Double latitude;
 
-  private String placeUrl;
+  public String placeUrl;
 
   @Column(nullable = false, columnDefinition = "varchar(255) default 'https://alone.social/cafe/random/0.jpg'")
-  private String imageUrl = DEFAULT_IMAGE;
+  public String imageUrl = DEFAULT_IMAGE;
 
-  private String getImageUrlByName() {
+  public String getImageUrlByName() {
     int idx = (int)(Math.random() * 3);
     String randomImage = IMAGE_HOST + "/cafe/random/" + idx + ".jpg";
 

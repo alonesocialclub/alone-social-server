@@ -10,8 +10,8 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(of = {"value"})
 public class EventTypeDto {
 
-  Long id;
+  public Long id;
 
   @Size(min = 1, max = 30)
-  String value;
+  public String value;
 }

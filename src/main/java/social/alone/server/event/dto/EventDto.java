@@ -21,24 +21,24 @@ public class EventDto {
 
   @NotEmpty
   @NotNull
-  private String name;
+  public String name;
 
   @NotEmpty
-  private String description;
+  public String description;
 
   @NotNull
-  private LocationDto location;
+  public LocationDto location;
 
   @NotNull
-  private LocalDateTime startedAt;
+  public LocalDateTime startedAt;
 
   @NotNull
-  private LocalDateTime endedAt;
+  public LocalDateTime endedAt;
 
   @Min(0)
-  private int limitOfEnrollment;
+  public int limitOfEnrollment;
 
-  private Set<EventTypeDto> eventTypes;
+  public Set<EventTypeDto> eventTypes;
 
   public Location getLocation() {
     return location.buildLocation();

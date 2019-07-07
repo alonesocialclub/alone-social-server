@@ -34,13 +34,6 @@ public class EventService {
 
   private final LocationRepository locationRepository;
 
-  public Event create(EventDto eventDto, User user_) {
-    User user = userRepository.findById(user_.getId()).orElseThrow(RuntimeException::new);
-    Location location = getLocation(eventDto);
-    Event event = new Event(eventDto, user, location);
-    updateEventTypes(event, eventDto);
-    return this.eventRepository.save(event);
-  }
 
   public Event update(Event event, EventDto eventDto){
     Location location = getLocation(eventDto);

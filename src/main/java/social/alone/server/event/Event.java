@@ -60,7 +60,7 @@ public class Event extends AbstractAggregateRoot<Event> implements SlackMessagab
           inverseJoinColumns = @JoinColumn(name = "event_type_id")
   )
   @Setter
-  private Set<EventType> eventTypes;
+  public Set<EventType> eventTypes;
 
   @ManyToMany
   @JoinTable(
