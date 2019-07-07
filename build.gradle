@@ -159,7 +159,7 @@ querydsl {
 sourceSets {
     main {
         java {
-            srcDirs = ['src/main/java', querydslSrcDir, 'src/main/kotlin']
+            srcDirs = ['src/main/java', 'src/main/kotlin', querydslSrcDir]
         }
     }
 }
