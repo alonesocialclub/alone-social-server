@@ -7,7 +7,7 @@ import org.springframework.util.Assert;
 import social.alone.server.auth.FacebookUserInfoFetcher;
 import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
