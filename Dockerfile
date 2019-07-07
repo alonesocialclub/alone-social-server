@@ -8,6 +8,7 @@ COPY ${DEPENDENCY}/static /app/static
 
 ENTRYPOINT [
 "java",
+"-Duser.timezone=Asia/Seoul",
 "-Dspring.profiles.active=prod",
 "-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2",
 "-cp","app:app/lib/*",
