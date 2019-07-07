@@ -157,11 +157,9 @@ querydsl {
     querydslSourcesDir = querydslSrcDir
 }
 sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java', querydslSrcDir, 'src/main/kotlin']
-        }
-    }
+    main.java.srcDirs += querydslSrcDir
+    main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
 }
 compileQuerydsl{
     options.annotationProcessorPath = configurations.querydsl
