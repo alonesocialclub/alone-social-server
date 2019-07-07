@@ -1,4 +1,4 @@
-package social.alone.server.push
+package social.alone.server.push.infra
 
 import org.springframework.data.jpa.repository.JpaRepository
 import social.alone.server.push.domain.FcmToken

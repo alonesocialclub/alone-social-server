@@ -1,4 +1,4 @@
-package social.alone.server.push
+package social.alone.server.push.dto
 
 import javax.validation.Valid
 import javax.validation.constraints.NotEmpty
