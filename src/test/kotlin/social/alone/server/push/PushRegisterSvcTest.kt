@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner
 class PushRegisterSvcTest {
 
     @Autowired
-    lateinit var pushRegisterSvc: FcmTokenRegisterSvc;
+    lateinit var pushRegisterSvc: FcmTokenRegisterSvc
 
     @Test
     fun test() {
