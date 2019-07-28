@@ -17,6 +17,7 @@ import social.alone.server.user.AuthProvider;
 import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -84,13 +85,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
       return;
     }
 
-    String path = "profile/" + existingUser.id.toString();
-    String imageUrl = s3Uploader.upload(path, oAuth2UserInfo.getImageUrl());
+    String path = "profile/" + existingUser.id.toString() + ".jpeg";
+
+    try{
+      String imageUrl = s3Uploader.upload(path, oAuth2UserInfo.getImageUrl());
       if (imageUrl == null) {
         existingUser.setImageUrl(defaultImage);
         return;
       }
-    existingUser.setImageUrl(imageUrl);
+      existingUser.setImageUrl(imageUrl);
+    } catch (IOException ignored){
+    }
   }
 
 }

@@ -7,6 +7,12 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
         super(attributes);
     }
 
+    public void setS3ImageUrl(String s3ImageUrl) {
+        this.s3ImageUrl = s3ImageUrl;
+    }
+
+    private String s3ImageUrl = null;
+
     @Override
     public String getId() {
         return (String) attributes.get("id");
@@ -24,6 +30,9 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getImageUrl() {
+        if (s3ImageUrl != null){
+            return s3ImageUrl;
+        }
         if(attributes.containsKey("picture")) {
             Map<String, Object> pictureObj = (Map<String, Object>) attributes.get("picture");
             if(pictureObj.containsKey("data")) {

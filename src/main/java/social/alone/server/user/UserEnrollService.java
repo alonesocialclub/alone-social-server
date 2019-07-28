@@ -8,6 +8,8 @@ import social.alone.server.auth.FacebookUserInfoFetcher;
 import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo;
 
 import org.springframework.transaction.annotation.Transactional;
+import social.alone.server.infrastructure.S3Uploader;
+
 import java.util.Optional;
 
 @Service
@@ -20,6 +22,8 @@ public class UserEnrollService {
     private final PasswordEncoder passwordEncoder;
 
     private final FacebookUserInfoFetcher facebookUserInfoFetcher;
+
+    private final S3Uploader s3Uploader;
 
     public User enrollByEmailPassword(
             String email, String password, String name
@@ -39,12 +43,16 @@ public class UserEnrollService {
 
     public User byFacebook(String accessToken){
         FacebookOAuth2UserInfo userInfo = facebookUserInfoFetcher.getUserInfo(accessToken);
+        userInfo.setS3ImageUrl(
+                s3Uploader.upload(userInfo.getId() + "_fb_profile.jpeg", userInfo.getImageUrl())
+        );
         return this.enrollByFacebook(userInfo);
     }
 
     private User enrollByFacebook(
             FacebookOAuth2UserInfo userInfo) {
-        Optional<User> byEmail = userRepository.findByEmailAndProvider(userInfo.getEmail(), AuthProvider.facebook);
+        String email = userInfo.getEmail();
+        Optional<User> byEmail = userRepository.findByEmailAndProvider(email, AuthProvider.facebook);
         return byEmail.orElseGet(() -> userRepository.save(new User(userInfo, AuthProvider.facebook)));
     }
 

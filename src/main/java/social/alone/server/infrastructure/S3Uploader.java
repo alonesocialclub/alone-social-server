@@ -23,7 +23,8 @@ public class S3Uploader {
     private final AmazonS3Client amazonS3Client;
 
     public String upload(String path, String fileUrl){
-        try{
+        try {
+
             URL url = new URL(fileUrl);
             InputStream inputStream = new BufferedInputStream(url.openStream());
             byte[] contents = IOUtils.toByteArray(inputStream);
@@ -31,11 +32,12 @@ public class S3Uploader {
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentLength(contents.length);
             meta.setContentType("image/jpeg");
-            String bucket = "alone-social-static-image" + "/" + path;
-            amazonS3Client
-                    .putObject(new PutObjectRequest(bucket , fileUrl, stream, meta)
+
+            String bucket = "alone-social-static-image";
+
+            amazonS3Client.putObject(new PutObjectRequest(bucket , path, stream, meta)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
-            return amazonS3Client.getUrl(bucket, fileUrl).toString();
+            return amazonS3Client.getUrl(bucket, path).toString();
         } catch (IOException e){
             return null;
         }
