@@ -43,9 +43,9 @@ public class UserEnrollService {
 
     public User byFacebook(String accessToken){
         FacebookOAuth2UserInfo userInfo = facebookUserInfoFetcher.getUserInfo(accessToken);
-        userInfo.setS3ImageUrl(
-                s3Uploader.upload(userInfo.getId() + "_fb_profile.jpeg", userInfo.getImageUrl())
-        );
+//        userInfo.setS3ImageUrl(
+//                s3Uploader.upload(userInfo.getId() + "_fb_profile.jpeg", userInfo.getImageUrl())
+//        );
         return this.enrollByFacebook(userInfo);
     }
 

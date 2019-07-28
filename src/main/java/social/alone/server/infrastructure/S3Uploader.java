@@ -22,7 +22,7 @@ public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
 
-    public String upload(String path, String fileUrl){
+    public String upload(String path, String fileUrl) {
         try {
 
             URL url = new URL(fileUrl);
@@ -35,10 +35,13 @@ public class S3Uploader {
 
             String bucket = "alone-social-static-image";
 
-            amazonS3Client.putObject(new PutObjectRequest(bucket , path, stream, meta)
-                            .withCannedAcl(CannedAccessControlList.PublicRead));
+
+            amazonS3Client
+                    .putObject(
+                            new PutObjectRequest(bucket, path, stream, meta).withCannedAcl(CannedAccessControlList.PublicRead)
+                    );
             return amazonS3Client.getUrl(bucket, path).toString();
-        } catch (IOException e){
+        } catch (IOException e) {
             return null;
         }
     }
