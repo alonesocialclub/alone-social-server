@@ -1,15 +1,14 @@
 package social.alone.server.common.infrastructure.slack;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
-import social.alone.server.common.config.AppProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import social.alone.server.common.config.AppProperties;
 
 import java.util.Arrays;
 
@@ -27,7 +26,7 @@ public class SlackNotifier {
 
   @Async
   public void send(String text) {
-    if (Arrays.asList(env.getActiveProfiles()).contains("test")){
+    if (!Arrays.asList(env.getActiveProfiles()).contains("prod")){
       return;
     }
     String url = appProperties.getSlack().getChannel();
