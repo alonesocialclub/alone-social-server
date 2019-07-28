@@ -22,18 +22,22 @@ public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
 
-    public String upload(String fileUrl) throws IOException {
-        URL url = new URL(fileUrl);
-        InputStream inputStream = new BufferedInputStream(url.openStream());
-        byte[] contents = IOUtils.toByteArray(inputStream);
-        InputStream stream = new ByteArrayInputStream(contents);
-        ObjectMetadata meta = new ObjectMetadata();
-        meta.setContentLength(contents.length);
-        meta.setContentType("image/jpeg");
-        String bucket = "alone-social-static-image";
-        amazonS3Client
-                .putObject(new PutObjectRequest(bucket , fileUrl, stream, meta)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileUrl).toString();
+    public String upload(String path, String fileUrl){
+        try{
+            URL url = new URL(fileUrl);
+            InputStream inputStream = new BufferedInputStream(url.openStream());
+            byte[] contents = IOUtils.toByteArray(inputStream);
+            InputStream stream = new ByteArrayInputStream(contents);
+            ObjectMetadata meta = new ObjectMetadata();
+            meta.setContentLength(contents.length);
+            meta.setContentType("image/jpeg");
+            String bucket = "alone-social-static-image" + "/" + path;
+            amazonS3Client
+                    .putObject(new PutObjectRequest(bucket , fileUrl, stream, meta)
+                            .withCannedAcl(CannedAccessControlList.PublicRead));
+            return amazonS3Client.getUrl(bucket, fileUrl).toString();
+        } catch (IOException e){
+            return null;
+        }
     }
 }

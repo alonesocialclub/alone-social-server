@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import social.alone.server.auth.oauth2.user.OAuth2UserInfo;
 import social.alone.server.auth.oauth2.user.OAuth2UserInfoFactory;
 import social.alone.server.auth.oauth2.user.UserPrincipalAdapter;
+import social.alone.server.infrastructure.S3Uploader;
 import social.alone.server.user.AuthProvider;
 import social.alone.server.user.User;
 import social.alone.server.user.UserRepository;
@@ -23,6 +24,8 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   private final UserRepository userRepository;
+
+  private final S3Uploader s3Uploader;
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -69,8 +72,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
     existingUser.setName(oAuth2UserInfo.getName());
-    existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
+    updateImageUrl(existingUser, oAuth2UserInfo);
     return userRepository.save(existingUser);
+  }
+
+  private void updateImageUrl(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
+    final String defaultImage = "https://alone-social-static-image.s3.ap-northeast-2.amazonaws.com/profile.png";
+
+    if (oAuth2UserInfo.getImageUrl() == null){
+      existingUser.setImageUrl(defaultImage);
+      return;
+    }
+
+    String path = "profile/" + existingUser.id.toString();
+    String imageUrl = s3Uploader.upload(path, oAuth2UserInfo.getImageUrl());
+      if (imageUrl == null) {
+        existingUser.setImageUrl(defaultImage);
+        return;
+      }
+    existingUser.setImageUrl(imageUrl);
   }
 
 }
