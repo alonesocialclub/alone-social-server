@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
-import social.alone.server.common.infrastructure.slack.SlackNotifier;
+import social.alone.server.slack.SlackNotifier;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;

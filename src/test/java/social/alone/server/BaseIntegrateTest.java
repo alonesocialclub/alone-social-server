@@ -2,7 +2,6 @@ package social.alone.server;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -11,33 +10,31 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import social.alone.server.auth.email.SignUpRequestDto;
 import social.alone.server.auth.oauth2.user.TokenProvider;
-import social.alone.server.event.Event;
+import social.alone.server.event.domain.Event;
 import social.alone.server.event.dto.EventDto;
 import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventType;
+import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.event.type.EventTypeRepository;
 import social.alone.server.link.Link;
 import social.alone.server.link.LinkRepository;
 import social.alone.server.location.Location;
 import social.alone.server.location.LocationDto;
-import social.alone.server.user.User;
-import social.alone.server.user.UserRepository;
+import social.alone.server.user.domain.User;
+import social.alone.server.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -112,14 +109,16 @@ public class BaseIntegrateTest {
                 37.4991561765984,
                 "http://place.map.daum.net/27290899");
         Integer next = atomicInteger.incrementAndGet();
-        EventDto eventDto = EventDto.builder()
-                .name("event" + next)
-                .description("Rest")
-                .startedAt(startedAt)
-                .endedAt(endedAt)
-                .limitOfEnrollment(5)
-                .location(location)
-                .build();
+        Set<EventTypeDto> eventTypes = new HashSet<>();
+        EventDto eventDto = new EventDto(
+                "낙성대 주말 코딩",
+                "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
+                location,
+                startedAt,
+                endedAt,
+                5,
+                eventTypes
+        );
         Event event = new Event(eventDto, user);
         event.updateLocation(location.buildLocation());
         return this.eventRepository.save(event);
@@ -144,14 +143,21 @@ public class BaseIntegrateTest {
                 37.4991561765984,
                 "http://place.map.daum.net/27290899");
         Integer next = atomicInteger.incrementAndGet();
-        EventDto eventDto = EventDto.builder()
-                .name("event" + next)
-                .description("Rest")
-                .startedAt(startedAt)
-                .endedAt(endedAt)
-                .limitOfEnrollment(5)
-                .location(location)
-                .build();
+        Set<EventTypeDto> eventTypes = new HashSet<>();
+        EventDto eventDto = new EventDto(
+                "낙성대 주말 코딩" + next,
+                "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
+                new LocationDto(
+                        "서울 서초구 강남대로61길 3",
+                        "스타벅스",
+                        127.026503385182,
+                        37.4991561765984,
+                        "http://place.map.daum.net/27290899"),
+                startedAt,
+                endedAt,
+                5,
+                eventTypes
+        );
         Event event = new Event(eventDto, this.createdUser);
         event.updateLocation(location.buildLocation());
         return this.eventRepository.save(event);
@@ -164,7 +170,7 @@ public class BaseIntegrateTest {
     }
 
     protected EventType createEventType(String value) {
-        EventType eventType = EventType.of(value);
+        EventType eventType = EventType.Companion.of(value);
         return eventTypeRepository.save(eventType);
     }
 }

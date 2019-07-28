@@ -1,10 +1,11 @@
 package social.alone.server.event;
 
+import social.alone.server.event.domain.Event;
 import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.service.EventSearchService;
 import social.alone.server.event.type.EventQueryParams;
 import social.alone.server.event.type.EventQueryType;
-import social.alone.server.user.User;
+import social.alone.server.user.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

@@ -2,7 +2,7 @@ package social.alone.server.link;
 
 import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
-import social.alone.server.event.Event;
+import social.alone.server.event.domain.Event;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;

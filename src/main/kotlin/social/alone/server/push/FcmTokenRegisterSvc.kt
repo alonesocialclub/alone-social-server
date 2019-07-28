@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import social.alone.server.push.domain.FcmToken
 import social.alone.server.push.infra.FcmTokenRepository
-import social.alone.server.user.User
+import social.alone.server.user.domain.User
 
 @Service
 class FcmTokenRegisterSvc(@Autowired private val repository: FcmTokenRepository) {

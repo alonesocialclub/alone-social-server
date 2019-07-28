@@ -1,8 +1,8 @@
 buildscript {
     ext {
         springBootVersion = '2.1.1.RELEASE'
-        querydslPluginVersion = '1.0.10'
         ktlin_version = '1.3.41'
+        queryDslVersion = '4.2.1'
     }
     repositories {
         mavenCentral()
@@ -16,7 +16,6 @@ buildscript {
         classpath("org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2")
         classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.20.1")
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7"
-        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVersion}")
 
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ktlin_version}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:$ktlin_version")
@@ -38,8 +37,8 @@ apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.palantir.docker'
 apply plugin: 'jacoco'
 apply plugin: "org.sonarqube"
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
 apply plugin: "kotlin"
+apply plugin: 'kotlin-kapt'
 apply plugin: "kotlin-spring"
 apply plugin: "kotlin-jpa"
 apply plugin: "kotlin-allopen"
@@ -48,6 +47,14 @@ apply plugin: "kotlin-allopen"
 group = 'social.alone'
 version = '0.0.1'
 sourceCompatibility = '1.8'
+
+idea {
+    module {
+        def kaptMain = file('build/generated/source/kapt/main')
+        sourceDirs += kaptMain
+        generatedSourceDirs += kaptMain
+    }
+}
 
 repositories {
     mavenCentral()
@@ -67,15 +74,13 @@ dependencies {
     implementation('com.google.firebase:firebase-admin:6.8.0')
 
 
-    compile("com.querydsl:querydsl-jpa")
-    compile("com.querydsl:querydsl-apt")
+    compile("com.querydsl:querydsl-jpa:${queryDslVersion}")
+    kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
     // kotilin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-
 
     implementation('io.jsonwebtoken:jjwt:0.5.1')
     implementation('org.modelmapper:modelmapper:2.3.2')
@@ -96,6 +101,10 @@ dependencies {
     testCompile("org.jetbrains.kotlin:kotlin-test-junit")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    compile("com.querydsl:querydsl-jpa:${queryDslVersion}")
+    kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
 
 }
 
@@ -150,24 +159,23 @@ sonarqube {
     }
 }
 
-def querydslSrcDir = 'src/main/generated'
-querydsl {
-    library = "com.querydsl:querydsl-apt"
-    jpa = true
-    querydslSourcesDir = querydslSrcDir
-}
-sourceSets {
-    main.java.srcDirs += querydslSrcDir
-    main.java.srcDirs += 'src/main/kotlin'
-    test.java.srcDirs += 'src/test/kotlin'
-}
-compileQuerydsl{
-    options.annotationProcessorPath = configurations.querydsl
-}
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
+
 
 allOpen {
     annotation "javax.persistence.Entity"
+}
+
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '1.8'
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '1.8'
+    }
 }

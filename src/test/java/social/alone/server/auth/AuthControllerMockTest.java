@@ -12,9 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import social.alone.server.user.User;
-import social.alone.server.user.UserEnrollService;
-import social.alone.server.user.UserRepository;
+import social.alone.server.user.domain.User;
+import social.alone.server.user.service.UserEnrollService;
+import social.alone.server.user.repository.UserRepository;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

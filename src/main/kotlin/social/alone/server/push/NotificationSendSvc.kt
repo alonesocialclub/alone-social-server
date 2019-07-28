@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
-import social.alone.server.event.Event
+import social.alone.server.event.domain.Event
 import social.alone.server.push.domain.FcmToken
 import social.alone.server.push.infra.FcmTokenRepository
 
