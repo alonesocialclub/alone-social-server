@@ -13,7 +13,7 @@ import javax.persistence.*
 class Notification(
         @Column val title: String,
         @Column val body: String,
-        @Column val data: String? = "{}",
+        @Column val link: String = "",
         @ManyToOne var user: User? = null,
         @OneToOne var token: FcmToken? = null
 ) {
