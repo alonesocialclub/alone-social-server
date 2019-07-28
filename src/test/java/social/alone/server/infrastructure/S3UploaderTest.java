@@ -19,7 +19,7 @@ public class S3UploaderTest {
     @Test
     @Ignore
     public void test() throws IOException {
-        String result = s3Uploader.upload("https://blog.ordinarysimple.com/img/og.jpeg");
+        String result = s3Uploader.upload("test", "https://blog.ordinarysimple.com/img/og.jpeg");
 
         System.out.println(result);
     }
