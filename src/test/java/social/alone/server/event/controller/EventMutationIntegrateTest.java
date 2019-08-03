@@ -166,8 +166,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
     perform
             .andDo(print())
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("content[0].objectName").exists())
-            .andExpect(jsonPath("content[0].defaultMessage").exists())
+            .andExpect(jsonPath("content[0].name").exists())
             .andExpect(jsonPath("_links.index").exists());
   }
 
