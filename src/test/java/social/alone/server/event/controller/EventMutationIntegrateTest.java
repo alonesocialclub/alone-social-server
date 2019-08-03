@@ -137,9 +137,10 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
   @DisplayName("이벤트 시작일은 종료일보다 이전이여야 한다.")
   @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
   public void createEventTest_invalid_input() throws Exception {
+    // Given
     EventType eventType1 = createEventType("밥 같이 먹어요");
     EventType eventType2 = createEventType("조금 떠들어요");
-    Set<EventTypeDto> eventTypes = new HashSet<>(Arrays.asList(eventType1.toDto(), eventType2.toDto()));// Given
+    Set<EventTypeDto> eventTypes = new HashSet<>(Arrays.asList(eventType1.toDto(), eventType2.toDto()));
     EventDto eventDto = new EventDto(
             "낙성대 주말 코딩",
             "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
@@ -149,10 +150,11 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
                     127.026503385182,
                     37.4991561765984,
                     "http://place.map.daum.net/27290899"),
-            LocalDateTime.of(2018, 11, 11, 12, 0),
             LocalDateTime.of(2018, 11, 11, 14, 0),
+            LocalDateTime.of(2018, 11, 11, 12, 0),
             0, eventTypes
     );
+
     // When
     ResultActions perform = mockMvc
             .perform(
