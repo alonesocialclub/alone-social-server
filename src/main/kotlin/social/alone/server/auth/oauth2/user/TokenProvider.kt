@@ -13,9 +13,7 @@ import java.util.Date
 
 @Service
 @RequiredArgsConstructor
-class TokenProvider {
-
-    private val appProperties: AppProperties? = null
+class TokenProvider (val appProperties: AppProperties){
 
     fun createToken(authentication: Authentication): String {
         val userPrincipalAdapter = authentication.principal as UserPrincipalAdapter
@@ -29,10 +27,10 @@ class TokenProvider {
 
     private fun token(userPrincipalAdapter: UserPrincipalAdapter): String {
         val now = Date()
-        val expiryDate = Date(now.time + appProperties!!.auth.tokenExpirationMsec)
+        val expiryDate = Date(now.time + appProperties.auth.tokenExpirationMsec)
 
         return Jwts.builder()
-                .setSubject(java.lang.Long.toString(userPrincipalAdapter.id!!))
+                .setSubject((userPrincipalAdapter.id!!).toString())
                 .setIssuedAt(Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, appProperties.auth.tokenSecret)
