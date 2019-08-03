@@ -1,7 +1,5 @@
 package social.alone.server.event.controller
 
-import lombok.RequiredArgsConstructor
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -18,11 +16,7 @@ import javax.validation.Valid
 
 @Controller
 @RequestMapping(value = ["/api/events"])
-@RequiredArgsConstructor
-class EventSearchController : BaseController() {
-
-    @Autowired
-    lateinit var eventSearchService: EventSearchService;
+class EventSearchController(val eventSearchService: EventSearchService) : BaseController() {
 
     @GetMapping
     fun queryEvents(

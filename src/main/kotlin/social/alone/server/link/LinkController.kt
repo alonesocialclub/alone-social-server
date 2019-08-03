@@ -1,7 +1,6 @@
 package social.alone.server.link
 
 
-import lombok.RequiredArgsConstructor
 import org.modelmapper.ModelMapper
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -15,15 +14,7 @@ import social.alone.server.event.domain.Event
 
 @Controller
 @RequestMapping(value = ["/api/events/{eventId}/links"])
-@RequiredArgsConstructor
-class LinkController {
-    //TODO 뭘 하고싶니.?
-
-    private val linkService: LinkService? = null
-
-    private val modelMapper: ModelMapper? = null
-
-    private val appProperties: AppProperties? = null
+class LinkController(private val appProperties: AppProperties, private val modelMapper: ModelMapper, private val linkService: LinkService) {
 
     @PostMapping
     fun createLink(

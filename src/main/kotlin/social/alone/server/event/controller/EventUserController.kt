@@ -1,7 +1,6 @@
 package social.alone.server.event.controller
 
 
-import lombok.RequiredArgsConstructor
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -14,10 +13,7 @@ import social.alone.server.user.domain.User
 
 @Controller
 @RequestMapping(value = ["/api/events/{id}/users"])
-@RequiredArgsConstructor
-class EventUserController {
-
-    private val eventService: EventService? = null
+class EventUserController(val eventService: EventService) {
 
     @PostMapping
     fun joinEvent(

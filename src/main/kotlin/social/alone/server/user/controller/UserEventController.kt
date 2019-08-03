@@ -1,6 +1,5 @@
 package social.alone.server.user.controller
 
-import lombok.RequiredArgsConstructor
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -14,7 +13,6 @@ import javax.validation.Valid
 
 @Controller
 @RequestMapping(value = ["/api/users/{userId}/events"])
-@RequiredArgsConstructor
 class UserEventController(val eventSearchService: EventSearchService) {
 
     @GetMapping

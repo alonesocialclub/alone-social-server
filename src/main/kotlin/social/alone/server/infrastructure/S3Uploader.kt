@@ -5,22 +5,17 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import com.amazonaws.util.IOUtils
-import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Component
 
 import java.io.BufferedInputStream
 import java.io.ByteArrayInputStream
 import java.io.IOException
-import java.io.InputStream
 import java.net.URL
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
-class S3Uploader {
-
-    private val amazonS3Client: AmazonS3Client? = null
+class S3Uploader(private val amazonS3Client: AmazonS3Client) {
 
     fun upload(path: String, fileUrl: String): String? {
         try {

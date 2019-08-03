@@ -1,16 +1,12 @@
 package social.alone.server.event.service
 
-import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 import social.alone.server.event.domain.Event
 import social.alone.server.event.repository.EventRepository
 import java.util.function.Consumer
 
 @Service
-@RequiredArgsConstructor
-class EventDeleteService {
-
-    private val eventRepository: EventRepository? = null
+class EventDeleteService(private val eventRepository: EventRepository) {
 
     fun delete(eventId: Long?) {
         val event = this.eventRepository!!.findById(eventId!!)

@@ -1,18 +1,14 @@
 package social.alone.server.auth.oauth2.user
 
 import io.jsonwebtoken.*
-import lombok.RequiredArgsConstructor
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import social.alone.server.config.AppProperties
 import social.alone.server.user.domain.User
-
-import java.util.Date
+import java.util.*
 
 @Service
-@RequiredArgsConstructor
 class TokenProvider (val appProperties: AppProperties){
 
     fun createToken(authentication: Authentication): String {

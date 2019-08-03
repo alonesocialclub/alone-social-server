@@ -1,7 +1,6 @@
 package social.alone.server.event.controller
 
 
-import lombok.RequiredArgsConstructor
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -11,15 +10,11 @@ import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.event.service.EventSearchService
 import social.alone.server.event.type.EventQueryParams
 import social.alone.server.user.domain.User
-import java.util.*
 import javax.validation.Valid
 
 @Controller
 @RequestMapping(value = ["/api/events/my"])
-@RequiredArgsConstructor
-class MyEventListApi {
-
-    private val eventSearchService: EventSearchService? = null
+class MyEventListApi(private val eventSearchService: EventSearchService) {
 
     @GetMapping("/upcoming")
     fun upcoming(

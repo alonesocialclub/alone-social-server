@@ -1,6 +1,5 @@
 package social.alone.server.user.service
 
-import lombok.RequiredArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,16 +13,7 @@ import social.alone.server.user.repository.UserRepository
 
 @Service
 @Transactional
-@RequiredArgsConstructor
-class UserEnrollService {
-
-    private val userRepository: UserRepository? = null
-
-    private val passwordEncoder: PasswordEncoder? = null
-
-    private val facebookUserInfoFetcher: FacebookUserInfoFetcher? = null
-
-    private val s3Uploader: S3Uploader? = null
+class UserEnrollService(private val userRepository: UserRepository, private val passwordEncoder: PasswordEncoder, private val facebookUserInfoFetcher: FacebookUserInfoFetcher, private val s3Uploader: S3Uploader) {
 
     fun enrollByEmailPassword(
             email: String, password: String, name: String
