@@ -74,9 +74,6 @@ dependencies {
     implementation('com.google.firebase:firebase-admin:6.8.0')
 
 
-    compile("com.querydsl:querydsl-jpa:${queryDslVersion}")
-    kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
-
     // kotilin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
