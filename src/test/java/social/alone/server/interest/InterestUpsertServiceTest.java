@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class InterestServiceTest {
+public class InterestUpsertServiceTest {
 
   @Autowired
-  InterestService interestService;
+  InterestUpsertService interestUpsertService;
 
   @Autowired
   InterestRepository interestRepository;
@@ -38,7 +38,7 @@ public class InterestServiceTest {
     valuesToBeSaved.add(InterestDto.Companion.of("사후세계"));
 
     // when
-    HashSet<Interest> results = interestService.saveAll(valuesToBeSaved);
+    HashSet<Interest> results = interestUpsertService.saveAll(valuesToBeSaved);
 
     // then
     assertThat(results).containsAll(interests);

@@ -9,13 +9,10 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import social.alone.server.auth.oauth2.user.UserPrincipalAdapter
 import social.alone.server.exception.ResourceNotFoundException
-import social.alone.server.interest.Interest
-import social.alone.server.interest.InterestService
+import social.alone.server.interest.InterestUpsertService
 import social.alone.server.user.dto.UserDto
 import social.alone.server.user.repository.UserRepository
 import social.alone.server.user.domain.User
-
-import java.util.HashSet
 
 @Service
 @Transactional
@@ -24,7 +21,7 @@ class UserService : UserDetailsService {
 
     private val userRepository: UserRepository? = null
 
-    private val interestService: InterestService? = null
+    private val interestUpsertService: InterestUpsertService? = null
 
 
     @Throws(UsernameNotFoundException::class)
@@ -47,7 +44,7 @@ class UserService : UserDetailsService {
         val user = userRepository!!.findById(user_.id!!).get()
 
         if (userDto.interests != null) {
-            val interests = interestService!!.saveAll(userDto.interests!!)
+            val interests = interestUpsertService!!.saveAll(userDto.interests!!)
             user.setInterests(interests)
         }
 

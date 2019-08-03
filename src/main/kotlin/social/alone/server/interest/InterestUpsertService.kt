@@ -1,23 +1,18 @@
 package social.alone.server.interest
 
-import lombok.RequiredArgsConstructor
 import org.springframework.lang.NonNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
-@Transactional
 @Service
-@RequiredArgsConstructor
-class InterestService {
-
-    private val interestRepository: InterestRepository? = null
-
+@Transactional
+class InterestUpsertService (val interestRepository: InterestRepository){
 
     fun saveAll(@NonNull interests: List<InterestDto>): HashSet<Interest> {
-        val values = interests.map { it.value!! }
+        val values = interests.map { it.value }
 
-        val results = HashSet(interestRepository!!.findAllByValueIn(values))
+        val results = HashSet(interestRepository.findAllByValueIn(values))
 
         if (results.size == values.size) {
             return results
