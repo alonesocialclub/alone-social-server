@@ -32,9 +32,9 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
 
     var description: String? = null
 
-    var startedAt: LocalDateTime? = null
+    lateinit var startedAt: LocalDateTime
 
-    var endedAt: LocalDateTime? = null
+    lateinit var endedAt: LocalDateTime
 
     var limitOfEnrollment: Int = 0
 

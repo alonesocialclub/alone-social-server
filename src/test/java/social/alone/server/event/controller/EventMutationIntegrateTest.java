@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class EventMutationIntegrateTest extends BaseIntegrateTest {
+public class EventMutationIntegrateTest extends BaseIntegrateTest{
 
   @Test
   @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
@@ -187,8 +187,8 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest {
                     127.026503385182,
                     37.4991561765984,
                     "http://place.map.daum.net/27290899"),
-            event.getCreatedAt(),
-            event.getEndedAt(),
+            event.startedAt,
+            event.endedAt,
             event.getLimitOfEnrollment(),
             eventTypes
     );
