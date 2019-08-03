@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerIntegrationTest extends BaseIntegrateTest {
 
     @Test
-    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
     public void getUsersMeTest() throws Exception {
         // When
         ResultActions perform = mockMvc
@@ -41,8 +41,8 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
                         document("get-user-me")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id").isNotEmpty())
-                .andExpect(jsonPath("id").value(this.createdUser.getId()));
+                .andExpect(jsonPath("user.id").isNotEmpty())
+                .andExpect(jsonPath("user.id").value(this.createdUser.getId()));
     }
 
     @Test
@@ -89,8 +89,9 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         perform
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value(userDto.getName()))
-                .andExpect(jsonPath("$.interests.length()").value(interestDtoList.size()));
+                .andExpect(jsonPath("user.name").isNotEmpty())
+                .andExpect(jsonPath("user.email").doesNotExist())
+                .andExpect(jsonPath("user.interests.length()").value(interestDtoList.size()));
 
 
         perform
@@ -149,7 +150,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         String token = createUserAndBuildAuthToken();
         UserDto userDto = new UserDto(
                 "foo",
-                "putUserMeTest@email.com",
+                "invalid_email_format",
                 new ArrayList<>()
         );
         // When
@@ -171,7 +172,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     }
 
     @Test
-    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
     public void getUsersId() throws Exception {
         // When
         ResultActions perform = mockMvc
@@ -188,6 +189,6 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
                         document("get-user-id")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(createdUser.getId()));
+                .andExpect(jsonPath("user.id").value(createdUser.getId()));
     }
 }

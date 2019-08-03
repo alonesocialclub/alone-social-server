@@ -7,7 +7,7 @@ import social.alone.server.auth.oauth2.OAuth2AuthenticationFailureHandler
 import social.alone.server.auth.oauth2.OAuth2AuthenticationSuccessHandler
 import social.alone.server.auth.oauth2.user.RestAuthenticationEntryPoint
 import social.alone.server.auth.oauth2.user.TokenAuthenticationFilter
-import social.alone.server.user.service.UserService
+import social.alone.server.user.service.CustomUserDetailService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -31,7 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
-    private val userService: UserService? = null
+    private val userService: CustomUserDetailService? = null
 
     @Autowired
     private val customOAuth2UserService: CustomOAuth2UserService? = null

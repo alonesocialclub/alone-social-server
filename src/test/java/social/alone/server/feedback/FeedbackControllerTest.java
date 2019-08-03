@@ -22,7 +22,7 @@ public class FeedbackControllerTest extends BaseIntegrateTest {
     SlackNotifier slackNotifier;
 
     @Test
-    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
     public void createEventTest() throws Exception {
         
         // Given

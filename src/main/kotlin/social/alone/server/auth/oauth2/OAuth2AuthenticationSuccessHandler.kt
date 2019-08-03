@@ -57,7 +57,7 @@ internal constructor(private val tokenProvider: TokenProvider, private val appPr
     }
 
     private fun isAuthorizedRedirectUri(uri: String): Boolean {
-        return true;
+        return true
 
         // TODO FIX
         // 프로덕션이 아닌경우 redirect uri 를 느슨하게 가져간다.

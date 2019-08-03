@@ -1,14 +1,8 @@
 package social.alone.server.user.domain
 
-import lombok.Getter
-import lombok.Setter
-import org.springframework.hateoas.Link
+data class UserResource(val user: User) {
 
-class UserResource(user: User, vararg links: Link) {
-
-    @Setter
-    @Getter
-    var token: String? = null
+    var  token: String? = null
         set(token) {
             field = this.token
         }

@@ -12,7 +12,7 @@ import social.alone.server.BaseIntegrateTest
 class PushControllerTest : BaseIntegrateTest() {
 
     @Test
-    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
     @Throws(Exception::class)
     fun pushtest() {
         // Given & When

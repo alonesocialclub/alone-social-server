@@ -1,6 +1,5 @@
 package social.alone.server.user.controller
 
-import lombok.RequiredArgsConstructor
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
@@ -11,15 +10,12 @@ import social.alone.server.controller.BaseController
 import social.alone.server.user.domain.User
 import social.alone.server.user.domain.UserResource
 import social.alone.server.user.dto.UserDto
-import social.alone.server.user.service.UserService
+import social.alone.server.user.service.CustomUserDetailService
 import javax.validation.Valid
 
 @Controller
 @RequestMapping(value = ["/api/users"])
-@RequiredArgsConstructor
-class UserController : BaseController() {
-
-    private val userService: UserService? = null
+class UserController (val userService: CustomUserDetailService): BaseController() {
 
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
@@ -39,9 +35,14 @@ class UserController : BaseController() {
             return BadRequest(errors)
         }
 
-        val updatedUser = userService!!.update(user, userDto)
+        val updatedUser = userService.update(user, userDto)
 
         return buildResponse(updatedUser)
+    }
+
+    @GetMapping("/{id}")
+    fun getUser(@PathVariable("id") user: User): ResponseEntity<*> {
+        return buildResponse(user)
     }
 
     private fun buildResponse(user: User): ResponseEntity<*> {
@@ -49,9 +50,5 @@ class UserController : BaseController() {
         return ResponseEntity.ok(userResource)
     }
 
-    @GetMapping("/{id}")
-    fun getUser(@PathVariable("id") user: User): ResponseEntity<*> {
-        return buildResponse(user)
-    }
 
 }

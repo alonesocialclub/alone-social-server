@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
-import social.alone.server.user.service.UserService
+import social.alone.server.user.service.CustomUserDetailService
 import java.io.IOException
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
@@ -20,7 +20,7 @@ class TokenAuthenticationFilter : OncePerRequestFilter() {
     private val tokenProvider: TokenProvider? = null
 
     @Autowired
-    private val userService: UserService? = null
+    private val userService: CustomUserDetailService? = null
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {

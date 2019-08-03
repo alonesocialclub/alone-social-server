@@ -16,7 +16,7 @@
 //import social.alone.server.user.dto.UserDto;
 //import social.alone.server.user.repository.UserRepository;
 //import social.alone.server.user.domain.User;
-//import social.alone.server.user.service.UserService;
+//import social.alone.server.user.service.CustomUserDetailService;
 //
 //import java.util.Collections;
 //import java.util.stream.Collectors;
@@ -30,7 +30,7 @@
 //public class UserServiceTest {
 //
 //  @Autowired
-//  UserService userService;
+//  CustomUserDetailService userService;
 //
 //  @Autowired
 //  PasswordEncoder passwordEncoder;

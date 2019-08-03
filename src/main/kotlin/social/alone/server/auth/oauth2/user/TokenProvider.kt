@@ -40,7 +40,7 @@ class TokenProvider (val appProperties: AppProperties){
 
     internal fun getUserIdFromToken(token: String): Long? {
         val claims = Jwts.parser()
-                .setSigningKey(appProperties!!.auth.tokenSecret)
+                .setSigningKey(appProperties.auth.tokenSecret)
                 .parseClaimsJws(token)
                 .body
 
@@ -49,7 +49,7 @@ class TokenProvider (val appProperties: AppProperties){
 
     internal fun validateToken(authToken: String): Boolean {
         try {
-            Jwts.parser().setSigningKey(appProperties!!.auth.tokenSecret).parseClaimsJws(authToken)
+            Jwts.parser().setSigningKey(appProperties.auth.tokenSecret).parseClaimsJws(authToken)
             return true
         } catch (ex: SignatureException) {
             logger.error("Invalid JWT signature")
