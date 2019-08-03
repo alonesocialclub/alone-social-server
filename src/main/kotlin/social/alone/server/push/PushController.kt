@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.push.dto.FcmTokenRequest
-import social.alone.server.user.User
+import social.alone.server.user.domain.User
 
 @Controller
 @RequestMapping(value = ["/api/push"])

@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
-import social.alone.server.common.infrastructure.slack.SlackNotifier;
+import social.alone.server.slack.SlackNotifier;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -22,7 +22,7 @@ public class FeedbackControllerTest extends BaseIntegrateTest {
     SlackNotifier slackNotifier;
 
     @Test
-    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
     public void createEventTest() throws Exception {
         
         // Given

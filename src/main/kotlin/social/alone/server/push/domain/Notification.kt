@@ -2,7 +2,7 @@ package social.alone.server.push.domain
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import social.alone.server.user.User
+import social.alone.server.user.domain.User
 import java.time.LocalDateTime
 import javax.persistence.*
 

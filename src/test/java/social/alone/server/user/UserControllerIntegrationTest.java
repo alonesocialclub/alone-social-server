@@ -7,7 +7,9 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import social.alone.server.BaseIntegrateTest;
 import social.alone.server.interest.InterestDto;
+import social.alone.server.user.dto.UserDto;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerIntegrationTest extends BaseIntegrateTest {
 
     @Test
-    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
     public void getUsersMeTest() throws Exception {
         // When
         ResultActions perform = mockMvc
@@ -39,8 +41,8 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
                         document("get-user-me")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id").isNotEmpty())
-                .andExpect(jsonPath("id").value(this.createdUser.getId()));
+                .andExpect(jsonPath("user.id").isNotEmpty())
+                .andExpect(jsonPath("user.id").value(this.createdUser.getId()));
     }
 
     @Test
@@ -63,16 +65,15 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         // Given
         String token = createUserAndBuildAuthToken();
         List<InterestDto> interestDtoList = Arrays.asList(
-                InterestDto.builder().value("서예").build(),
-                InterestDto.builder().value("스타트업").build()
+                new InterestDto("서예"),
+                new InterestDto("스타트업")
         );
 
-        UserDto userDto = UserDto.builder()
-                .name("foo")
-                .email("putUserMeTest@email.com")
-                .interests(interestDtoList)
-                .build();
-        System.out.println("======================");
+        UserDto userDto = new UserDto(
+                "foo",
+                "putUserMeTest@email.com",
+                interestDtoList
+        );
 
         // When
         ResultActions perform = mockMvc
@@ -88,8 +89,9 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         perform
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value(userDto.getName()))
-                .andExpect(jsonPath("$.interests.length()").value(interestDtoList.size()));
+                .andExpect(jsonPath("user.name").isNotEmpty())
+                .andExpect(jsonPath("user.email").doesNotExist())
+                .andExpect(jsonPath("user.interests.length()").value(interestDtoList.size()));
 
 
         perform
@@ -113,19 +115,18 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
         // Given
         String token = createUserAndBuildAuthToken();
         List<InterestDto> interestDtoList = Arrays.asList(
-                InterestDto.of("사후세계"),
-                InterestDto.builder().value("스타트업").build(),
-                InterestDto.builder().value("배구").build(),
-                InterestDto.builder().value("그림").build(),
-                InterestDto.builder().value("음악").build(),
-                InterestDto.builder().value("역사").build()
+                new InterestDto("사후세계"),
+                new InterestDto("스타트업"),
+                new InterestDto("배구"),
+                new InterestDto("그림"),
+                new InterestDto("역사")
         );
 
-        UserDto userDto = UserDto.builder()
-                .name("foo")
-                .email("putUserMeTest@email.com")
-                .interests(interestDtoList)
-                .build();
+        UserDto userDto = new UserDto(
+                "foo",
+                "putUserMeTest@email.com",
+                interestDtoList
+        );
 
         // When
         ResultActions perform = mockMvc
@@ -147,11 +148,11 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     public void putUsersMeTest__invalid_email_format() throws Exception {
         // Given
         String token = createUserAndBuildAuthToken();
-        UserDto userDto = UserDto.builder()
-                .name("foo")
-                .email("invalid.email.com")
-                .build();
-
+        UserDto userDto = new UserDto(
+                "foo",
+                "invalid_email_format",
+                new ArrayList<>()
+        );
         // When
         ResultActions perform = mockMvc
 
@@ -171,7 +172,7 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
     }
 
     @Test
-    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "userService")
+    @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
     public void getUsersId() throws Exception {
         // When
         ResultActions perform = mockMvc
@@ -188,6 +189,6 @@ public class UserControllerIntegrationTest extends BaseIntegrateTest {
                         document("get-user-id")
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(createdUser.getId()));
+                .andExpect(jsonPath("user.id").value(createdUser.getId()));
     }
 }
