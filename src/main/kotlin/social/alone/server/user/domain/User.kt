@@ -1,7 +1,8 @@
 package social.alone.server.user.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import lombok.*
+import lombok.Builder
+import lombok.Setter
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.data.domain.AbstractAggregateRoot
@@ -12,24 +13,13 @@ import social.alone.server.slack.SlackMessagable
 import social.alone.server.slack.SlackMessageEvent
 import social.alone.server.user.dto.UserDto
 import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
-import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "users", uniqueConstraints = [UniqueConstraint(columnNames = ["email"])])
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-@EqualsAndHashCode(of = ["id"], callSuper = false)
-@ToString(of = ["id", "name"])
-class User : AbstractAggregateRoot<User>, SlackMessagable {
-
-
-    @Id
-    @GeneratedValue
-    var id: Long? = null
+data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoot<User>(), SlackMessagable {
 
     @CreationTimestamp
     val createdAt: LocalDateTime? = null
@@ -80,7 +70,7 @@ class User : AbstractAggregateRoot<User>, SlackMessagable {
         get() = this.roles.contains(UserRole.ADMIN)
 
     @Builder
-    constructor(email: String, password: String, name: String) {
+    constructor(email: String, password: String, name: String) : this() {
         this.roles.add(UserRole.USER)
         this.interests = HashSet()
 
@@ -91,7 +81,7 @@ class User : AbstractAggregateRoot<User>, SlackMessagable {
         this.sendSlackActivityMsg()
     }
 
-    constructor(oAuth2UserInfo: OAuth2UserInfo, provider: AuthProvider) {
+    constructor(oAuth2UserInfo: OAuth2UserInfo, provider: AuthProvider) : this() {
         this.roles.add(UserRole.USER)
         this.interests = HashSet()
 

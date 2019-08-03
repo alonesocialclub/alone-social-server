@@ -108,7 +108,6 @@ public class BaseIntegrateTest {
                 127.026503385182,
                 37.4991561765984,
                 "http://place.map.daum.net/27290899");
-        Integer next = atomicInteger.incrementAndGet();
         Set<EventTypeDto> eventTypes = new HashSet<>();
         EventDto eventDto = new EventDto(
                 "낙성대 주말 코딩",

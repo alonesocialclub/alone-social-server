@@ -83,6 +83,7 @@ class EventMutationController : BaseController() {
             @CurrentUser user: User,
             @PathVariable("id") event: Event?
     ): ResponseEntity<*> {
+
         if (event == null) {
             return NotFound()
         }
