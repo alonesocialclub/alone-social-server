@@ -1,5 +1,6 @@
 package social.alone.server.event.controller;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -77,6 +78,7 @@ public class EventSearchControllerTest extends BaseIntegrateTest {
 
   @Test
   @DisplayName("좌표 기반 쿼리, 가까운 순으로 나와야 함")
+  @Ignore
   public void queryEvents__location() throws Exception {
     // Given
     Event eventFar = this.createEvent(new Location(
