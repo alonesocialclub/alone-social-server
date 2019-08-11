@@ -1,7 +1,6 @@
 package social.alone.server.event.service
 
 import lombok.extern.slf4j.Slf4j
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import social.alone.server.event.domain.Event
@@ -17,25 +16,17 @@ import java.util.*
 @Slf4j
 @Service
 @Transactional
-class EventCreateSvc {
-
-    @Autowired
-    lateinit var eventRepository: EventRepository
-
-    @Autowired
-    lateinit var userRepository: UserRepository
-
-    @Autowired
-    lateinit var locationRepository: LocationRepository
-
-    @Autowired
-    lateinit var eventTypeRepository: EventTypeRepository
-
+class EventCreateSvc(
+        val eventRepository: EventRepository,
+        var userRepository: UserRepository,
+        var locationRepository: LocationRepository,
+        var eventTypeRepository: EventTypeRepository
+) {
 
     fun create(eventDto: EventDto, user_: User): Event {
-        val user: User? = userRepository.findById(user_.id!!).get()
+        val user: User = userRepository.findById(user_.id!!).get()
         val location = getLocation(eventDto)
-        val event = Event(eventDto, user!!, location)
+        val event = Event(eventDto, user, location)
         updateEventTypes(event, eventDto)
         return this.eventRepository.save(event)
     }

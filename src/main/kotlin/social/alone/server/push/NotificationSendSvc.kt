@@ -2,28 +2,43 @@ package social.alone.server.push
 
 
 import com.google.firebase.messaging.*
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import social.alone.server.event.domain.Event
 import social.alone.server.push.domain.FcmToken
 import social.alone.server.push.infra.FcmTokenRepository
+import java.util.*
 
 @Service
-class NotificationSendSvc {
+class NotificationSendSvc(
+        val env: Environment,
+        val fcmTokenRepository: FcmTokenRepository
+) {
 
-    @Autowired
-    lateinit var fcmTokenRepository: FcmTokenRepository
-
+    @Async
     fun afterEventCreation(event: Event) {
-        var list = fcmTokenRepository.findAll(PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "id")))
+        var notification = social.alone.server.push.domain.Notification(
+                "알림", "새로운 이벤트가 생성되었습니다.", "alsc://events/" + event.id
+        )
+        fcmTokenRepository
+                .findAll(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "id")))
+                .map { item ->
+                    {
+                        send(notification, item)
+                    }
+                }
     }
 
     fun send(
             notification: social.alone.server.push.domain.Notification,
             fcmToken: FcmToken
     ) {
+        if (!Arrays.asList(*env.activeProfiles).contains("prod")) {
+            return
+        }
         // See documentation on defining a message payload.
         val message = messageBuilder(notification, fcmToken)
 
