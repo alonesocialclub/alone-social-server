@@ -32,9 +32,7 @@ class AuthController(private val userRepository: UserRepository, private val use
 
         val user = userEnrollService.byFacebook(dto.facebookAccessToken)
         val token = authTokenGenerator.byUser(user)
-
-        val userResource = UserResource(user)
-        userResource.token = token
+        val userResource = UserResource(user, token)
         return ResponseEntity.ok(userResource)
     }
 
@@ -55,9 +53,8 @@ class AuthController(private val userRepository: UserRepository, private val use
             return ResponseEntity.notFound().build<Any>()
         }
 
-        val userResource = UserResource(byEmail.get())
         val token = authTokenGenerator.byEmailPassword(loginRequestDto.email, loginRequestDto.password)
-        userResource.token = token
+        val userResource = UserResource(byEmail.get(), token)
         return ResponseEntity.ok(userResource)
     }
 
@@ -86,12 +83,11 @@ class AuthController(private val userRepository: UserRepository, private val use
                 .fromCurrentContextPath().path("/user/me")
                 .buildAndExpand(user.id).toUri()
 
-        val userResource = UserResource(user)
         val token = authTokenGenerator.byEmailPassword(
                 signUpRequestDto.email,
                 signUpRequestDto.password
         )
-        userResource.token = token
+        val userResource = UserResource(user, token)
 
         return ResponseEntity.created(location)
                 .body(userResource)
