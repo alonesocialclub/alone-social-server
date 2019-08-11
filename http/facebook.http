@@ -1,4 +1,4 @@
-POST http://localhost:8080/api/auth/login/facebook
+POST {{host}}/api/auth/login/facebook
 Content-Type: application/json
 
 
