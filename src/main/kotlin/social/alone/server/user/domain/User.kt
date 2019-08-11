@@ -9,6 +9,7 @@ import org.springframework.data.domain.AbstractAggregateRoot
 import social.alone.server.auth.oauth2.user.OAuth2UserInfo
 import social.alone.server.event.domain.Event
 import social.alone.server.interest.Interest
+import social.alone.server.push.domain.FcmToken
 import social.alone.server.slack.SlackMessagable
 import social.alone.server.slack.SlackMessageEvent
 import social.alone.server.user.dto.UserDto
@@ -65,6 +66,9 @@ data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoo
     @ManyToMany(mappedBy = "users")
     @JsonIgnore
     val events: MutableSet<Event> = HashSet();
+
+    @OneToMany
+    var fcmTokens: MutableSet<FcmToken> = HashSet()
 
     val isAdmin: Boolean
         get() = this.roles.contains(UserRole.ADMIN)

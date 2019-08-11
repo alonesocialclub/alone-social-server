@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 import social.alone.server.event.domain.Event
 import social.alone.server.push.domain.FcmToken
 import social.alone.server.push.infra.FcmTokenRepository
+import social.alone.server.user.domain.User
 import java.util.*
 
 @Service
@@ -76,5 +77,20 @@ class NotificationSendSvc(
                 )
                 .build()
         return message
+    }
+
+    @Async
+    fun afterEventJoin(event: Event, user: User) {
+        var notification = social.alone.server.push.domain.Notification(
+                "알림", "새로운 참가자가 있습니다.", "alsc://events/" + event.id
+        )
+        // TODO implement
+        event.users.forEach { it ->
+            {
+                if (it != user) {
+                    println(it.name)
+                }
+            }
+        }
     }
 }

@@ -9,18 +9,23 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.event.service.EventService
+import social.alone.server.push.NotificationSendSvc
 import social.alone.server.user.domain.User
 
 @Controller
 @RequestMapping(value = ["/api/events/{id}/users"])
-class EventUserController(val eventService: EventService) {
+class EventUserController(val eventService: EventService, var notificationSendSvc: NotificationSendSvc) {
 
     @PostMapping
     fun joinEvent(
             @PathVariable("id") eventId: Long?,
             @CurrentUser user: User
     ): ResponseEntity<*> {
-        val event = eventService!!.joinEvent(eventId, user.id)
+        val event = eventService.joinEvent(eventId, user.id)
+
+
+        notificationSendSvc.afterEventJoin(event, user)
+
         return ResponseEntity.ok(event)
     }
 
