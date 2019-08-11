@@ -10,7 +10,7 @@ import social.alone.server.user.domain.UserRole
 class UserPrincipalAdapter(val user: User) : OAuth2User, UserDetails {
     val id: Long?
     val email: String?
-    private val password: String
+    private val password: String?
     private val authorities: Collection<GrantedAuthority>
     private var attributes: Map<String, Any>? = null
 
@@ -18,11 +18,11 @@ class UserPrincipalAdapter(val user: User) : OAuth2User, UserDetails {
 
         this.id = user.id
         this.email = user.email
-        this.password = user.password!!
+        this.password = user.password
         this.authorities = authorities(user.roles)
     }
 
-    override fun getPassword(): String {
+    override fun getPassword(): String? {
         return password
     }
 
