@@ -1,70 +1,34 @@
 package social.alone.server.config
 
 import lombok.Data
-import lombok.Getter
-import lombok.Setter
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
-
-import java.util.ArrayList
+import java.util.*
 
 @ConfigurationProperties(prefix = "app")
 @Component
-@Getter
-class AppProperties {
+data class AppProperties(
+        val auth:Auth = Auth(),
+        val oauth2:OAuth2 = OAuth2(),
+        val link:Link = Link(),
+        val slack:Slack = Slack(),
+        val sentry:Sentry = Sentry()
+) {
 
-    val auth = Auth()
-    val oauth2 = OAuth2()
-    val link = Link()
-    val slack = Slack()
-    val sentry = Sentry()
+    data class Auth (
+        val tokenSecret: String? = null,
+        val tokenExpirationMsec: Long = 3600000000
+    )
 
-    // TODO lombok fix
-    class Auth {
-        var tokenSecret: String? = null
-        var tokenExpirationMsec: Long = 0
-    }
+    data class OAuth2 (
+        val clientId: String? = null,
+        val  clientSecret: String? = null,
+        val authorizedRedirectUris: List<String> = ArrayList()
+    )
 
-    // TODO lombok fix
-    @Data
-    class OAuth2 {
+    data class Link (var host: String? = null)
 
-        var clientId: String? = null
-            set(clientId) {
-                field = this.clientId
-            }
-        var clientSecret: String? = null
-            set(clientSecret) {
-                field = this.clientSecret
-            }
+    data class Slack(var channel: String? = null)
 
-        var authorizedRedirectUris: List<String> = ArrayList()
-            set(authorizedRedirectUris) {
-                field = this.authorizedRedirectUris
-            }
-
-    }
-
-    @Data
-    class Link {
-        var host: String? = null
-            set(host) {
-                field = this.host
-            }
-
-    }
-
-    @Data
-    class Slack {
-        var channel: String? = null
-            set(channel) {
-                field = this.channel
-            }
-    }
-
-
-    @Data
-    class Sentry {
-        var dsn: String? = null
-    }
+    data class Sentry(var dsn: String? = null)
 }
