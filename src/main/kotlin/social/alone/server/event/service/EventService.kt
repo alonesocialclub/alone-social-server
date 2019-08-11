@@ -53,8 +53,8 @@ class EventService(
     }
 
     fun joinEvent(eventId: Long?, userId: Long?): Event {
-        val user = this.userRepository!!.findById(userId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
-        val event = this.eventRepository!!.findById(eventId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
+        val user = this.userRepository.findById(userId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
+        val event = this.eventRepository.findById(eventId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
         event.joinEvent(user)
         return this.eventRepository.save(event)
     }
