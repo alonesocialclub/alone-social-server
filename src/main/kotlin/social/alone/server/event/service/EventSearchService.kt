@@ -16,6 +16,9 @@ class EventSearchService(var eventRepository: EventRepository) {
             pageable: Pageable,
             eventQueryParams: EventQueryParams
     ): Page<Event> {
-        return eventRepository.search(pageable, eventQueryParams)
+        return eventRepository.search(
+                pageable,
+                eventQueryParams
+        )
     }
 }
