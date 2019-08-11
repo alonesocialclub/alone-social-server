@@ -1,6 +1,8 @@
 package social.alone.server.event.controller
 
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.SortDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,7 +22,7 @@ class EventSearchController(val eventSearchService: EventSearchService) : BaseCo
 
     @GetMapping
     fun queryEvents(
-            pageable: Pageable,
+            @SortDefault(sort = ["startedAt"], direction = Sort.Direction.ASC) pageable: Pageable,
             @CurrentUser user: User?,
             @Valid eventQueryParams: EventQueryParams
     ): ResponseEntity<*> {

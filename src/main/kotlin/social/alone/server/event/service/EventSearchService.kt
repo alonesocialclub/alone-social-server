@@ -19,8 +19,10 @@ class EventSearchService(var eventRepository: EventRepository) {
             eventQueryParams: EventQueryParams
     ): Page<Event> {
         return eventRepository.findAll(
-                QEvent.event.startedAt.after(LocalDateTime.now()),
+                filterEndEvent(),
                 pageable
         )
     }
+
+    private fun filterEndEvent() = QEvent.event.startedAt.after(LocalDateTime.now())
 }

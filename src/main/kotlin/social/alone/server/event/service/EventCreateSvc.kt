@@ -42,13 +42,11 @@ class EventCreateSvc {
 
 
     private fun updateEventTypes(event: Event, eventDto: EventDto) {
-        if (eventDto.eventTypes != null) {
-            val eventIds = eventDto.eventTypes!!.map{
-                it.id
-            }
-            val eventTypes = eventTypeRepository.findAllById(eventIds)
-            event.eventTypes = HashSet(eventTypes)
+        val eventIds = eventDto.eventTypes.map {
+            it.id
         }
+        val eventTypes = eventTypeRepository.findAllById(eventIds)
+        event.eventTypes = HashSet(eventTypes)
     }
 
     private fun getLocation(eventDto: EventDto): Location {
@@ -59,7 +57,7 @@ class EventCreateSvc {
                         location.latitude!!,
                         location.name!!
                 )
-        if (by.isPresent){
+        if (by.isPresent) {
             return by.get()
         }
         return locationRepository.save(location)
