@@ -36,7 +36,6 @@ public class EventSearchServiceTest {
 
     Pageable pageable = Pageable.unpaged();
     EventQueryParams eventQueryParams = new EventQueryParams();
-    eventQueryParams.setType(EventQueryType.ALL);
     eventQueryParams.setLatitude(127.026503385182);
     eventQueryParams.setLongitude(37.4991561765984);
 

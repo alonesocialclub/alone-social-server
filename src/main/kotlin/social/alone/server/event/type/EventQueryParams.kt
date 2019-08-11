@@ -2,18 +2,11 @@ package social.alone.server.event.type
 
 import lombok.Getter
 import lombok.Setter
-
 import java.time.LocalDateTime
-import java.util.Optional
+import java.util.*
 
 @Getter
 class EventQueryParams {
-
-    var type: EventQueryType? = EventQueryType.ALL
-        set(type) {
-            field = type ?: EventQueryType.ALL
-        }
-
     @Setter
     var longitude: Double? = null
         set(longitude) {
