@@ -1,6 +1,5 @@
 package social.alone.server.config
 
-import lombok.Data
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
 import java.util.*
@@ -15,14 +14,13 @@ data class AppProperties(
         val sentry:Sentry = Sentry()
 ) {
 
-    data class Auth (
-        val tokenSecret: String? = null,
-        val tokenExpirationMsec: Long = 3600000000
-    )
+    data class Auth (var tokenSecret: String? = null, var tokenExpirationMsec: Long = 3600000){
+    }
+
 
     data class OAuth2 (
         val clientId: String? = null,
-        val  clientSecret: String? = null,
+        val clientSecret: String? = null,
         val authorizedRedirectUris: List<String> = ArrayList()
     )
 

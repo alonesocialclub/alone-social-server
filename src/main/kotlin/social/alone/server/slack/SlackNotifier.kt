@@ -1,7 +1,5 @@
 package social.alone.server.slack
 
-import lombok.AllArgsConstructor
-import lombok.Getter
 import lombok.extern.slf4j.Slf4j
 import org.springframework.core.env.Environment
 import org.springframework.scheduling.annotation.Async
