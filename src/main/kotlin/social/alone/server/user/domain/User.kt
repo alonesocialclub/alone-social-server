@@ -56,7 +56,7 @@ data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoo
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    val roles: MutableSet<UserRole> = HashSet([UserRole.USER])
+    val roles: MutableSet<UserRole> = hashSetOf(UserRole.USER)
 
 
     @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE], fetch = FetchType.EAGER)
