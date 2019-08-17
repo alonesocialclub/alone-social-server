@@ -11,10 +11,10 @@ import social.alone.server.user.domain.User
 
 @Controller
 @RequestMapping(value = ["/api/push"])
-class PushController (
+class PushController(
         val fcmTokenRegisterSvc: FcmTokenRegisterSvc,
         val notificationSendSvc: NotificationSendSvc
-){
+) {
 
     @PostMapping("/tokens")
     fun registerToken(
@@ -32,7 +32,7 @@ class PushController (
             @CurrentUser user: User?,
             @RequestBody req: Request
     ): ResponseEntity<*> {
-        if (user != null && user.isAdmin){
+        if (user != null && user.isAdmin) {
             notificationSendSvc.noticeAll(req.message)
         }
         return ResponseEntity.noContent().build<Any>()
