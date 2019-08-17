@@ -56,18 +56,19 @@ data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoo
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    val roles: MutableSet<UserRole> = HashSet()
+    val roles: MutableSet<UserRole> = HashSet([UserRole.USER])
 
 
-    @ManyToMany(cascade = [CascadeType.PERSIST], fetch = FetchType.EAGER)
+    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE], fetch = FetchType.EAGER)
     @JoinTable(name = "user_interest", joinColumns = [JoinColumn(name = "user_id")], inverseJoinColumns = [JoinColumn(name = "interest_id")])
     var interests: MutableSet<Interest> = HashSet()
 
     @ManyToMany(mappedBy = "users")
     @JsonIgnore
-    val events: MutableSet<Event> = HashSet();
+    val events: MutableSet<Event> = HashSet()
 
     @OneToMany
+    @JsonIgnore
     var fcmTokens: MutableSet<FcmToken> = HashSet()
 
     val isAdmin: Boolean
@@ -75,9 +76,6 @@ data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoo
 
     @Builder
     constructor(email: String, password: String, name: String) : this() {
-        this.roles.add(UserRole.USER)
-        this.interests = HashSet()
-
         this.email = email
         this.password = password
         this.name = name
