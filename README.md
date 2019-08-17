@@ -5,8 +5,17 @@
 
 server for [https://alone.social](https://alone.social)
 
+## development
+```bash
+$ ./gradlew bootRun
+```
+
 ## deploy
 
 ```bash
 $ ./deploy.sh
 ```
+
+## API doc
+
+http://52.78.145.107/docs/index.html
