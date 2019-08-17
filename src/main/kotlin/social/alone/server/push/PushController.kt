@@ -1,6 +1,5 @@
 package social.alone.server.push
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,10 +11,10 @@ import social.alone.server.user.domain.User
 
 @Controller
 @RequestMapping(value = ["/api/push"])
-class PushController {
-
-    @Autowired
-    lateinit var fcmTokenRegisterSvc: FcmTokenRegisterSvc
+class PushController (
+        val fcmTokenRegisterSvc: FcmTokenRegisterSvc,
+        val notificationSendSvc: NotificationSendSvc
+){
 
     @PostMapping("/tokens")
     fun registerToken(
@@ -27,4 +26,17 @@ class PushController {
         }
         return ResponseEntity.noContent().build<Any>()
     }
+
+    @PostMapping("/notices")
+    fun notices(
+            @CurrentUser user: User?,
+            @RequestBody req: Request
+    ): ResponseEntity<*> {
+        if (user != null && user.isAdmin){
+            notificationSendSvc.noticeAll(req.message)
+        }
+        return ResponseEntity.noContent().build<Any>()
+    }
+
+    data class Request(val message: String)
 }

@@ -130,10 +130,10 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     }
 
     fun activityLogEventCreate() {
-        if (!owner.isAdmin) {
+//        if (!owner.isAdmin) {
             val message = this.owner.toString() + "님이 " + this.toString() + "를 생성했습니다."
             this.registerEvent(buildSlackMessageEvent(message))
-        }
+//        }
     }
 
     fun activityLogJoinEvent(user: User) {

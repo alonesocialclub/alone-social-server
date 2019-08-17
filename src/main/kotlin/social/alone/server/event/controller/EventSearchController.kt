@@ -23,7 +23,7 @@ class EventSearchController(val eventSearchService: EventSearchService) : BaseCo
 
     @GetMapping
     fun queryEvents(
-            @PageableDefault(sort = ["startedAt"], direction = Sort.Direction.DESC) pageable: Pageable,
+            @PageableDefault(sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
             @CurrentUser user: User?,
             @Valid eventQueryParams: EventQueryParams
     ): ResponseEntity<*> {

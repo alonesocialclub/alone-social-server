@@ -1,0 +1,10 @@
+POST http://localhost:8080/api/push/notices
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNTY2MDAzNDgxLCJleHAiOjE2NTI0MDM0ODF9.oCWSYPER2LFtzTpCrDcTiWoNxAugrsTvidhj8hbeRB_tC0Fdg-koIR0bj5tax41I_lPwBJEMp8S_y3oYErwWKw
+Content-Type: application/json
+
+
+{
+  "message": "야호 테스트"
+}
+
+###
