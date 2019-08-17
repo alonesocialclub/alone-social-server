@@ -11,17 +11,17 @@ import social.alone.server.user.domain.User
 class AuthTokenGenerator(val tokenProvider: TokenProvider, val authenticationManager: AuthenticationManager) {
 
     fun byEmailPassword(email: String, password: String): String {
-        val authentication = authenticationManager!!.authenticate(
+        val authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(email, password)
         )
 
-        val token = tokenProvider!!.createToken(authentication)
+        val token = tokenProvider.createToken(authentication)
         SecurityContextHolder.getContext().authentication = authentication
 
         return token
     }
 
     fun byUser(user: User): String {
-        return tokenProvider!!.createToken(user)
+        return tokenProvider.createToken(user)
     }
 }
