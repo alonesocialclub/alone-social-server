@@ -14,15 +14,14 @@ class EventRepositoryImpl : QuerydslRepositorySupport(Event::class.java), EventR
     override fun search(pageable: Pageable, eventQueryParams: EventQueryParams): PageImpl<Event> {
         val event = QEvent.event
         var query = from<Event>(event)
-
         query = filterEndEvent(query)
         query = sortByCoordinate(eventQueryParams, query, event)
 
-        val events = query
-                .offset(pageable.offset)
-                .limit(pageable.pageSize.toLong())
-                .fetch()
-        return PageImpl(events, pageable, query.fetchCount())
+        this.querydsl!!.applyPagination(pageable, query)
+        query.offset(pageable.offset)
+        query.limit(pageable.pageSize.toLong())
+
+        return PageImpl(query.fetch(), pageable, query.fetchCount())
     }
 
     private fun filterEndEvent(query: JPQLQuery<Event>): JPQLQuery<Event> {

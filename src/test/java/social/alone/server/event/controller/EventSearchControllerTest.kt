@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import social.alone.server.BaseIntegrateTest
 import social.alone.server.DisplayName
 import social.alone.server.location.Location
+import java.time.LocalDateTime
 import java.util.stream.IntStream
 
 class EventSearchControllerTest : BaseIntegrateTest() {
@@ -50,6 +51,33 @@ class EventSearchControllerTest : BaseIntegrateTest() {
                                         parameterWithName("latitude").description("위도")
                                 )
                         ))
+    }
+
+    @Test
+    @DisplayName("기본 정렬은 startedAt, asc")
+    @Throws(Exception::class)
+    fun queryEvents__sort_default() {
+        // Given
+        val middleEvent = this.createEvent(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(3))
+        val upcomingEvent = this.createEvent(LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(4))
+        val lastEvent = this.createEvent(LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(7))
+
+        // When
+        val perform = this.mockMvc.perform(
+                get("/api/events")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+
+        // Then
+        perform
+                .andDo(print())
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("content[0].id").value(upcomingEvent.id!!))
+                .andExpect(jsonPath("content[1].id").value(middleEvent.id!!))
+                .andExpect(jsonPath("content[2].id").value(lastEvent.id!!))
+                .andExpect(jsonPath("numberOfElements").value(3))
+                .andExpect(jsonPath("sort.sorted").value(true))
     }
 
     @Test
