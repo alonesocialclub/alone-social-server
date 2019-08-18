@@ -1,7 +1,6 @@
 package social.alone.server.event.type
 
 import java.time.LocalDateTime
-import java.util.*
 
 data class EventQueryParams (
         val longitude: Double? = null,
@@ -10,8 +9,10 @@ data class EventQueryParams (
 
     val startedAt: LocalDateTime? = null
 
-    val coordinate: Optional<Coordinate>
+    val coordinate: Coordinate?
         get() = if (this.latitude != null && this.longitude != null) {
-            Optional.of(Coordinate(this.longitude, this.latitude))
-        } else Optional.empty()
+            Coordinate(this.longitude, this.latitude)
+        } else null
+
+    fun searchByCoordinate() = coordinate !== null
 }
