@@ -52,7 +52,7 @@ class UserServiceTest {
         // When
         try {
             val userDetailsService = userService
-            userDetailsService!!.loadUserByUsername(notFoundUserName) // username
+            userDetailsService.loadUserByUsername(notFoundUserName) // username
             fail<Any>("supposed to be failed")
         } catch (e: UsernameNotFoundException) {
             // Then
@@ -67,7 +67,7 @@ class UserServiceTest {
         val userName = user.name
         val userDto = UserDto(null, "email@email.com", null)
 
-        userService!!.update(user, userDto)
+        userService.update(user, userDto)
 
         assertThat(user.email).isEqualTo(userDto.email)
         assertThat(user.name).isEqualTo(userName)
