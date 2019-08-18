@@ -104,9 +104,8 @@ class EventSearchControllerTest : BaseIntegrateTest() {
 
     @Test
     @DisplayName("좌표 기반 쿼리, 가까운 순으로 나와야 함")
-    @Ignore
     @Throws(Exception::class)
-    fun queryEvents__location() {
+    fun queryEvents__sort_bylocation() {
         // Given
         val eventFar = this.createEvent(Location(
                 "역삼",
@@ -115,18 +114,18 @@ class EventSearchControllerTest : BaseIntegrateTest() {
                 37.4991894,
                 "http://place.map.daum.net/27290899"
         ))
-        val eventNear = this.createEvent(Location(
-                "낙성대",
-                "가빈 커피로스터즈",
-                126.9630652,
-                37.4765389,
-                "http://place.map.daum.net/27290899"
-        ))
         val eventFarFar = this.createEvent(Location(
                 "강릉 카페",
                 "바다가 보인다",
                 128.8218548,
                 37.8228477,
+                "http://place.map.daum.net/27290899"
+        ))
+        val eventNear = this.createEvent(Location(
+                "낙성대",
+                "가빈 커피로스터즈",
+                126.9630652,
+                37.4765389,
                 "http://place.map.daum.net/27290899"
         ))
 
