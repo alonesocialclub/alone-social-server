@@ -1,23 +1,12 @@
 package social.alone.server.event.type
 
-import lombok.Getter
-import lombok.Setter
 import java.time.LocalDateTime
 import java.util.*
 
-@Getter
-class EventQueryParams {
-    @Setter
-    var longitude: Double? = null
-        set(longitude) {
-            field = this.longitude
-        }
-
-    @Setter
-    var latitude: Double? = null
-        set(latitude) {
-            field = this.latitude
-        }
+data class EventQueryParams (
+        val longitude: Double? = null,
+        val latitude: Double? = null
+){
 
     val startedAt: LocalDateTime? = null
 
