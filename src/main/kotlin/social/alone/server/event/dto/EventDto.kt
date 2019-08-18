@@ -11,17 +11,17 @@ import javax.validation.constraints.NotNull
 
 data class EventDto (
     @NotEmpty
-    var name: String,
+    val name: String,
 
     @NotEmpty
-    var description: String,
+    val description: String,
 
-    var location: LocationDto,
+    val location: LocationDto,
 
-    var startedAt: LocalDateTime,
+    val startedAt: LocalDateTime,
 
     @NotNull
-    var endedAt: LocalDateTime,
+    val endedAt: LocalDateTime,
 
     var limitOfEnrollment: Int = 0,
 
