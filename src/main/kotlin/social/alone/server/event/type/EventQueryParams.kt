@@ -13,4 +13,6 @@ data class EventQueryParams (
         get() = if (this.latitude != null && this.longitude != null) {
             Coordinate(this.longitude, this.latitude)
         } else null
+
+    fun searchByCoordinate() = coordinate !== null
 }

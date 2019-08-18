@@ -17,7 +17,10 @@ class EventRepositoryImpl : QuerydslRepositorySupport(Event::class.java), EventR
     override fun search(pageable: Pageable, eventQueryParams: EventQueryParams): PageImpl<Event> {
         val query = from<Event>(event)
         query.where(filterEndEvent())
-        query.orderBy(sortIfCoordinate(eventQueryParams.coordinate))
+
+        if (eventQueryParams.searchByCoordinate()){
+            query.orderBy(sortIfCoordinate(eventQueryParams.coordinate!!))
+        }
 
         this.querydsl!!.applyPagination(pageable, query)
         query.offset(pageable.offset)
@@ -30,10 +33,7 @@ class EventRepositoryImpl : QuerydslRepositorySupport(Event::class.java), EventR
         return QEvent.event.startedAt.after(LocalDateTime.now())
     }
 
-    private fun sortIfCoordinate(coordinate:Coordinate?): OrderSpecifier<Double>? {
-        if (coordinate == null) {
-            return null
-        }
+    private fun sortIfCoordinate(coordinate:Coordinate): OrderSpecifier<Double> {
         return (
                 event.location.longitude.subtract(coordinate.longitude).abs()
                         .add(
