@@ -63,9 +63,9 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
 
     val linkHtml: String
         get() {
-            val url = "https://alone.social/events/" + this.id!!
+            val url = "https://alone.social/events/" + id!!
             val formatter = DateTimeFormatter.ofPattern("MM/dd hh")
-            val description = this.startedAt!!.format(formatter) + "시 " + this.location.name + "에서"
+            val description = startedAt.format(formatter) + "시 " + location.name + "에서"
 
             return String.format(
                     "<html>" +
