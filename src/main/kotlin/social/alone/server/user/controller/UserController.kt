@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.controller.BaseController
 import social.alone.server.user.domain.User
-import social.alone.server.user.domain.UserResource
+import social.alone.server.user.domain.UserTokenView
 import social.alone.server.user.dto.UserDto
 import social.alone.server.user.service.CustomUserDetailService
 import javax.validation.Valid
@@ -46,7 +46,7 @@ class UserController (val userService: CustomUserDetailService): BaseController(
     }
 
     private fun buildResponse(user: User): ResponseEntity<*> {
-        val userResource = UserResource(user)
+        val userResource = UserTokenView(user)
         return ResponseEntity.ok(userResource)
     }
 
