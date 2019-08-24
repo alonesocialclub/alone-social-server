@@ -19,3 +19,7 @@ $ ./deploy.sh
 ## API doc
 
 http://52.78.145.107/docs/index.html
+
+## ping status
+
+http://52.78.145.107/api/events
