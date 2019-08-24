@@ -10,7 +10,7 @@ data class UserView(
         val interests: MutableSet<Interest>
 )
 
-val DEFAULT_PROFILE = "https://alone-social-static-image.s3.ap-northeast-2.amazonaws.com/profile.png";
+const val DEFAULT_PROFILE = "https://alone-social-static-image.s3.ap-northeast-2.amazonaws.com/profile.png";
 
 fun User.view() = UserView(
         id = id,
