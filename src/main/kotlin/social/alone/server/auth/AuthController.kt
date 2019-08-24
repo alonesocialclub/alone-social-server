@@ -11,7 +11,7 @@ import social.alone.server.auth.email.LoginRequestDto
 import social.alone.server.auth.email.SignUpRequestDto
 import social.alone.server.controller.BaseController
 import social.alone.server.exception.BadRequestException
-import social.alone.server.user.domain.UserResource
+import social.alone.server.user.domain.UserTokenView
 import social.alone.server.user.repository.UserRepository
 import social.alone.server.user.service.UserEnrollService
 import javax.validation.Valid
@@ -32,7 +32,7 @@ class AuthController(private val userRepository: UserRepository, private val use
 
         val user = userEnrollService.byFacebook(dto.facebookAccessToken)
         val token = authTokenGenerator.byUser(user)
-        val userResource = UserResource(user, token)
+        val userResource = UserTokenView(user, token)
         return ResponseEntity.ok(userResource)
     }
 
@@ -54,7 +54,7 @@ class AuthController(private val userRepository: UserRepository, private val use
         }
 
         val token = authTokenGenerator.byEmailPassword(loginRequestDto.email, loginRequestDto.password)
-        val userResource = UserResource(byEmail.get(), token)
+        val userResource = UserTokenView(byEmail.get(), token)
         return ResponseEntity.ok(userResource)
     }
 
@@ -87,7 +87,7 @@ class AuthController(private val userRepository: UserRepository, private val use
                 signUpRequestDto.email,
                 signUpRequestDto.password
         )
-        val userResource = UserResource(user, token)
+        val userResource = UserTokenView(user, token)
 
         return ResponseEntity.created(location)
                 .body(userResource)
