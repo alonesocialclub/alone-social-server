@@ -34,9 +34,6 @@ class EventSearchService(var eventRepository: EventRepository) {
         )
     }
 
-    private fun filterParticipatingEvent(user: User) = QEvent.event.owner.eq(user)
-            .or(QEvent.event.users.contains(user))
-
     fun findAllMyPastEvents(
             user: User,
             pageable: Pageable
@@ -45,5 +42,8 @@ class EventSearchService(var eventRepository: EventRepository) {
                 filterParticipatingEvent(user), pageable
         )
     }
+
+    private fun filterParticipatingEvent(user: User) = QEvent.event.owner.eq(user)
+            .or(QEvent.event.users.contains(user))
 
 }
