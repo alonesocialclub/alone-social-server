@@ -19,17 +19,14 @@ class MyEventListApi(private val eventSearchService: EventSearchService) {
     @GetMapping("/upcoming")
     fun upcoming(
             pageable: Pageable,
-            @CurrentUser user: User?,
-            @Valid eventQueryParams: EventQueryParams
+            @CurrentUser user: User?
     ): ResponseEntity<*> {
         if (user == null) {
             return ResponseEntity.badRequest().build<Any>()
         }
 
-        val page = this.eventSearchService.findAllBy(
-                pageable,
-                eventQueryParams
-        )
+        val page = this.eventSearchService
+                .findAllMyUpcomingEvents(user, pageable)
         return ResponseEntity.ok(page)
     }
 
@@ -44,10 +41,8 @@ class MyEventListApi(private val eventSearchService: EventSearchService) {
             return ResponseEntity.badRequest().build<Any>()
         }
 
-        val page = this.eventSearchService.findAllBy(
-                pageable,
-                eventQueryParams
-        )
+        val page = this.eventSearchService
+                .findAllMyPastEvents(user, pageable)
         return ResponseEntity.ok(page)
     }
 
