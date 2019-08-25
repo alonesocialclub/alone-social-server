@@ -26,7 +26,7 @@ class MyEventListApi(private val eventSearchService: EventSearchService) {
             return ResponseEntity.badRequest().build<Any>()
         }
 
-        val page = this.eventSearchService!!.findAllBy(
+        val page = this.eventSearchService.findAllBy(
                 pageable,
                 eventQueryParams
         )
@@ -44,7 +44,7 @@ class MyEventListApi(private val eventSearchService: EventSearchService) {
             return ResponseEntity.badRequest().build<Any>()
         }
 
-        val page = this.eventSearchService!!.findAllBy(
+        val page = this.eventSearchService.findAllBy(
                 pageable,
                 eventQueryParams
         )
