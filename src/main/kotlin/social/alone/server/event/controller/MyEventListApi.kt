@@ -2,6 +2,8 @@ package social.alone.server.event.controller
 
 
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +20,7 @@ class MyEventListApi(private val eventSearchService: EventSearchService) {
 
     @GetMapping("/upcoming")
     fun upcoming(
-            pageable: Pageable,
+            @PageableDefault(sort = ["startedAt"], direction = Sort.Direction.ASC) pageable: Pageable,
             @CurrentUser user: User?
     ): ResponseEntity<*> {
         if (user == null) {
@@ -32,7 +34,7 @@ class MyEventListApi(private val eventSearchService: EventSearchService) {
 
     @GetMapping("/past")
     fun past(
-            pageable: Pageable,
+            @PageableDefault(sort = ["startedAt"], direction = Sort.Direction.ASC) pageable: Pageable,
             @CurrentUser user: User?,
             @Valid eventQueryParams: EventQueryParams
     ): ResponseEntity<*> {

@@ -1,6 +1,8 @@
 package social.alone.server.user.controller
 
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +19,7 @@ class UserEventController(val eventSearchService: EventSearchService) {
 
     @GetMapping
     fun getEventsWithUser(
-            pageable: Pageable,
+            @PageableDefault(sort = ["startedAt"], direction = Sort.Direction.ASC) pageable: Pageable,
             @PathVariable("userId") user: User,
             @Valid eventQueryParams: EventQueryParams
     ): ResponseEntity<*> {

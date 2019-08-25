@@ -9,6 +9,7 @@ import social.alone.server.event.domain.QEvent
 import social.alone.server.event.repository.EventRepository
 import social.alone.server.event.type.EventQueryParams
 import social.alone.server.user.domain.User
+import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -30,7 +31,11 @@ class EventSearchService(var eventRepository: EventRepository) {
     ): Page<Event> {
 
         return eventRepository.findAll(
-                filterParticipatingEvent(user), pageable
+                filterParticipatingEvent(user)
+                        .and(
+                                QEvent.event.endedAt.after(LocalDateTime.now())
+                        ),
+                pageable
         )
     }
 
@@ -39,7 +44,11 @@ class EventSearchService(var eventRepository: EventRepository) {
             pageable: Pageable
     ): Page<Event> {
         return eventRepository.findAll(
-                filterParticipatingEvent(user), pageable
+                filterParticipatingEvent(user)
+                        .and(
+                                QEvent.event.endedAt.before(LocalDateTime.now())
+                        )
+                , pageable
         )
     }
 
