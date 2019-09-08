@@ -6,6 +6,6 @@ import java.util.HashSet
 
 interface InterestRepository : JpaRepository<Interest, Long> {
 
-    fun findAllByValueIn(values: List<String>): HashSet<Interest>
+    fun findAllByValueIn(values: Set<String>): HashSet<Interest>
 
 }

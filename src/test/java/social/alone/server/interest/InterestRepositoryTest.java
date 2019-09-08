@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +38,7 @@ public class InterestRepositoryTest extends BaseRepositoryTest {
     interests.add(buildInterest("make the world a better place"));
     interests.add(buildInterest("statistics"));
     interestRepository.saveAll(interests);
-    List<String> interestsKeywords = interests.stream().map(Interest::getValue).collect(Collectors.toList());
+    Set<String> interestsKeywords = interests.stream().map(Interest::getValue).collect(Collectors.toSet());
 
     // when
     HashSet<Interest> results = interestRepository.findAllByValueIn(interestsKeywords);

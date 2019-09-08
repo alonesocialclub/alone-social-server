@@ -10,7 +10,7 @@ import java.util.*
 class InterestUpsertService (val interestRepository: InterestRepository){
 
     fun saveAll(@NonNull interests: List<InterestDto>): HashSet<Interest> {
-        val values = interests.map { it.value }
+        val values = interests.map { it.value }.toHashSet()
 
         val results = HashSet(interestRepository.findAllByValueIn(values))
 
@@ -18,11 +18,10 @@ class InterestUpsertService (val interestRepository: InterestRepository){
             return results
         }
 
-        val existsValues = results.map { it.value }
+        val existsValues = results.map { it.value }.toHashSet()
 
-        val itemsToBeSaved = values
-                .filter { value -> !existsValues.contains(value) }
-                .map( { Interest(it!!)})
+        val itemsToBeSaved = (values - existsValues)
+                .map { Interest(it) }
 
         results.addAll(interestRepository.saveAll(itemsToBeSaved))
 
