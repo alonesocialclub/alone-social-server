@@ -49,7 +49,7 @@ class InterestUpsertServiceTest {
         // when
         val results = interestUpsertService.saveAll(valuesToBeSaved)
 
-        assertThat(results.map{ it.value}).isEqualTo(valuesToBeSaved.toHashSet().map { it.value })
+        assertThat(results.map{ it.value}.toSet()).containsAll(valuesToBeSaved.toSet().map { it.value })
 
     }
 
