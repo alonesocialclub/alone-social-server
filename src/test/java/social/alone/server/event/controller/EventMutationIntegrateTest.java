@@ -1,7 +1,5 @@
 package social.alone.server.event.controller;
 
-import com.jayway.jsonpath.JsonPath;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +19,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -37,7 +34,7 @@ public class EventMutationIntegrateTest extends BaseIntegrateTest{
 
   @Test
   @WithUserDetails(value = CREATED_USER_EMAIL, userDetailsServiceBeanName = "customUserDetailService")
-  public void createEventTest() throws Exception {
+  public void createEventTest__happy() throws Exception {
     // Given
     EventType eventType1 = createEventType("밥 같이 먹어요");
     EventType eventType2 = createEventType("조금 떠들어요");
