@@ -49,9 +49,9 @@ class InterestUpsertServiceTest {
         // when
         val results = interestUpsertService.saveAll(valuesToBeSaved)
 
-        assertThat(results.map { it.value }).isEqualTo(valuesToBeSaved.map { it.value })
         assertThat(results.find { it.value == "과학2" }).isNotNull;
         assertThat(results.find { it.value == "과학2" }).isEqualTo(saved.find { it.value == "과학2" })
+        assertThat(results.find { it.value == "과학1" }).isEqualTo(saved.find { it.value == "과학1" })
     }
 
 }
