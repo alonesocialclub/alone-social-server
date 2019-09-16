@@ -9,7 +9,7 @@ import social.alone.server.BaseIntegrateTest
 class TokenProviderTest : BaseIntegrateTest() {
 
     @Autowired
-    lateinit var tokenProvider: TokenProvider
+    override lateinit var tokenProvider: TokenProvider
 
     @Test
     fun test() {

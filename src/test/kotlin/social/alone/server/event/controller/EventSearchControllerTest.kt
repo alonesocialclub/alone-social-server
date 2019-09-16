@@ -1,6 +1,5 @@
 package social.alone.server.event.controller
 
-import org.junit.Ignore
 import org.junit.Test
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document

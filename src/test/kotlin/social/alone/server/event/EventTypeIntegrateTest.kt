@@ -2,7 +2,6 @@ package social.alone.server.event
 
 import org.junit.Test
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.ResultActions
 import social.alone.server.BaseIntegrateTest
 import social.alone.server.DisplayName
 
