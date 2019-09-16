@@ -16,27 +16,26 @@ import java.net.URL
 @Slf4j
 @Component
 class S3Uploader(private val amazonS3Client: AmazonS3Client) {
+    companion object {
+        const val bucket = "alone-social-static-image"
+    }
 
-    fun upload(path: String, fileUrl: String): String? {
+    fun upload(path: String, file: URL): String? {
         try {
-
-            val url = URL(fileUrl)
-            val inputStream = BufferedInputStream(url.openStream())
+            val inputStream = BufferedInputStream(file.openStream())
             val contents = IOUtils.toByteArray(inputStream)
             val stream = ByteArrayInputStream(contents)
             val meta = ObjectMetadata()
             meta.contentLength = contents.size.toLong()
             meta.contentType = "image/jpeg"
 
-            val bucket = "alone-social-static-image"
-
-
-            amazonS3Client!!
+            amazonS3Client
                     .putObject(
                             PutObjectRequest(bucket, path, stream, meta).withCannedAcl(CannedAccessControlList.PublicRead)
                     )
             return amazonS3Client.getUrl(bucket, path).toString()
         } catch (e: IOException) {
+            print(e.stackTrace)
             return null
         }
 
