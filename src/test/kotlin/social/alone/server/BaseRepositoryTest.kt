@@ -18,7 +18,7 @@ import social.alone.server.interest.InterestRepository
 class BaseRepositoryTest {
 
     @Autowired
-    lateinit protected var interestRepository: InterestRepository
+    protected lateinit var interestRepository: InterestRepository
 
     fun buildInterest(value: String): Interest {
         return interestRepository.save(
