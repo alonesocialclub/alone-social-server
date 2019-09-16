@@ -6,13 +6,11 @@ import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.data.domain.AbstractAggregateRoot
 import social.alone.server.event.dto.EventDto
 import social.alone.server.event.type.EventType
-import social.alone.server.link.Link
 import social.alone.server.location.Location
 import social.alone.server.slack.SlackMessagable
 import social.alone.server.slack.SlackMessageEvent
 import social.alone.server.user.domain.User
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.persistence.*
 
@@ -61,29 +59,6 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     @JoinTable(name = "event_user", joinColumns = [JoinColumn(name = "event_id")], inverseJoinColumns = [JoinColumn(name = "user_id")])
     var users: MutableSet<User> = HashSet()
 
-    val linkHtml: String
-        get() {
-            val url = "https://alone.social/events/" + id!!
-            val formatter = DateTimeFormatter.ofPattern("MM/dd hh")
-            val description = startedAt.format(formatter) + "시 " + location.name + "에서"
-
-            return String.format(
-                    "<html>" +
-                            "<head>" +
-                            "<title>%s</title>" +
-                            "<meta property=\"og:title\" content=\"각자 할 일 해요! 같이\"/>" +
-                            "<meta property=\"og:description\" content=\"%s\"/>" +
-                            "<meta property=\"og:image\" content=\"%s\" />" +
-                            "<script>window.location.replace(\'%s\');</script>" +
-                            "</head>" +
-                            "</html>",
-                    name,
-                    description,
-                    location.imageUrl,
-                    url
-            )
-        }
-
     constructor(eventDto: EventDto, user: User, location: Location) {
         this.updateByEventDto(eventDto)
         this.owner = user
@@ -119,10 +94,6 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
         }
         this.activityLogJoinEventCancel(user)
         this.users.remove(user)
-    }
-
-    fun createLink(): Link {
-        return Link(this)
     }
 
     fun updateLocation(location: Location) {
