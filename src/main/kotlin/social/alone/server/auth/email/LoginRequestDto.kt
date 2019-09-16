@@ -1,4 +1,10 @@
 package social.alone.server.auth.email
 
-data class LoginRequestDto(var email: String, var password: String) {
+import javax.validation.constraints.Email
+
+data class LoginRequestDto(
+        @Email
+        val email: String, var password: String
+){
+
 }
