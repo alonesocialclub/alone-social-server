@@ -66,10 +66,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                 .andExpect(jsonPath("location.imageUrl").isNotEmpty)
                 .andDo(
                         document("post-events",
-                                requestHeaders(
-                                        headerWithName(HttpHeaders.ACCEPT).description("accept header"),
-                                        headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
-                                ),
                                 relaxedRequestFields(
                                         fieldWithPath("name").description("모임 이름"),
                                         fieldWithPath("description").description("모임 설명"),
