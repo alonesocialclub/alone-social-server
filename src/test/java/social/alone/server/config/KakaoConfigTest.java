@@ -1,4 +1,4 @@
-package social.alone.server.common.config;
+package social.alone.server.config;
 
 
 import org.junit.Test;
