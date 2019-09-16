@@ -37,7 +37,7 @@ class InterestUpsertServiceTest {
         interests.add(Interest("과학2"))
         interests.add(Interest("스타트업2"))
         interests.add(Interest("통계1"))
-        val saved = interestRepository.saveAll(interests)
+        interestRepository.saveAll(interests)
 
 
         val valuesToBeSaved = listOf(

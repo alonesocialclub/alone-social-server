@@ -1,10 +1,7 @@
 package social.alone.server
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-@Retention(RetentionPolicy.SOURCE)
+@kotlin.annotation.Retention(AnnotationRetention.SOURCE)
 annotation class DisplayName(
         /**
          * https://junit.org/junit5/docs/current/user-guide/#writing-tests-display-names

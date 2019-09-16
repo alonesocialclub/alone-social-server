@@ -112,7 +112,7 @@ class BaseIntegrateTest {
     protected fun createEvent(location: Location): Event {
         val event = createEvent()
         event.updateLocation(location)
-        return this.eventRepository!!.save(event)
+        return this.eventRepository.save(event)
     }
 
     @JvmOverloads
