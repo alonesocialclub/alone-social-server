@@ -65,25 +65,25 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("location.imageUrl").isNotEmpty)
                 .andDo(
-                        document("post-events",
-                                relaxedRequestFields(
-                                        fieldWithPath("name").description("모임 이름"),
-                                        fieldWithPath("description").description("모임 설명"),
-                                        fieldWithPath("location.address").description("모임 장소 주소"),
-                                        fieldWithPath("location.name").description("모임 장소 이름"),
-                                        fieldWithPath("location.placeUrl").description("모임 장소 url"),
-                                        fieldWithPath("location.latitude").description("모임 장소 latitude"),
-                                        fieldWithPath("location.longitude").description("모임 장소 longitude"),
-                                        fieldWithPath("location.imageUrl").description("모임 장소 imageUrl"),
-                                        fieldWithPath("eventTypes[].id").description("모임 성격 id"),
-                                        fieldWithPath("eventTypes[].value").description("모임 성격 값"),
-                                        fieldWithPath("startedAt").description("모임 시작 시간"),
-                                        fieldWithPath("endedAt").description("모임 종료 시간"),
-                                        fieldWithPath("limitOfEnrollment").description("모임 정원")
-                                ),
-                                relaxedResponseFields(
-                                        fieldWithPath("id").description("event id")
-                                )
+                        document("post-events"
+//                                relaxedRequestFields(
+//                                        fieldWithPath("name").description("모임 이름"),
+//                                        fieldWithPath("description").description("모임 설명"),
+//                                        fieldWithPath("location.address").description("모임 장소 주소"),
+//                                        fieldWithPath("location.name").description("모임 장소 이름"),
+//                                        fieldWithPath("location.placeUrl").description("모임 장소 url"),
+//                                        fieldWithPath("location.latitude").description("모임 장소 latitude"),
+//                                        fieldWithPath("location.longitude").description("모임 장소 longitude"),
+//                                        fieldWithPath("location.imageUrl").description("모임 장소 imageUrl"),
+//                                        fieldWithPath("eventTypes[].id").description("모임 성격 id"),
+//                                        fieldWithPath("eventTypes[].value").description("모임 성격 값"),
+//                                        fieldWithPath("startedAt").description("모임 시작 시간"),
+//                                        fieldWithPath("endedAt").description("모임 종료 시간"),
+//                                        fieldWithPath("limitOfEnrollment").description("모임 정원")
+//                                ),
+//                                relaxedResponseFields(
+//                                        fieldWithPath("id").description("event id")
+//                                )
                         )
                 )
     }
