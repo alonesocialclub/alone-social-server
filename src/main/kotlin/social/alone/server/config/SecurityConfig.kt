@@ -104,7 +104,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
-                        "/events/{id}/links/*",
                         "/actuator/**"
                 )
                 .permitAll()

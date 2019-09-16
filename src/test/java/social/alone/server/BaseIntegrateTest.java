@@ -23,8 +23,6 @@ import social.alone.server.event.repository.EventRepository;
 import social.alone.server.event.type.EventType;
 import social.alone.server.event.type.EventTypeDto;
 import social.alone.server.event.type.EventTypeRepository;
-import social.alone.server.link.Link;
-import social.alone.server.link.LinkRepository;
 import social.alone.server.location.Location;
 import social.alone.server.location.LocationDto;
 import social.alone.server.user.domain.User;
@@ -70,9 +68,6 @@ public class BaseIntegrateTest {
 
     @Autowired
     protected EventTypeRepository eventTypeRepository;
-
-    @Autowired
-    protected LinkRepository linkRepository;
 
     @BeforeTransaction
     public void setUp() {
@@ -162,11 +157,6 @@ public class BaseIntegrateTest {
         return this.eventRepository.save(event);
     }
 
-    protected Link createLink() {
-        Event event = createEvent();
-        Link link = event.createLink();
-        return this.linkRepository.save(link);
-    }
 
     protected EventType createEventType(String value) {
         EventType eventType = EventType.Companion.of(value);

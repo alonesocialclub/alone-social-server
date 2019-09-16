@@ -1,5 +1,0 @@
-GET {{host}}/api/events/1/links/1
-Content-Type: application/json
-
-
-###
