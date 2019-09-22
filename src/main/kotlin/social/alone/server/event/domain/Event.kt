@@ -26,15 +26,11 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     @GeneratedValue
     var id: Long? = null
 
-    var name: String? = null
-
     var description: String? = null
 
     lateinit var startedAt: LocalDateTime
 
     lateinit var endedAt: LocalDateTime
-
-    var limitOfEnrollment: Int = 0
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null
@@ -73,11 +69,9 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     }
 
     fun updateByEventDto(eventDto: EventDto) {
-        this.name = eventDto.name
         this.description = eventDto.description
         this.startedAt = eventDto.startedAt
         this.endedAt = eventDto.endedAt
-        this.limitOfEnrollment = eventDto.limitOfEnrollment
     }
 
     fun joinEvent(user: User) {
@@ -101,10 +95,8 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     }
 
     fun activityLogEventCreate() {
-//        if (!owner.isAdmin) {
-            val message = this.owner.toString() + "님이 " + this.toString() + "를 생성했습니다."
-            this.registerEvent(buildSlackMessageEvent(message))
-//        }
+        val message = this.owner.toString() + "님이 " + this.toString() + "를 생성했습니다."
+        this.registerEvent(buildSlackMessageEvent(message))
     }
 
     fun activityLogJoinEvent(user: User) {

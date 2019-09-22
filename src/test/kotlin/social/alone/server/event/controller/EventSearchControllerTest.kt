@@ -30,7 +30,7 @@ class EventSearchControllerTest : BaseIntegrateTest() {
                         .accept(MediaType.APPLICATION_JSON_UTF8)
                         .param("page", "0")
                         .param("size", "2")
-                        .param("sort", "name,desc")
+                        .param("sort", "id,desc")
                         .param("longitude", "37.477117")
                         .param("latitude", "126.961224")
         )
@@ -161,7 +161,6 @@ class EventSearchControllerTest : BaseIntegrateTest() {
         // Then
         perform.andExpect(status().isOk)
         perform.andExpect(jsonPath("id").exists())
-        perform.andExpect(jsonPath("name").exists())
         perform.andExpect(jsonPath("description").exists())
         perform.andDo(
                 document("get-event",

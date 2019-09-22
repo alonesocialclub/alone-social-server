@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import social.alone.server.event.domain.Event
-import social.alone.server.event.domain.QEvent
 import social.alone.server.event.domain.QEvent.event
 import social.alone.server.event.type.Coordinate
 import social.alone.server.event.type.EventQueryParams
@@ -16,7 +15,8 @@ class EventRepositoryImpl : QuerydslRepositorySupport(Event::class.java), EventR
 
     override fun search(pageable: Pageable, eventQueryParams: EventQueryParams): PageImpl<Event> {
         val query = from<Event>(event)
-        query.where(filterEndEvent())
+        // TODO Comment out, 개발시 지나간 모임도 보여야 편함
+//        query.where(filterEndEvent())
 
         if (eventQueryParams.searchByCoordinate()){
             query.orderBy(sortIfCoordinate(eventQueryParams.coordinate!!))
@@ -30,7 +30,7 @@ class EventRepositoryImpl : QuerydslRepositorySupport(Event::class.java), EventR
     }
 
     private fun filterEndEvent(): BooleanExpression? {
-        return QEvent.event.startedAt.after(LocalDateTime.now())
+        return event.startedAt.after(LocalDateTime.now())
     }
 
     private fun sortIfCoordinate(coordinate:Coordinate): OrderSpecifier<Double> {

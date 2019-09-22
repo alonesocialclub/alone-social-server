@@ -97,11 +97,9 @@ class BaseIntegrateTest {
         val eventTypes = HashSet<EventTypeDto>()
         val eventDto = EventDto(
                 "낙성대 주말 코딩",
-                "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 location,
                 startedAt,
                 endedAt,
-                5,
                 eventTypes
         )
         val event = Event(eventDto, user)
@@ -127,7 +125,6 @@ class BaseIntegrateTest {
         val eventTypes = HashSet<EventTypeDto>()
         val eventDto = EventDto(
                 "낙성대 주말 코딩$next",
-                "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
                         "스타벅스",
@@ -136,7 +133,6 @@ class BaseIntegrateTest {
                         "http://place.map.daum.net/27290899"),
                 startedAt,
                 endedAt,
-                5,
                 eventTypes
         )
         val event = Event(eventDto, this.createdUser)

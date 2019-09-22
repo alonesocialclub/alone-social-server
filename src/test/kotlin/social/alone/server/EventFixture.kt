@@ -4,15 +4,12 @@ package social.alone.server
 import social.alone.server.event.domain.Event
 import social.alone.server.event.dto.EventDto
 import social.alone.server.event.repository.EventRepository
-import social.alone.server.event.type.EventType
 import social.alone.server.event.type.EventTypeDto
 import social.alone.server.location.Location
 import social.alone.server.location.LocationDto
 import social.alone.server.user.domain.User
-
 import java.time.LocalDateTime
-import java.util.Arrays
-import java.util.HashSet
+import java.util.*
 
 class EventFixture(private val eventRepository: EventRepository) {
 
@@ -21,7 +18,6 @@ class EventFixture(private val eventRepository: EventRepository) {
         val eventTypes = HashSet<EventTypeDto>()
         val eventDto = EventDto(
                 "낙성대 주말 코딩",
-                "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
                         "스타벅스",
@@ -30,7 +26,6 @@ class EventFixture(private val eventRepository: EventRepository) {
                         "http://place.map.daum.net/27290899"),
                 LocalDateTime.of(2018, 11, 11, 12, 0),
                 LocalDateTime.of(2018, 11, 11, 14, 0),
-                5,
                 eventTypes
         )
         val user = User("email@email.com", "1234", "1234")
