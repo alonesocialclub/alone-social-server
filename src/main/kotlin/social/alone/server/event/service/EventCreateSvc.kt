@@ -46,7 +46,7 @@ class EventCreateSvc(
                 .findByLongitudeAndLatitudeAndName(
                         location.longitude!!,
                         location.latitude!!,
-                        location.name!!
+                        location.name
                 )
         if (by.isPresent) {
             return by.get()

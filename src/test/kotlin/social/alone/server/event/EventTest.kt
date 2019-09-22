@@ -16,7 +16,7 @@ class EventTest {
         val user = User("test@test.com", "1234", "1234")
         val location = LocationDto("남부순환로", "스타벅스", 123.123, 123.123, "https://naver.com")
         val eventDto = EventDto(
-                "name", "description", location, LocalDateTime.now(), LocalDateTime.now().plusHours(3)
+                 "description", location, LocalDateTime.now(), LocalDateTime.now().plusHours(3)
         )
         val event = Event(eventDto, user)
         assertThat(event).isNotNull

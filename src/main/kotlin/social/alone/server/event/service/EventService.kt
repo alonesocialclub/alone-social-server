@@ -29,25 +29,22 @@ class EventService(
         updateEventTypes(event, eventDto)
         event.updateLocation(location)
         event.updateByEventDto(eventDto)
-        return this.eventRepository!!.save(event)
+        return this.eventRepository.save(event)
     }
 
     private fun updateEventTypes(event: Event, eventDto: EventDto) {
-        if (eventDto.eventTypes != null) {
-            val eventTypes = eventTypeRepository!!.findAllById(
-                    eventDto.eventTypes!!.map({ i -> i.id})
-            )
-            event.eventTypes = HashSet(eventTypes)
-        }
+        val eventTypes = eventTypeRepository
+                .findAllById(eventDto.eventTypes.map { i -> i.id})
+        event.eventTypes = HashSet(eventTypes)
     }
 
     private fun getLocation(eventDto: EventDto): Location {
         val location = eventDto.getLocation()
-        val by = locationRepository!!
+        val by = locationRepository
                 .findByLongitudeAndLatitudeAndName(
                         location.longitude!!,
                         location.latitude!!,
-                        location.name!!
+                        location.name
                 )
         return by.orElseGet { locationRepository.save(location) }
     }
@@ -61,8 +58,8 @@ class EventService(
 
     // MAKE DRY
     fun joinEventCancel(eventId: Long?, userId: Long?): Event {
-        val event = this.eventRepository!!.findById(eventId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
-        val user = this.userRepository!!.findById(userId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
+        val event = this.eventRepository.findById(eventId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
+        val user = this.userRepository.findById(userId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
         event.joinCancelEvent(user)
         return this.eventRepository.save(event)
     }

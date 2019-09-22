@@ -3,18 +3,14 @@ package social.alone.server.user.controller
 
 import org.junit.Test
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.ResultActions
-import social.alone.server.BaseIntegrateTest
-import social.alone.server.event.domain.Event
-
-import java.util.Arrays
-
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.requestParameters
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import social.alone.server.BaseIntegrateTest
+import java.util.*
 
 
 class UserEventMutationIntegrateTest : BaseIntegrateTest() {
@@ -31,7 +27,7 @@ class UserEventMutationIntegrateTest : BaseIntegrateTest() {
                         .param("type", "OWNER")
                         .param("page", "0")
                         .param("size", "2")
-                        .param("sort", "name,desc")
+                        .param("sort", "id,desc")
         )
 
         perform.andDo(print())

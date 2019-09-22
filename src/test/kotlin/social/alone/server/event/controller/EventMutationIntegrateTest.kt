@@ -4,12 +4,9 @@ import org.junit.Test
 import org.springframework.hateoas.MediaTypes
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
-import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
-import org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put
-import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -34,7 +31,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
         val eventType2 = createEventType("조금 떠들어요")
         val eventTypes = HashSet(Arrays.asList(eventType1.toDto(), eventType2.toDto()))
         val event = EventDto(
-                "낙성대 주말 코딩",
                 "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
@@ -44,7 +40,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                         "http://place.map.daum.net/27290899"),
                 LocalDateTime.of(2018, 11, 11, 12, 0),
                 LocalDateTime.of(2018, 11, 11, 14, 0),
-                5,
                 eventTypes
         )
 
@@ -111,7 +106,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
         val eventTypes = HashSet(Arrays.asList(eventType1.toDto(), eventType2.toDto()))
         val eventDto = EventDto(
                 "낙성대 주말 코딩",
-                "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
                         "스타벅스",
@@ -120,7 +114,7 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                         "http://place.map.daum.net/27290899"),
                 LocalDateTime.of(2018, 11, 11, 14, 0),
                 LocalDateTime.of(2018, 11, 11, 12, 0),
-                0, eventTypes
+                eventTypes
         )
 
         // When
@@ -145,10 +139,9 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
     fun updateEvent__happy() {
         // Given
         val event = createEvent(this.createdUser)
-        val updatedName = "updated event"
+        val description = "updated event"
         val eventDto = EventDto(
-                updatedName,
-                "낙성대 주말 코딩",
+                description,
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
                         "스타벅스",
@@ -156,8 +149,7 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                         37.4991561765984,
                         "http://place.map.daum.net/27290899"),
                 event.startedAt,
-                event.endedAt,
-                event.limitOfEnrollment
+                event.endedAt
         )
 
 
@@ -172,7 +164,7 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
         perform.andDo(print())
         perform.andDo(document("events-update"))
         perform.andExpect(status().isOk)
-        perform.andExpect(jsonPath("name").value(updatedName))
+        perform.andExpect(jsonPath("description").value(description))
     }
 
     @Test
@@ -186,7 +178,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
         val eventTypes = HashSet(Arrays.asList(eventType1.toDto(), eventType2.toDto()))
         val eventDto = EventDto(
                 "낙성대 주말 코딩",
-                "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
                         "스타벅스",
@@ -195,7 +186,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                         "http://place.map.daum.net/27290899"),
                 LocalDateTime.of(2018, 11, 11, 12, 0),
                 LocalDateTime.of(2018, 11, 11, 14, 0),
-                5,
                 eventTypes
         )
         val eventIdNotExists = -1
@@ -222,7 +212,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
         val eventType2 = createEventType("조금 떠들어요")
         val eventTypes = HashSet(Arrays.asList(eventType1.toDto(), eventType2.toDto()))
         val eventDto = EventDto(
-                "낙성대 주말 코딩",
                 "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
@@ -232,7 +221,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                         "http://place.map.daum.net/27290899"),
                 LocalDateTime.of(2018, 11, 11, 18, 0),
                 LocalDateTime.of(2018, 11, 11, 14, 0),
-                5,
                 eventTypes
         )
 
@@ -297,7 +285,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
         val eventTypes = HashSet(Arrays.asList(eventType1.toDto(), eventType2.toDto()))
         val eventDto1 = EventDto(
                 "낙성대 주말 코딩",
-                "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
                         "스타벅스",
@@ -306,12 +293,10 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                         "http://place.map.daum.net/27290899"),
                 LocalDateTime.of(2018, 11, 11, 12, 0),
                 LocalDateTime.of(2018, 11, 11, 14, 0),
-                5,
                 eventTypes
         )
 
         val eventDto2 = EventDto(
-                "낙성대 주말 코딩",
                 "오전 10시부터 오후 3시까지 각자 모여서 코딩합니다.",
                 LocationDto(
                         "서울 서초구 강남대로61길 3",
@@ -321,7 +306,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
                         "http://place.map.daum.net/27290899"),
                 LocalDateTime.of(2018, 11, 11, 12, 0),
                 LocalDateTime.of(2018, 11, 11, 14, 0),
-                5,
                 eventTypes
         )
 

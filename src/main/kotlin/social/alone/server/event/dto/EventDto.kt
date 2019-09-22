@@ -10,8 +10,6 @@ import javax.validation.constraints.NotNull
 
 
 data class EventDto (
-    @NotEmpty
-    val name: String,
 
     @NotEmpty
     val description: String,
@@ -23,15 +21,12 @@ data class EventDto (
     @NotNull
     val endedAt: LocalDateTime,
 
-    var limitOfEnrollment: Int = 0,
-
     var eventTypes: Set<EventTypeDto> = HashSet()
 ){
 
     fun getLocation(): Location {
         return location.buildLocation()
     }
-
 
 }
 
