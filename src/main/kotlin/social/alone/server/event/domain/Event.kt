@@ -26,6 +26,8 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     @GeneratedValue
     var id: Long? = null
 
+    var coverImageUrl: String = "https://alone-social-static-image.s3.ap-northeast-2.amazonaws.com/default_cover.jpg"
+
     var description: String? = null
 
     lateinit var startedAt: LocalDateTime
