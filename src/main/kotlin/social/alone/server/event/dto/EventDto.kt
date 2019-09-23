@@ -6,7 +6,6 @@ import social.alone.server.location.Location
 import social.alone.server.location.LocationDto
 import java.time.LocalDateTime
 import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
 
 
 data class EventDto (
@@ -18,8 +17,7 @@ data class EventDto (
 
     val startedAt: LocalDateTime,
 
-    @NotNull
-    val endedAt: LocalDateTime,
+    val endedAt: LocalDateTime? = null,
 
     var eventTypes: Set<EventTypeDto> = HashSet()
 ){

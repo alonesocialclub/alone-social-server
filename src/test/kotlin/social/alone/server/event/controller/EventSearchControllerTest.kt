@@ -132,8 +132,8 @@ class EventSearchControllerTest : BaseIntegrateTest() {
         // When
         val perform = this.mockMvc.perform(
                 get("/api/events")
-                        .param("longitude", eventNear.location.longitude!!.toString())
-                        .param("latitude", eventNear.location.latitude!!.toString())
+                        .param("longitude", eventNear.location?.longitude!!.toString())
+                        .param("latitude", eventNear.location?.latitude!!.toString())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8)
         )

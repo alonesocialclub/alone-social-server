@@ -30,7 +30,7 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
 
     lateinit var startedAt: LocalDateTime
 
-    lateinit var endedAt: LocalDateTime
+    var endedAt: LocalDateTime? = null
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null
@@ -41,7 +41,7 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
 
     @ManyToOne(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinColumn(name = "location_id")
-    lateinit var location: Location
+    var location: Location? = null
 
     @ManyToOne
     var owner: User

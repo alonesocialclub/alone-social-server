@@ -277,9 +277,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
     @Throws(Exception::class)
     fun eventLocationDuplicated() {
         // Given
-        val startedAt = LocalDateTime.now().plusDays(3)
-        val endedAt = LocalDateTime.now().plusDays(6)
-
         val eventType1 = createEventType("밥 같이 먹어요")
         val eventType2 = createEventType("조금 떠들어요")
         val eventTypes = HashSet(Arrays.asList(eventType1.toDto(), eventType2.toDto()))
@@ -336,7 +333,6 @@ class EventMutationIntegrateTest : BaseIntegrateTest() {
         // Then
         perform.andDo(print())
                 .andExpect(status().isOk)
-        // TODO ASSERTION
     }
 
 }
