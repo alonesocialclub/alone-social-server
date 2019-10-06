@@ -3,6 +3,7 @@ buildscript {
         springBootVersion = '2.1.1.RELEASE'
         ktlin_version = '1.3.41'
         queryDslVersion = '4.2.1'
+        grpcVersion = '1.24.0'
     }
     repositories {
         mavenCentral()
@@ -20,7 +21,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ktlin_version}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:$ktlin_version")
         classpath("org.jetbrains.kotlin:kotlin-noarg:$ktlin_version")
-
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
     }
 }
 
@@ -42,6 +43,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "kotlin-spring"
 apply plugin: "kotlin-jpa"
 apply plugin: "kotlin-allopen"
+apply plugin: 'com.google.protobuf'
+
 
 
 group = 'social.alone'
@@ -101,6 +104,11 @@ dependencies {
 
     compile("com.querydsl:querydsl-jpa:${queryDslVersion}")
     kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
+    // grpc
+    compile("io.grpc:grpc-stub:$grpcVersion")
+    compile("io.grpc:grpc-protobuf:$grpcVersion")
+    compile("io.grpc:grpc-netty:$grpcVersion")
 
 
 }
@@ -182,3 +190,13 @@ sourceSets {
     test.java.srcDirs += 'src/test/kotlin'
 }
 
+// The standard protobuf block, same as normal gRPC Java projects
+protobuf {
+    protoc { artifact = 'com.google.protobuf:protoc:3.5.1-1' }
+    plugins {
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" }
+    }
+    generateProtoTasks {
+        all()*.plugins { grpc {} }
+    }
+}
