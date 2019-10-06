@@ -75,7 +75,7 @@ data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoo
         get() = this.roles.contains(UserRole.ADMIN)
 
     @Builder
-    constructor(email: String, password: String, name: String) : this() {
+    constructor(email: String, password: String? = null, name: String) : this() {
         this.email = email
         this.password = password
         this.name = name
