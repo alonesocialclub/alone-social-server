@@ -12,7 +12,8 @@ import javax.validation.Valid
 
 @RestController
 class AnonymousJoinController(
-        private val userRepository: UserRepository, private val userEnrollService: UserEnrollService,
+
+        private val userEnrollService: UserEnrollService,
         private val authTokenGenerator: AuthTokenGenerator
 ) {
 
