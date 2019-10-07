@@ -32,7 +32,7 @@ class AnonymousJoinControllerTest : BaseIntegrateTest() {
 
         perform
                 .andDo(
-                        MockMvcRestDocumentation.document("anony-join")
+                        MockMvcRestDocumentation.document("anonymous-join")
                 )
     }
 }
