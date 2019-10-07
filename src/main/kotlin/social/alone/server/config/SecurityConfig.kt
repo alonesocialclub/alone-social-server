@@ -113,6 +113,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .permitAll()
                 .mvcMatchers(HttpMethod.POST, "/api/push/tokens")
                 .permitAll()
+                .mvcMatchers(HttpMethod.POST, "/images")
+                .permitAll()
                 .antMatchers("/api/auth/**", "/oauth2/**")
                 .permitAll()
                 .anyRequest()

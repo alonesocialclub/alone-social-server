@@ -8,11 +8,14 @@ import com.amazonaws.util.IOUtils
 import jdk.nashorn.internal.ir.annotations.Ignore
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Component
+import org.springframework.web.multipart.MultipartFile
 import java.io.BufferedInputStream
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.IOException
 import java.net.URL
 import java.util.*
+
 
 @Slf4j
 @Component
@@ -20,6 +23,17 @@ import java.util.*
 class S3Uploader(private val amazonS3Client: AmazonS3Client) {
     companion object {
         const val bucket = "alone-social-static-image"
+    }
+
+    fun upload(multipartFile: MultipartFile): String {
+        val key = UUID.randomUUID().toString() + "." + (multipartFile.originalFilename?.split('.')?.last() ?: "jpeg")
+        val file: File = createTempFile()
+        multipartFile.transferTo(file)
+        amazonS3Client
+                .putObject(
+                        PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead)
+                )
+        return amazonS3Client.getUrl(bucket, key).toString()
     }
 
     fun upload(path: String, imageUrl: URL): String? {
