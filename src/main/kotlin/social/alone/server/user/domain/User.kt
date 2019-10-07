@@ -13,6 +13,7 @@ import social.alone.server.push.domain.FcmToken
 import social.alone.server.slack.SlackMessagable
 import social.alone.server.slack.SlackMessageEvent
 import social.alone.server.user.dto.UserDto
+import social.alone.server.post.domain.Post
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.Email
