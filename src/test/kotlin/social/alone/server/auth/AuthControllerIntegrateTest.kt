@@ -1,5 +1,6 @@
 package social.alone.server.auth
 
+import org.junit.Ignore
 import org.junit.Test
 import org.springframework.hateoas.MediaTypes
 import org.springframework.http.MediaType
@@ -14,8 +15,9 @@ import social.alone.server.BaseIntegrateTest
 import social.alone.server.auth.email.LoginRequestDto
 import social.alone.server.auth.email.SignUpRequestDto
 
-class AuthControllerIntegrateTest : BaseIntegrateTest() {
 
+@Ignore
+class AuthControllerIntegrateTest : BaseIntegrateTest() {
 
     @Test
     @Throws(Exception::class)
