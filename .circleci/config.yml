@@ -21,7 +21,7 @@ jobs:
       JVM_OPTS: -Xmx1g
 
       # codecov.io
-      CODECOV_TOKEN: f3b591ca-b380-4b6d-9f92-995da0ac11f4
+      CODECOV_TOKEN: 1ff694a6-72de-474d-a518-3442e2b18ee0
 
     steps:
     - checkout
