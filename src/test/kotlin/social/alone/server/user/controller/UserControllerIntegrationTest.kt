@@ -91,7 +91,7 @@ class UserControllerIntegrationTest : BaseIntegrateTest() {
         perform
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("user.name").isNotEmpty)
+                .andExpect(jsonPath("user.profile.name").isNotEmpty)
                 .andExpect(jsonPath("user.email").doesNotExist())
                 .andExpect(jsonPath("user.interests.length()").value(interestDtoList.size))
 

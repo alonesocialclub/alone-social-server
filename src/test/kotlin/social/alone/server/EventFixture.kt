@@ -7,7 +7,6 @@ import social.alone.server.event.repository.EventRepository
 import social.alone.server.event.type.EventTypeDto
 import social.alone.server.location.Location
 import social.alone.server.location.LocationDto
-import social.alone.server.user.domain.User
 import java.time.LocalDateTime
 import java.util.*
 
@@ -28,7 +27,7 @@ class EventFixture(private val eventRepository: EventRepository) {
                 LocalDateTime.of(2018, 11, 11, 14, 0),
                 eventTypes
         )
-        val user = User("email@email.com", "1234", "1234")
+        val user = makeUser()
         val location = Location("남부순환로", "스타벅스", 123.123, 123.123, "https://naver.com")
         val event = Event(eventDto, user)
         event.updateLocation(location)

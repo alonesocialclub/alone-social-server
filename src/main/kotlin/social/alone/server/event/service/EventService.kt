@@ -11,7 +11,6 @@ import social.alone.server.location.Location
 import social.alone.server.location.LocationRepository
 import social.alone.server.user.repository.UserRepository
 import java.util.*
-import java.util.function.Supplier
 
 @Slf4j
 @Service
@@ -47,20 +46,5 @@ class EventService(
                         location.name
                 )
         return by.orElseGet { locationRepository.save(location) }
-    }
-
-    fun joinEvent(eventId: Long?, userId: Long?): Event {
-        val user = this.userRepository.findById(userId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
-        val event = this.eventRepository.findById(eventId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
-        event.joinEvent(user)
-        return this.eventRepository.save(event)
-    }
-
-    // MAKE DRY
-    fun joinEventCancel(eventId: Long?, userId: Long?): Event {
-        val event = this.eventRepository.findById(eventId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
-        val user = this.userRepository.findById(userId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
-        event.joinCancelEvent(user)
-        return this.eventRepository.save(event)
     }
 }
