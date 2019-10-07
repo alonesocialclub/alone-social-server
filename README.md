@@ -10,6 +10,12 @@ server for [https://alone.social](https://alone.social)
 $ ./gradlew bootRun
 ```
 
+## run test
+```bash
+$ ./gradlew check
+
+```
+
 ## deploy
 
 ```bash
