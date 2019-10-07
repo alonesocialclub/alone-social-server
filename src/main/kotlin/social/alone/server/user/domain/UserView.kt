@@ -1,14 +1,12 @@
 package social.alone.server.user.domain
 
-import social.alone.server.interest.Interest
-
 
 data class UserView(
-        val id: Long?,
+        val id: String,
         val profile: Profile
 )
 
 fun User.view() = UserView(
-        id = id,
+        id = id.toString(),
         profile = profile
 )

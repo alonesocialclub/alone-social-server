@@ -26,7 +26,7 @@ class AnonymousJoinControllerTest : BaseIntegrateTest() {
         perform
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk)
-                .andExpect(MockMvcResultMatchers.jsonPath("user.id").isNumber)
+                .andExpect(MockMvcResultMatchers.jsonPath("user.id").isString)
                 .andExpect(MockMvcResultMatchers.jsonPath("authToken").isString)
 
 

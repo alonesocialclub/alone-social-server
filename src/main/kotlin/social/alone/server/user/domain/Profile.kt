@@ -7,9 +7,8 @@ import javax.validation.constraints.Size
 
 @Embeddable
 data class Profile(
-
         @NotNull
-        @Size(max = 20) var name: String
+        @Size(max = 20) var name: String = ""
 ) {
     fun updateName(name: String) {
         this.name = name

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import social.alone.server.auth.AuthTokenGenerator
 import social.alone.server.user.domain.UserTokenView
-import social.alone.server.user.repository.UserRepository
 import social.alone.server.user.service.UserEnrollService
 import javax.validation.Valid
 

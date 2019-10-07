@@ -20,8 +20,9 @@ import javax.validation.constraints.NotNull
 
 @Entity
 @Table(name = "users", uniqueConstraints = [UniqueConstraint(columnNames = ["email"])])
-data class User(@Embedded
-                var profile: Profile) {
+data class User(
+        @Embedded
+        var profile: Profile) {
 
     @Id
     @GeneratedValue
