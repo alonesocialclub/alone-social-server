@@ -20,7 +20,12 @@ import javax.validation.constraints.NotNull
 
 @Entity
 @Table(name = "users", uniqueConstraints = [UniqueConstraint(columnNames = ["email"])])
-data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoot<User>(), SlackMessagable {
+data class User(@Embedded
+                var profile: Profile) {
+
+    @Id
+    @GeneratedValue
+    var id: Long? = null
 
     @CreationTimestamp
     val createdAt: LocalDateTime? = null
@@ -29,10 +34,6 @@ data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoo
     var updatedAt: LocalDateTime? = null
         protected set
 
-    @NotNull
-    @Column(nullable = false)
-    @Setter
-    var name: String? = null
 
     @NotNull
     @Email
@@ -75,24 +76,19 @@ data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoo
         get() = this.roles.contains(UserRole.ADMIN)
 
     @Builder
-    constructor(email: String, password: String, name: String) : this() {
+    constructor(email: String, password: String? = null, profile: Profile) : this(profile) {
         this.email = email
         this.password = password
-        this.name = name
         this.provider = AuthProvider.local
-        this.sendSlackActivityMsg()
     }
 
-    constructor(oAuth2UserInfo: OAuth2UserInfo, provider: AuthProvider) : this() {
+    constructor(oAuth2UserInfo: OAuth2UserInfo, provider: AuthProvider) : this(Profile(oAuth2UserInfo.name)) {
+
         this.roles.add(UserRole.USER)
         this.interests = HashSet()
-
-        this.name = oAuth2UserInfo.name
         this.email = oAuth2UserInfo.email
-        this.imageUrl = oAuth2UserInfo.imageUrl
         this.provider = provider
         this.providerId = oAuth2UserInfo.id
-        this.sendSlackActivityMsg()
     }
 
     fun setInterests(interests: HashSet<Interest>) {
@@ -104,17 +100,12 @@ data class User(@Id @GeneratedValue var id: Long? = null) : AbstractAggregateRoo
             this.email = userDto.email
         }
         if (userDto.name != null) {
-            this.name = userDto.name
+            this.profile = Profile(userDto.name)
         }
     }
 
-    private fun sendSlackActivityMsg() {
-        val message = name + "님이 " + provider + "를 통해 가입하셨습니다."
-        this.registerEvent(buildSlackMessageEvent(message))
-    }
-
-    override fun buildSlackMessageEvent(message: String): SlackMessageEvent {
-        return SlackMessageEvent(this, message)
+    fun updateByOauth(oAuth2UserInfo: OAuth2UserInfo) {
+        this.profile.updateName(oAuth2UserInfo.name)
     }
 
 }

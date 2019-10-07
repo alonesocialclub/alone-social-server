@@ -71,14 +71,14 @@ class BaseIntegrateTest {
 
 
     private fun createUser(email: String): User {
-        val user = User(email, "1234", "local")
+        val user = makeUser(email)
         return this.userRepository.save(user)
     }
 
 
     @Throws(Exception::class)
     protected fun createUserAndBuildAuthToken(): String {
-        val random = UUID.randomUUID().toString()
+        val random = UUID.randomUUID().toString() + "@email.com"
         val user = createUser(random)
         val token = tokenProvider.createToken(user)
         return "Bearer $token"

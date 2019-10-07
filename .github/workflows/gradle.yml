@@ -1,4 +1,4 @@
-name: Java CI
+name: Build and Test
 
 on: [push]
 
@@ -13,5 +13,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Gradle
+    - name: build
       run: ./gradlew build
+    - name: check
+      run: ./gradlew check
+    - name: test report
+      run: ./gradlew jacocoTestReport && bash <(curl -s https://codecov.io/bash)
+      env:
+        CODECOV_TOKEN: 1ff694a6-72de-474d-a518-3442e2b18ee0
