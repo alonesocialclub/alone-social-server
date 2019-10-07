@@ -22,6 +22,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import social.alone.server.makeUser
 
 
 @RunWith(SpringRunner::class)
@@ -31,30 +32,30 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 class AuthControllerMockTest {
 
     @Autowired
-    internal var mockMvc: MockMvc? = null
+    internal lateinit var mockMvc: MockMvc
 
     @InjectMocks
-    internal var authController: AuthController? = null
+    internal lateinit var  authController: AuthController
 
     @Mock
-    internal var userEnrollService: UserEnrollService? = null
+    internal lateinit var userEnrollService: UserEnrollService
 
     @Mock
-    internal var authTokenGenerator: AuthTokenGenerator? = null
+    internal lateinit var authTokenGenerator: AuthTokenGenerator
 
     @Mock
-    internal var userRepository: UserRepository? = null
+    internal lateinit var userRepository: UserRepository
 
     @Test
     @Throws(Exception::class)
     fun facebook() {
-        val user = User("facebook@email.com", "1234", "local")
+        val user = makeUser()
         val facebookAccessToken = "abcde"
-        given(userEnrollService!!.byFacebook(facebookAccessToken)).willReturn(user)
-        given(authTokenGenerator!!.byUser(user)).willReturn("fofofofofofofo")
+        given(userEnrollService.byFacebook(facebookAccessToken)).willReturn(user)
+        given(authTokenGenerator.byUser(user)).willReturn("fofofofofofofo")
 
 
-        val perform = mockMvc!!.perform(
+        val perform = mockMvc.perform(
                 post("/api/auth/login/facebook")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"facebookAccessToken\": \"$facebookAccessToken\"}")

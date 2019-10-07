@@ -3,18 +3,15 @@ package social.alone.server.event.controller
 import org.junit.Test
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.ResultActions
-import social.alone.server.BaseIntegrateTest
-import social.alone.server.event.domain.Event
-
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import social.alone.server.BaseIntegrateTest
 
-class EventUserIntegrateTest : BaseIntegrateTest() {
+class EventUserControllerTest : BaseIntegrateTest() {
 
     @Test
     @Throws(Exception::class)

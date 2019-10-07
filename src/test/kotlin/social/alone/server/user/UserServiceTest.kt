@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.transaction.annotation.Transactional
 import social.alone.server.interest.InterestDto
+import social.alone.server.makeUser
 import social.alone.server.user.domain.User
 import social.alone.server.user.dto.UserDto
 import social.alone.server.user.repository.UserRepository
@@ -64,19 +65,19 @@ class UserServiceTest {
     @Test
     fun saveTest__fix_email_only() {
         val user = build()
-        val userName = user.name
+        val userName = user.profile.name
         val userDto = UserDto(null, "email@email.com", null)
 
         userService.update(user, userDto)
 
         assertThat(user.email).isEqualTo(userDto.email)
-        assertThat(user.name).isEqualTo(userName)
+        assertThat(user.profile.name).isEqualTo(userName)
     }
 
     @Test
     fun saveTest__fix_interests_only() {
         val user = build()
-        val userName = user.name
+        val userName = user.profile.name
         val interest = InterestDto("foo")
         val userDto = UserDto(
                 null,
@@ -89,14 +90,11 @@ class UserServiceTest {
         assertThat(
                 setOf(user.interests.map { it.value })
         ).contains(listOf(interest.value))
-        assertThat(user.name).isEqualTo(userName)
+        assertThat(user.profile.name).isEqualTo(userName)
     }
 
     private fun build(): User {
-        val name = "findByUsername"
-        val email = "findByUsername@test.com"
-        val password = "test"
-        val user = User(email, passwordEncoder.encode(password), name)
+        val user = makeUser()
         return userRepository.save(user)
     }
 }

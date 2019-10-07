@@ -63,7 +63,7 @@ class CustomOAuth2UserService(val userRepository: UserRepository): DefaultOAuth2
     }
 
     private fun updateExistingUser(existingUser: User, oAuth2UserInfo: OAuth2UserInfo): User {
-        existingUser.name = oAuth2UserInfo.name
+        existingUser.updateByOauth(oAuth2UserInfo)
         return userRepository.save(existingUser)
     }
 

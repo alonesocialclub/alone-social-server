@@ -77,7 +77,7 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     }
 
     fun joinEvent(user: User) {
-        if (this.owner == user) {
+        if (this.owner === user) {
             return
         }
         this.activityLogJoinEvent(user)
@@ -85,7 +85,7 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     }
 
     fun joinCancelEvent(user: User) {
-        if (this.owner == user) {
+        if (this.owner === user) {
             return
         }
         this.activityLogJoinEventCancel(user)
@@ -102,13 +102,13 @@ class Event : AbstractAggregateRoot<Event>, SlackMessagable {
     }
 
     fun activityLogJoinEvent(user: User) {
-        val message = user.name + "님이 " + this.toString() + "를 에 참가 신청을 하셨습니다."
-        this.registerEvent(buildSlackMessageEvent(message))
+        val message = user.profile.name + "님이 " + this.toString() + "를 에 참가 신청을 하셨습니다."
+//        this.registerEvent(buildSlackMessageEvent(message))
     }
 
     fun activityLogJoinEventCancel(user: User) {
-        val message = user.name + "님이 " + this.toString() + "를 에 참가 신청을 취소 하셨습니다."
-        this.registerEvent(buildSlackMessageEvent(message))
+        val message = user.profile.name + "님이 " + this.toString() + "를 에 참가 신청을 취소 하셨습니다."
+//        this.registerEvent(buildSlackMessageEvent(message))
     }
 
     override fun buildSlackMessageEvent(message: String): SlackMessageEvent {

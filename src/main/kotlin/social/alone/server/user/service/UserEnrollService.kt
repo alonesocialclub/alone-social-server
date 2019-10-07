@@ -9,6 +9,7 @@ import social.alone.server.auth.anonymous.JoinByProfileRequest
 import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo
 import social.alone.server.infrastructure.S3Uploader
 import social.alone.server.user.domain.AuthProvider
+import social.alone.server.user.domain.Profile
 import social.alone.server.user.domain.User
 import social.alone.server.user.repository.UserRepository
 
@@ -23,9 +24,9 @@ class UserEnrollService(private val userRepository: UserRepository, private val 
         Assert.notNull(password, "required")
         Assert.notNull(name, "required")
 
-        val user = User(email, passwordEncoder!!.encode(password), name)
+        val user = User(email, passwordEncoder.encode(password), Profile(name))
 
-        return userRepository!!.save(user)
+        return userRepository.save(user)
     }
 
     fun byFacebook(accessToken: String): User {
@@ -43,7 +44,7 @@ class UserEnrollService(private val userRepository: UserRepository, private val 
     fun byProfile(request: JoinByProfileRequest): User {
         val fakeEmail = request.profile.name + "@anonymous.com"
         val byEmail = userRepository.findByEmailAndProvider(fakeEmail, AuthProvider.facebook)
-        return byEmail.orElseGet { userRepository.save(User(fakeEmail, null, request.profile.name)) }
+        return byEmail.orElseGet { userRepository.save(User(fakeEmail, null, Profile(request.profile.name))) }
     }
 
 }
