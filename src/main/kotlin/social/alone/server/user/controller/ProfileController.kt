@@ -18,17 +18,17 @@ import javax.validation.Valid
 class ProfileController (val userProfileService: ProfileService): BaseController() {
     @GetMapping("/{id}/profile")
     fun getUserProfile(
-        @PathVariable("id") user: User,
+            @PathVariable("id") user: User
     ): ResponseEntity<*> {
-        return buildResponse(user)
+        return ResponseEntity.ok(user)
     }
 
     @PatchMapping("/me/profile")
     fun patchMeProfile(
-        @CurrentUser user: User,
-        @RequestBody profileDto: ProfileDto
+            @CurrentUser user: User,
+            @RequestBody profileDto: ProfileDto
     ): ResponseEntity<*> {
-        return buildResponse(userProfileService.patch(user, profileDto))
+        return ResponseEntity.ok(userProfileService.patch(user, profileDto))
     }
 
     private fun buildResponse(user: User): ResponseEntity<*> {
