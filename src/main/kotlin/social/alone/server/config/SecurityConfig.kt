@@ -107,11 +107,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                         "/actuator/**"
                 )
                 .permitAll()
-                .mvcMatchers(HttpMethod.GET, "/api/**")
-                .permitAll()
-                .mvcMatchers(HttpMethod.POST, "/api/events/{id}/links")
-                .permitAll()
-                .mvcMatchers(HttpMethod.POST, "/api/push/tokens")
+                .mvcMatchers(HttpMethod.GET, "/**")
                 .permitAll()
                 .mvcMatchers(HttpMethod.POST, "/images")
                 .permitAll()

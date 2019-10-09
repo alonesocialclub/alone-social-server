@@ -1,0 +1,4 @@
+GET {{host}}/feed
+Content-Type: application/json
+
+###
