@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import lombok.Builder
 import lombok.Setter
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.UpdateTimestamp
-import org.springframework.data.domain.AbstractAggregateRoot
 import social.alone.server.auth.oauth2.user.OAuth2UserInfo
 import social.alone.server.event.domain.Event
 import social.alone.server.interest.Interest
 import social.alone.server.push.domain.FcmToken
-import social.alone.server.slack.SlackMessagable
-import social.alone.server.slack.SlackMessageEvent
 import social.alone.server.user.dto.UserDto
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -25,8 +23,9 @@ data class User(
         var profile: Profile) {
 
     @Id
-    @GeneratedValue
-    var id: Long? = null
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    var id: String? = null
 
     @CreationTimestamp
     val createdAt: LocalDateTime? = null

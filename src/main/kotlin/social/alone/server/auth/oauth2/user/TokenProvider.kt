@@ -34,13 +34,13 @@ class TokenProvider (val appProperties: AppProperties){
     }
 
 
-    internal fun getUserIdFromToken(token: String): Long? {
+    internal fun getUserIdFromToken(token: String): String {
         val claims = Jwts.parser()
                 .setSigningKey(appProperties.auth.tokenSecret)
                 .parseClaimsJws(token)
                 .body
 
-        return java.lang.Long.parseLong(claims.subject)
+        return claims.subject
     }
 
     internal fun validateToken(authToken: String): Boolean {

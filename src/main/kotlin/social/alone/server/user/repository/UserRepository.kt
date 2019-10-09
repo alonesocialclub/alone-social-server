@@ -3,10 +3,9 @@ package social.alone.server.user.repository
 import org.springframework.data.jpa.repository.JpaRepository
 import social.alone.server.user.domain.AuthProvider
 import social.alone.server.user.domain.User
+import java.util.*
 
-import java.util.Optional
-
-interface UserRepository : JpaRepository<User, Long> {
+interface UserRepository : JpaRepository<User, String> {
 
     fun findByEmail(email: String): Optional<User>
 

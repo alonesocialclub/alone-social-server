@@ -16,14 +16,14 @@ class EventUserJoinService(
 ) {
 
 
-    fun joinEvent(eventId: Long, userId: Long): Event {
+    fun joinEvent(eventId: Long, userId: String): Event {
         val user = userRepository.findById(userId).get()
         val event = eventRepository.findById(eventId).get()
         event.joinEvent(user)
         return event
     }
 
-    fun joinEventCancel(eventId: Long?, userId: Long?): Event {
+    fun joinEventCancel(eventId: Long?, userId: String?): Event {
         val event = this.eventRepository.findById(eventId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
         val user = this.userRepository.findById(userId!!).orElseThrow<RuntimeException>(Supplier<RuntimeException> { RuntimeException() })
         event.joinCancelEvent(user)

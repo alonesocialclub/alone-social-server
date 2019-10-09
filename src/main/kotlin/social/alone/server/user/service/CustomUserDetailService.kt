@@ -29,8 +29,8 @@ class CustomUserDetailService (
         return UserPrincipalAdapter.create(user)
     }
 
-    fun loadUserById(id: Long?): UserDetails {
-        val user = userRepository!!.findById(id!!).orElseThrow { ResourceNotFoundException("User", "id", id) }
+    fun loadUserById(id: String?): UserDetails {
+        val user = userRepository.findById(id!!).orElseThrow { ResourceNotFoundException("User", "id", id) }
 
         return UserPrincipalAdapter.create(user)
     }

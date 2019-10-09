@@ -1,0 +1,10 @@
+POST {{host}}/anonymous/join
+Accept: application/json
+Content-Type: application/json
+
+{
+   "profile": {
+     "name": "fred"
+   }
+}
+###

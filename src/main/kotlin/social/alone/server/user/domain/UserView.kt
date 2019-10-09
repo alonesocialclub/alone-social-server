@@ -7,6 +7,6 @@ data class UserView(
 )
 
 fun User.view() = UserView(
-        id = id.toString(),
+        id = id!!,
         profile = profile
 )

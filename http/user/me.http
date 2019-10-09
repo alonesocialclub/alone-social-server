@@ -1,5 +1,6 @@
-GET {{host}}/api/users/me
-Authorization: {{token}}
+GET {{host}}/me
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2YjE2ZDEyNi1lM2U3LTQ1NzItOTY3ZC1kMWFjNzc4ZDc1ZGIiLCJpYXQiOjE1NzA2MjIwODEsImV4cCI6MTU3MTQ4NjA4MX0.ZetKsyGTZ6eLjob_lHMM3tZ4v9wTwaF-7mwQZDXfOBEPFiQMq1euthMiZQqJnJNkcV47pHkaVvhFjrEiHEJSzQ
+
 Content-Type: application/json
 
 ###

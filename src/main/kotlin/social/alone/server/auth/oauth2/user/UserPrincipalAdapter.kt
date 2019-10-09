@@ -8,7 +8,7 @@ import social.alone.server.user.domain.User
 import social.alone.server.user.domain.UserRole
 
 class UserPrincipalAdapter(val user: User) : OAuth2User, UserDetails {
-    val id: Long?
+    val id: String?
     val email: String?
     private val password: String?
     private val authorities: Collection<GrantedAuthority>
