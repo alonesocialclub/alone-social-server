@@ -11,6 +11,7 @@ import social.alone.server.event.domain.Event
 import social.alone.server.interest.Interest
 import social.alone.server.push.domain.FcmToken
 import social.alone.server.user.dto.UserDto
+import social.alone.server.post.domain.Post
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.Email
