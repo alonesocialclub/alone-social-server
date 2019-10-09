@@ -1,7 +1,6 @@
 package social.alone.server.post.domain
 
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
+import org.hibernate.annotations.GenericGenerator
 import social.alone.server.image.Image
 import social.alone.server.user.domain.User
 import java.time.LocalDateTime
@@ -11,15 +10,14 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(name = "post")
 class Post(@ManyToOne var author: User, @NotNull var text: String, @OneToOne var image: Image) {
+
     @Id
-    @GeneratedValue
-    var id: Long? = null
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    val id: String? = null
 
-    @CreationTimestamp
-    val createdAt: LocalDateTime? = null
+    val createdAt: LocalDateTime = LocalDateTime.now()
 
-    @UpdateTimestamp
-    var updatedAt: LocalDateTime? = null
-        protected set
+    var updatedAt: LocalDateTime = LocalDateTime.now()
 
 }

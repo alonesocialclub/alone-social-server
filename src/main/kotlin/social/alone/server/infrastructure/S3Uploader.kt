@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import com.amazonaws.util.IOUtils
-import jdk.nashorn.internal.ir.annotations.Ignore
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
@@ -19,7 +18,6 @@ import java.util.*
 
 @Slf4j
 @Component
-@Ignore
 class S3Uploader(private val amazonS3Client: AmazonS3Client) {
     companion object {
         const val bucket = "alone-social-static-image"

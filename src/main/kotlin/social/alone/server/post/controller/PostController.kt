@@ -11,9 +11,9 @@ import social.alone.server.post.service.PostCreateService
 import social.alone.server.user.domain.User
 
 @Controller
-@RequestMapping(value = ["/api/posts"])
-class PostController (val postCreateService: PostCreateService): BaseController() {
-    
+@RequestMapping(value = ["/v1/posts"])
+class PostController(val postCreateService: PostCreateService) : BaseController() {
+
     @GetMapping("/{id}")
     fun getPost(
             @PathVariable("id") post: Post
@@ -26,7 +26,8 @@ class PostController (val postCreateService: PostCreateService): BaseController(
             @CurrentUser user: User,
             @RequestBody postCreateRequest: PostCreateRequest
     ): ResponseEntity<*> {
-        return ResponseEntity.ok(postCreateService.create(user, postCreateRequest))
+        val post = postCreateService.create(user, postCreateRequest)
+        return ResponseEntity.ok(post)
     }
 
 }
