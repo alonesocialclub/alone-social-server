@@ -7,15 +7,13 @@ import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.controller.BaseController
 import social.alone.server.post.domain.Post
 import social.alone.server.post.dto.PostCreateRequest
-import social.alone.server.post.repository.PostRepository
 import social.alone.server.post.service.PostCreateService
 import social.alone.server.user.domain.User
 
 @Controller
 @RequestMapping(value = ["/posts"])
 class PostController(
-        val postCreateService: PostCreateService,
-        val postRepository: PostRepository
+        val postCreateService: PostCreateService
 ) : BaseController() {
 
     @GetMapping("/{id}")
