@@ -16,19 +16,10 @@ import org.springframework.test.context.transaction.BeforeTransaction
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
 import social.alone.server.auth.oauth2.user.TokenProvider
-import social.alone.server.event.domain.Event
-import social.alone.server.event.dto.EventDto
-import social.alone.server.event.repository.EventRepository
-import social.alone.server.event.type.EventType
-import social.alone.server.event.type.EventTypeDto
-import social.alone.server.event.type.EventTypeRepository
 import social.alone.server.image.Image
 import social.alone.server.image.ImageRepository
-import social.alone.server.location.Location
-import social.alone.server.location.LocationDto
 import social.alone.server.user.domain.User
 import social.alone.server.user.repository.UserRepository
-import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -53,13 +44,7 @@ class BaseIntegrateTest {
     lateinit var tokenProvider: TokenProvider
 
     @Autowired
-    lateinit var eventRepository: EventRepository
-
-    @Autowired
     lateinit protected var userRepository: UserRepository
-
-    @Autowired
-    lateinit protected var eventTypeRepository: EventTypeRepository
 
     @Autowired
     lateinit protected var imageRepository: ImageRepository
@@ -94,67 +79,6 @@ class BaseIntegrateTest {
         return "Bearer $token"
     }
 
-
-    protected fun createEvent(user: User): Event {
-        val startedAt = LocalDateTime.now().plusDays(3)
-        val endedAt = LocalDateTime.now().plusDays(6)
-        val location = LocationDto(
-                "서울 서초구 강남대로61길 3",
-                "스타벅스",
-                127.026503385182,
-                37.4991561765984,
-                "http://place.map.daum.net/27290899")
-        val eventTypes = HashSet<EventTypeDto>()
-        val eventDto = EventDto(
-                "낙성대 주말 코딩",
-                location,
-                startedAt,
-                endedAt,
-                eventTypes
-        )
-        val event = Event(eventDto, user)
-        event.updateLocation(location.buildLocation())
-        return this.eventRepository.save(event)
-    }
-
-    protected fun createEvent(location: Location): Event {
-        val event = createEvent()
-        event.updateLocation(location)
-        return this.eventRepository.save(event)
-    }
-
-    @JvmOverloads
-    protected fun createEvent(startedAt: LocalDateTime = LocalDateTime.now().plusDays(3), endedAt: LocalDateTime = LocalDateTime.now().plusDays(6)): Event {
-        val location = LocationDto(
-                "서울 서초구 강남대로61길 3",
-                "스타벅스",
-                127.026503385182,
-                37.4991561765984,
-                "http://place.map.daum.net/27290899")
-        val next = atomicInteger.incrementAndGet()
-        val eventTypes = HashSet<EventTypeDto>()
-        val eventDto = EventDto(
-                "낙성대 주말 코딩$next",
-                LocationDto(
-                        "서울 서초구 강남대로61길 3",
-                        "스타벅스",
-                        127.026503385182,
-                        37.4991561765984,
-                        "http://place.map.daum.net/27290899"),
-                startedAt,
-                endedAt,
-                eventTypes
-        )
-        val event = Event(eventDto, this.createdUser)
-        event.updateLocation(location.buildLocation())
-        return this.eventRepository.save(event)
-    }
-
-
-    protected fun createEventType(value: String): EventType {
-        val eventType = EventType.of(value)
-        return eventTypeRepository.save(eventType)
-    }
 
     companion object {
         public const val CREATED_USER_EMAIL = "createdUser-me@gmail.com"
