@@ -28,7 +28,7 @@ class PostControllerTest : BaseIntegrateTest() {
         // When
         val perform = mockMvc
                 .perform(
-                        MockMvcRequestBuilders.post("/v1/posts/")
+                        MockMvcRequestBuilders.post("/posts/")
                                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                                 .content(objectMapper.writeValueAsString(postCreateRequest))
                 )

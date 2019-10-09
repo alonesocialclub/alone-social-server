@@ -11,7 +11,7 @@ import social.alone.server.post.service.PostCreateService
 import social.alone.server.user.domain.User
 
 @Controller
-@RequestMapping(value = ["/v1/posts"])
+@RequestMapping(value = ["/posts"])
 class PostController(val postCreateService: PostCreateService) : BaseController() {
 
     @GetMapping("/{id}")
