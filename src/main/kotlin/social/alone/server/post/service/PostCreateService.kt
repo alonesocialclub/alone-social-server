@@ -6,8 +6,10 @@ import social.alone.server.image.ImageRepository
 import social.alone.server.user.domain.User
 import social.alone.server.post.domain.Post
 import social.alone.server.post.dto.PostDto
+import javax.transaction.Transactional
 
 @Service
+@Transactional
 class PostCreateService(
     private val postRepository: PostRepository,
     private val imageRepository: ImageRepository
