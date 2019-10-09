@@ -22,6 +22,7 @@ data class User(
         var profile: Profile) {
 
     @Id
+    @Column(unique = true, columnDefinition = "VARCHAR(64)")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     var id: String? = null

@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull
 class Post(@ManyToOne var author: User, @NotNull var text: String, @OneToOne var image: Image) {
 
     @Id
+    @Column(unique = true, columnDefinition = "VARCHAR(64)")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     val id: String? = null
