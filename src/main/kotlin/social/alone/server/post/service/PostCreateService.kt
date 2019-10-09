@@ -8,7 +8,7 @@ import social.alone.server.post.domain.Post
 import social.alone.server.post.dto.PostDto
 
 @Service
-class PostService(
+class PostCreateService(
     private val postRepository: PostRepository,
     private val imageRepository: ImageRepository
 ){

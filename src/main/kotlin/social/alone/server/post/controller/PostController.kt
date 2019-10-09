@@ -7,13 +7,12 @@ import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.controller.BaseController
 import social.alone.server.post.domain.Post
 import social.alone.server.post.dto.PostDto
-import social.alone.server.post.service.PostService
+import social.alone.server.post.service.PostCreateService
 import social.alone.server.user.domain.User
-import javax.validation.Valid
 
 @Controller
 @RequestMapping(value = ["/api/posts"])
-class PostController (val postService: PostService): BaseController() {
+class PostController (val postCreateService: PostCreateService): BaseController() {
     
     @GetMapping("/{id}")
     fun getPost(
@@ -27,7 +26,7 @@ class PostController (val postService: PostService): BaseController() {
             @CurrentUser user: User,
             @RequestBody postDto: PostDto
     ): ResponseEntity<*> {
-        return ResponseEntity.ok(postService.create(user, postDto))
+        return ResponseEntity.ok(postCreateService.create(user, postDto))
     }
 
 }
