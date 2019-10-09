@@ -22,6 +22,8 @@ import social.alone.server.event.repository.EventRepository
 import social.alone.server.event.type.EventType
 import social.alone.server.event.type.EventTypeDto
 import social.alone.server.event.type.EventTypeRepository
+import social.alone.server.image.Image
+import social.alone.server.image.ImageRepository
 import social.alone.server.location.Location
 import social.alone.server.location.LocationDto
 import social.alone.server.user.domain.User
@@ -59,6 +61,9 @@ class BaseIntegrateTest {
     @Autowired
     lateinit protected var eventTypeRepository: EventTypeRepository
 
+    @Autowired
+    lateinit protected var imageRepository: ImageRepository
+
     @BeforeTransaction
     fun setUp() {
         this.createdUser = createUser(CREATED_USER_EMAIL)
@@ -67,6 +72,11 @@ class BaseIntegrateTest {
     @AfterTransaction
     fun setDown() {
         this.userRepository.delete(this.createdUser)
+    }
+
+    protected fun createImage(): Image{
+        val image = Image("https://test-image.png")
+        return imageRepository.save(image)
     }
 
 
