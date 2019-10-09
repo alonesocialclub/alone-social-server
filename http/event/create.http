@@ -1,7 +1,0 @@
-POST {{host}}/api/events
-Authorization: {{token}}
-Content-Type: application/json
-
-< ./event.json
-
-###
