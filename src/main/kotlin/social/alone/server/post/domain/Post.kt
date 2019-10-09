@@ -2,15 +2,15 @@ package social.alone.server.post.domain
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import social.alone.server.user.domain.User
 import social.alone.server.image.Image
+import social.alone.server.user.domain.User
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Entity
-@Table(name = "posts")
-class Post {
+@Table(name = "post")
+class Post(@ManyToOne var author: User, @NotNull var text: String, @OneToOne var image: Image) {
     @Id
     @GeneratedValue
     var id: Long? = null
@@ -22,18 +22,4 @@ class Post {
     var updatedAt: LocalDateTime? = null
         protected set
 
-    @NotNull
-    var text: String? = null
-
-    @ManyToOne
-    var image: Image? = null
-
-    @ManyToOne
-    var author: User? = null
-
-    constructor(author: User, text: String?, image: Image?) {
-        this.author = author
-        this.image = image
-        this.text = text
-    }
 }
