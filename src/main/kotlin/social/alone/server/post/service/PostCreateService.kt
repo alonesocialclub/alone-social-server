@@ -11,12 +11,12 @@ import javax.transaction.Transactional
 @Service
 @Transactional
 class PostCreateService(
-    private val postRepository: PostRepository,
-    private val imageRepository: ImageRepository
-){
-    fun create(author: User, postCreateRequest: PostCreateRequest): Post{
+        private val postRepository: PostRepository,
+        private val imageRepository: ImageRepository
+) {
+    fun create(author: User, postCreateRequest: PostCreateRequest): Post {
         val text = postCreateRequest.text
-        val image = imageRepository.findById(postCreateRequest.image).get()
+        val image = imageRepository.findById(postCreateRequest.image.id).get()
         return postRepository.save(Post(author, text, image))
     }
 }
