@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.controller.BaseController
 import social.alone.server.post.domain.Post
-import social.alone.server.post.dto.PostDto
+import social.alone.server.post.dto.PostCreateRequest
 import social.alone.server.post.service.PostCreateService
 import social.alone.server.user.domain.User
 
@@ -24,9 +24,9 @@ class PostController (val postCreateService: PostCreateService): BaseController(
     @PostMapping("/")
     fun createPost(
             @CurrentUser user: User,
-            @RequestBody postDto: PostDto
+            @RequestBody postCreateRequest: PostCreateRequest
     ): ResponseEntity<*> {
-        return ResponseEntity.ok(postCreateService.create(user, postDto))
+        return ResponseEntity.ok(postCreateService.create(user, postCreateRequest))
     }
 
 }

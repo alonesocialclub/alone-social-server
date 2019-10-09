@@ -1,7 +1,7 @@
 package social.alone.server.post.dto
 
 
-data class PostDto(
+data class PostCreateRequest(
     val text: String,
     val image: String
 )
