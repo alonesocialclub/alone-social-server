@@ -17,6 +17,7 @@ class PostCreateService(
     fun create(author: User, postCreateRequest: PostCreateRequest): Post {
         val text = postCreateRequest.text
         val image = imageRepository.findById(postCreateRequest.image.id).get()
-        return postRepository.save(Post(author, text, image))
+        val post = Post(author, text, image)
+        return postRepository.save(post)
     }
 }
