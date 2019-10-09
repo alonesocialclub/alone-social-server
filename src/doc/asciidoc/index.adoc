@@ -26,7 +26,10 @@
 | 새 리소스를 만들 때 사용
 
 | `PUT`
-| 기존 리소스를 수정할 때 사용
+| 기존 리소스를 속성을 전부 수정 할 때
+
+| `PUT`
+| 기존 리소스를 속성을 일부 수정 할 때
 
 | `DELETE`
 | 기존 리소스를 삭제할 떄 사용
@@ -54,303 +57,36 @@
 | 요청한 리소스가 없음.
 |===
 
-[[overview-errors]]
-=== 오류
-
-에러 응답이 발생했을 때 (상태 코드 >= 400), 본문에 해당 문제를 기술한 JSON 객체가 담겨있다.
-
-아래는 이벤트를 생겅하는 API 응답의 `400 Bad Request` 에시다. 에러 객체는 다음의 구조를 따른다.
-
-.request
-include::{snippets}/post-events-invalid/http-request.adoc[]
-
-.response
-include::{snippets}/post-events-invalid/http-response.adoc[]
 
 
+[[image]]
+== 이미지 (/images)
 
-[[resources-events]]
-== 이벤트 (/api/events)
+[[image-create]]
 
-모임 단위를 이벤트라고 한다. 모임의 이름, 설명, 장소, 시작/종료 시간, 최대 허용 인원의 정보를 담고 있다.
+=== 이미지 생성
 
-[[resources-events-create]]
-
-=== 이벤트 생성
-
-`POST` 요청을 사용해서 새 이벤트를 만들 수 있다.
-
-include::{snippets}/post-events/request-fields.adoc[]
+이미지를 생성합시다
 
 .request
-include::{snippets}/post-events/http-request.adoc[]
+include::{snippets}/image-create/http-request.adoc[]
 .response
-include::{snippets}/post-events/response-body.adoc[]
+include::{snippets}/image-create/response-body.adoc[]
 
-[[resources-events-list]]
-=== 이벤트 목록 조회
 
-`GET` 요청을 사용하여 서비스의 모든 이벤트를 조회할 수 있다.
+[[post]]
+== 글 (/posts)
 
-include::{snippets}/query-events/request-parameters.adoc[]
+[[post-create]]
+
+
+=== 이미지 생성
+
+글을 생성합시다
 
 .request
-include::{snippets}/query-events/http-request.adoc[]
+include::{snippets}/post-create/http-request.adoc[]
 .response
-include::{snippets}/query-events/response-body.adoc[]
+include::{snippets}/post-create/response-body.adoc[]
 
 
-[[resources-events-get]]
-
-=== 이벤트 단일 조회
-
-`Get` 요청을 사용해서 기존 이벤트 하나를 조회할 수 있다.
-
-include::{snippets}/get-event/path-parameters.adoc[]
-
-.request
-include::{snippets}/get-event/http-request.adoc[]
-.response
-include::{snippets}/get-event/response-body.adoc[]
-
-
-[[resources-events-update]]
-=== 이벤트 수정
-
-`PUT` 요청을 사용해서 기존 이벤트를 수정할 수 있다.
-
-include::{snippets}/get-event/path-parameters.adoc[]
-
-include::{snippets}/post-events/request-fields.adoc[]
-
-.request
-include::{snippets}/get-event/http-request.adoc[]
-.response
-include::{snippets}/get-event/response-body.adoc[]]
-
-
-[[resources-event-types]]
-== 이벤트 타입 (/api/event-types)
-
-모임 단위를 이벤트라고 한다. 이벤트의 성격에 따라 이벤트 타입을 복수개 갖을 수 있다.
-
-[[resources-event-type-list]]
-=== 이벤트 타입 목록 조회
-
-`GET` 요청을 사용하여 이벤트 타입을 조회할 수 있다.
-
-.request
-include::{snippets}/query-event-types/http-request.adoc[]
-.response
-include::{snippets}/query-event-types/response-body.adoc[]
-
-
-
-
-[[resources-auths]]
-== 인증 (/api/auth)
-
-이메일 혹은 페이스북 엑세스 토큰 인증을 지원
-
-[[resources-auth-facebook-login]]
-=== 페이스북 토큰 인증
-
-페이스북 엑세스 토큰을 통해 유저 로그인을 진행한다
-|===
-|Path|Type|Description
-
-|`+facebookAccessToken+`
-|`+String+`
-|페이스북 엑세스 토큰
-
-|===
-
-.request
-```
-POST /api/auth/login/facebook HTTP/1.1
-Host: server.money-whip.com
-Content-Type: application/json;charset=UTF-8
-
-{
-  "facebookAccessToken": "12341234"
-}
-```
-
-.response
-include::{snippets}/login-email/response-body.adoc[]
-
-[[resources-auth-signup]]
-=== 이메일 회원가입
-
-`POST` 요청을 사용해서 이메일/패스워드 기반으로 회원가입을 한다.
-include::{snippets}/signup-email/request-fields.adoc[]
-
-.request
-include::{snippets}/signup-email/http-request.adoc[]
-.response
-include::{snippets}/signup-email/response-body.adoc[]
-
-[[resources-auth-login]]
-=== 이메일 로그인
-
-`POST` 요청을 사용해서 이메일/패스워드 기반으로 로그인을 한다.
-include::{snippets}/login-email/request-fields.adoc[]
-
-.request
-include::{snippets}/login-email/http-request.adoc[]
-.response
-include::{snippets}/login-email/response-body.adoc[]
-
-[[resources-auths]]
-== Oauth2 인증 (/oauth2)
-
-페이스북 로그인을 지원한다
-
-
-[[resources-oauth2-authorize-facebook]]
-=== 페이스북 인증
-
-`GET` 요청을 사용해서 페이스북 인증을 시도한다
-include::{snippets}/oauth2-facebook/request-parameters.adoc[]
-
-.request
-include::{snippets}/oauth2-facebook/http-request.adoc[]
-.response
-include::{snippets}/oauth2-facebook/http-response.adoc[]
-
-[[resources-auth-login]]
-=== 로그인
-
-`POST` 요청을 사용해서 이메일/패스워드 기반으로 로그인을 한다.
-include::{snippets}/login-email/request-fields.adoc[]
-
-.request
-include::{snippets}/login-email/http-request.adoc[]
-.response
-include::{snippets}/login-email/response-body.adoc[]
-
-
-[[resources-users]]
-== 유저 (/api/users)
-
-유저 정보에 대한 것입니다
-
-[[resources-users-get-id]]
-=== 유저 단일 조회
-
-`Get` 요청을 사용해서 유저 정보를 조회할 수 있다.
-
-.request
-include::{snippets}/get-user-id/http-request.adoc[]
-.response
-include::{snippets}/get-user-id/response-body.adoc[]
-
-
-[[resources-users-get-me]]
-=== 본인 유저 정보 조회
-
-`Get` 요청을 사용해서 본인의 유저 정보를 조회할 수 있다.
-
-.request
-include::{snippets}/get-user-me/http-request.adoc[]
-.response
-include::{snippets}/get-user-me/response-body.adoc[]
-
-[[resources-put-users-me]]
-=== 본인 유저 정보 수정
-
-`PUT` 요청을 사용해서 본인의 유저 정보를 수정할 수 있다.
-
-.request
-include::{snippets}/put-users-me/http-request.adoc[]
-.response
-include::{snippets}/put-users-me/response-body.adoc[]
-
-
-[[resources-links]]
-== 이벤트 공유 링크 (/api/events/:event_id/links)
-
-이벤트 페이지를 공유할 링크이다. SEO 와 레퍼럴 추적을 목표로 한다.
-
-
-[[resources-links-create]]
-=== 이벤트 공유 링크 생성
-
-`POST` 요청을 사용해서 새 이벤트 공유 링크를 만들 수 있다.
-
-
-.request
-include::{snippets}/create-link/http-request.adoc[]
-.response
-include::{snippets}/create-link/response-body.adoc[]
-
-[[resources-links-get]]
-=== 이벤트 공유 링크 조회
-
-`GET` 요청을 사용해서 이벤트 공유 링크를 조회하고, 이벤트 페이지로 redirect 할 수 있다.
-
-
-.request
-include::{snippets}/get-link/http-request.adoc[]
-.response
-include::{snippets}/get-link/response-body.adoc[]
-
-[[resources-envet-users]]
-== 이벤트 참가 신청(/api/events/:event_id/users)
-
-이벤트 참가를 신청한다
-
-
-[[resources-envet-users-create]]
-=== 이벤트 참가 신청
-
-`POST` 요청을 사용해서 참가할 수 있다.
-
-
-.request
-include::{snippets}/events-users-update/http-request.adoc[]
-.response
-include::{snippets}/events-users-update/response-body.adoc[]
-
-[[resources-envet-users-create-cancel]]
-=== 이벤트 참가 신청 취소
-
-`DELETE` 요청을 사용해서 이벤트 참가 신청을 취소할 수 있다.
-
-
-.request
-include::{snippets}/events-users-update-cancel/http-request.adoc[]
-.response
-include::{snippets}/events-users-update-cancel/response-body.adoc[]
-
-
-[[resources-users]]
-== 유저 (/api/users/{id}/events)
-
-[[get-events-by-user]]
-
-=== 유저의 이벤트 목록 조회
-
-`Get` 요청을 사용해서 기존 이벤트 하나를 조회할 수 있다.
-
-include::{snippets}/get-events-by-user/request-parameters.adoc[]
-
-.request
-include::{snippets}/get-events-by-user/http-request.adoc[]
-.response
-include::{snippets}/get-events-by-user/response-body.adoc[]
-
-
-[[resources-feedback]]
-== 피드백 (/api/feedbacks)
-
-[[post-feedabacks-by-user]]
-
-=== 피드백 보내기
-
-서비스에대한 피드백을 보낼 수 있다.
-
-.request
-include::{snippets}/post-feedbacks/http-request.adoc[]
-.response
-include::{snippets}/post-feedbacks/response-body.adoc[]
