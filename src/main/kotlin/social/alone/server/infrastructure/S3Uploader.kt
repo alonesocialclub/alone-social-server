@@ -27,9 +27,12 @@ class S3Uploader(private val amazonS3Client: AmazonS3Client) {
         val key = UUID.randomUUID().toString() + "." + (multipartFile.originalFilename?.split('.')?.last() ?: "jpeg")
         val file: File = createTempFile()
         multipartFile.transferTo(file)
+        val meta = ObjectMetadata()
+        meta.contentType = multipartFile.contentType
         amazonS3Client
                 .putObject(
-                        PutObjectRequest(bucket, key, file).withCannedAcl(CannedAccessControlList.PublicRead)
+                        PutObjectRequest(bucket, key, file.inputStream(), meta)
+                                .withCannedAcl(CannedAccessControlList.PublicRead)
                 )
         return amazonS3Client.getUrl(bucket, key).toString()
     }
