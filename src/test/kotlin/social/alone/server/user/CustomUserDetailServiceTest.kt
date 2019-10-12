@@ -20,10 +20,10 @@ import social.alone.server.user.service.CustomUserDetailService
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @Transactional
-class UserServiceTest {
+class CustomUserDetailServiceTest {
 
     @Autowired
-    lateinit var userService: CustomUserDetailService
+    lateinit var customUserDetailService: CustomUserDetailService
 
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
@@ -37,7 +37,7 @@ class UserServiceTest {
         val user = build()
 
         // When
-        val userDetailsService = userService
+        val userDetailsService = customUserDetailService
         val userDetails = userDetailsService.loadUserByUsername(user.email!!)
 
         // Then
@@ -52,7 +52,7 @@ class UserServiceTest {
 
         // When
         try {
-            val userDetailsService = userService
+            val userDetailsService = customUserDetailService
             userDetailsService.loadUserByUsername(notFoundUserName) // username
             fail<Any>("supposed to be failed")
         } catch (e: UsernameNotFoundException) {
@@ -62,36 +62,6 @@ class UserServiceTest {
 
     }
 
-    @Test
-    fun saveTest__fix_email_only() {
-        val user = build()
-        val userName = user.profile.name
-        val userDto = UserDto(null, "email@email.com", null)
-
-        userService.update(user, userDto)
-
-        assertThat(user.email).isEqualTo(userDto.email)
-        assertThat(user.profile.name).isEqualTo(userName)
-    }
-
-    @Test
-    fun saveTest__fix_interests_only() {
-        val user = build()
-        val userName = user.profile.name
-        val interest = InterestDto("foo")
-        val userDto = UserDto(
-                null,
-                null,
-                listOf(interest)
-        )
-
-        userService.update(user, userDto)
-
-        assertThat(
-                setOf(user.interests.map { it.value })
-        ).contains(listOf(interest.value))
-        assertThat(user.profile.name).isEqualTo(userName)
-    }
 
     private fun build(): User {
         val user = makeUser()

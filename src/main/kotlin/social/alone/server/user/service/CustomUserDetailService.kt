@@ -34,19 +34,4 @@ class CustomUserDetailService (
 
         return UserPrincipalAdapter.create(user)
     }
-
-    // TODO FIX
-    fun update(user_: User, userDto: UserDto): User {
-
-        val user = userRepository.findById(user_.id!!).get()
-
-        if (userDto.interests != null) {
-            val interests = interestUpsertService.saveAll(userDto.interests!!)
-            user.setInterests(interests)
-        }
-
-        user.update(userDto)
-
-        return user
-    }
 }
