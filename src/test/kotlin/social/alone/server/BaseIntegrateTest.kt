@@ -81,8 +81,6 @@ class BaseIntegrateTest {
 
 
     companion object {
-        public const val CREATED_USER_EMAIL = "createdUser-me@gmail.com"
-
-        private val atomicInteger = AtomicInteger(0)
+        const val CREATED_USER_EMAIL = "createdUser-me@gmail.com"
     }
 }
