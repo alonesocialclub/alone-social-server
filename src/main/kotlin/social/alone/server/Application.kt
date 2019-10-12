@@ -20,9 +20,9 @@ class Application {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            println("+=============")
+            println("+====== server start time =======")
             println(LocalDateTime.now())
-            println("+=============")
+            println("+====== server start time =======")
             SpringApplication.run(Application::class.java, *args)
         }
     }
