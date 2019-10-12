@@ -26,7 +26,7 @@ cloud:
 spring:
   servlet:
     multipart:
-      max-file-size: 5MB
+      max-file-size: 10MB
   profiles:
     active: local
 
