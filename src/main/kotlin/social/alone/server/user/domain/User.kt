@@ -9,7 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp
 import social.alone.server.auth.oauth2.user.OAuth2UserInfo
 import social.alone.server.interest.Interest
 import social.alone.server.push.domain.FcmToken
-import social.alone.server.user.dto.UserDto
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.Email

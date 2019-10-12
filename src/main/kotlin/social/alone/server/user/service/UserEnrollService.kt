@@ -44,7 +44,13 @@ class UserEnrollService(private val userRepository: UserRepository, private val 
     fun byProfile(request: JoinByProfileRequest): User {
         val fakeEmail = request.profile.name + "@anonymous.com"
         val byEmail = userRepository.findByEmailAndProvider(fakeEmail, AuthProvider.facebook)
-        return byEmail.orElseGet { userRepository.save(User(fakeEmail, null, Profile(request.profile.name))) }
+        if (byEmail.isPresent) {
+            return byEmail.get()
+        }
+
+        val profile = Profile(request.profile.name)
+        val user = User(fakeEmail, null, profile)
+        return userRepository.save(user)
     }
 
 }
