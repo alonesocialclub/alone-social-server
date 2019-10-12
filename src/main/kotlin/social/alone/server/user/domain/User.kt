@@ -9,7 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp
 import social.alone.server.auth.oauth2.user.OAuth2UserInfo
 import social.alone.server.interest.Interest
 import social.alone.server.push.domain.FcmToken
-import social.alone.server.user.dto.UserDto
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.Email
@@ -88,14 +87,6 @@ data class User(
         this.interests = interests
     }
 
-    fun update(userDto: UserDto) {
-        if (userDto.email != null) {
-            this.email = userDto.email
-        }
-        if (userDto.name != null) {
-            this.profile = Profile(userDto.name)
-        }
-    }
 
     fun updateByOauth(oAuth2UserInfo: OAuth2UserInfo) {
         this.profile.updateName(oAuth2UserInfo.name)
