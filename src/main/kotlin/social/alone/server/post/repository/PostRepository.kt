@@ -6,5 +6,5 @@ import social.alone.server.post.domain.Post
 import java.util.Optional
 
 
-interface PostRepository : JpaRepository<Post, Long>{
+interface PostRepository : JpaRepository<Post, String>{
 }
