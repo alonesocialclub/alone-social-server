@@ -23,7 +23,7 @@ class PostController(
         return ResponseEntity.ok(post)
     }
 
-    @PostMapping("/")
+    @PostMapping
     fun createPost(
             @CurrentUser user: User,
             @RequestBody postCreateRequest: PostCreateRequest
