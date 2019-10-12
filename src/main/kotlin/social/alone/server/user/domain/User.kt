@@ -88,14 +88,6 @@ data class User(
         this.interests = interests
     }
 
-    fun update(userDto: UserDto) {
-        if (userDto.email != null) {
-            this.email = userDto.email
-        }
-        if (userDto.name != null) {
-            this.profile = Profile(userDto.name)
-        }
-    }
 
     fun updateByOauth(oAuth2UserInfo: OAuth2UserInfo) {
         this.profile.updateName(oAuth2UserInfo.name)
