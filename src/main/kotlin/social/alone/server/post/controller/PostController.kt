@@ -12,6 +12,7 @@ import social.alone.server.post.dto.PostCreateRequest
 import social.alone.server.post.repository.PostRepository
 import social.alone.server.post.service.PostCreateService
 import social.alone.server.user.domain.User
+import java.util.*
 
 @Controller
 @RequestMapping(value = ["/posts"])
@@ -22,8 +23,12 @@ class PostController(
 
     @GetMapping("/{id}")
     fun getPost(
-            @PathVariable("id") post: Post
+            @PathVariable("id") optionalPost: Optional<Post>
     ): ResponseEntity<*> {
+        if (!optionalPost.isPresent){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build<Any>()
+        }
+        val post = optionalPost.get()
         return ResponseEntity.ok(post)
     }
 
@@ -41,8 +46,12 @@ class PostController(
     @PreAuthorize("hasRole('USER')")
     fun deletePost(
             @CurrentUser user: User,
-            @PathVariable("id") post: Post
+            @PathVariable("id") optionalPost: Optional<Post>
     ): ResponseEntity<*> {
+        if (!optionalPost.isPresent){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build<Any>()
+        }
+        val post = optionalPost.get()
         if (!post.isAuthor(user)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build<Any>()
         }
