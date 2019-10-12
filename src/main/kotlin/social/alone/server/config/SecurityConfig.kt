@@ -109,7 +109,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .permitAll()
                 .mvcMatchers(HttpMethod.GET, "/**")
                 .permitAll()
-                .mvcMatchers(HttpMethod.POST, "/images")
+                .mvcMatchers(HttpMethod.POST, "/pictures")
                 .permitAll()
                 .mvcMatchers(HttpMethod.POST, "/anonymous/join")
                 .permitAll()

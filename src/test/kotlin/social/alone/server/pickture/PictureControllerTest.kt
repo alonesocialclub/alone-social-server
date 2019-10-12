@@ -1,4 +1,4 @@
-package social.alone.server.image
+package social.alone.server.pickture
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,10 +21,10 @@ import java.io.FileInputStream
 
 
 @RunWith(SpringRunner::class)
-@WebMvcTest(ImageController::class, secure = false)
+@WebMvcTest(PictureController::class, secure = false)
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "server.money-whip.com", uriPort = 443)
 @Import(RestDocsConfiguration::class)
-class ImageControllerTest(
+class PictureControllerTest(
 
 ) {
     @Autowired
@@ -39,7 +39,7 @@ class ImageControllerTest(
     @Test
     fun imageCreate() {
         val multipartFile = MockMultipartFile("test.jpg", FileInputStream(createTempFile()))
-        val image = Image("imageUrl")
+        val image = Picture("imageUrl")
         image.id = "1234"
         given(
                 imageUploader.upload(any(MultipartFile::class.java))
@@ -52,6 +52,6 @@ class ImageControllerTest(
         )
 
         perform.andExpect(status().isOk)
-        perform.andDo(MockMvcRestDocumentation.document("image-create"))
+        perform.andDo(MockMvcRestDocumentation.document("picture-create"))
     }
 }

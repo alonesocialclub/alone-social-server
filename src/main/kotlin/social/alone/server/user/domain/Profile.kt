@@ -1,7 +1,7 @@
 package social.alone.server.user.domain
 
 import org.jetbrains.annotations.NotNull
-import social.alone.server.image.Image
+import social.alone.server.pickture.Picture
 import javax.persistence.Embeddable
 import javax.persistence.OneToOne
 import javax.validation.constraints.Size
@@ -12,13 +12,13 @@ data class Profile(
         @NotNull
         @Size(max = 20) var name: String = "",
         @OneToOne
-        var image: Image? = null
+        var picture: Picture? = null
 ) {
     fun updateName(name: String) {
         this.name = name
     }
 
-    fun updateImage(image:Image) {
-        this.image = image
+    fun updateImage(picture:Picture) {
+        this.picture = picture
     }
 }

@@ -1,4 +1,4 @@
-package social.alone.server.image
+package social.alone.server.pickture
 
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -10,16 +10,16 @@ import org.springframework.web.multipart.MultipartFile
 
 
 @Controller
-class ImageController(private val imageUploader: ImageUploader) {
+class PictureController(private val imageUploader: ImageUploader) {
 
-    @PostMapping("/images")
+    @PostMapping("/pictures")
     fun imageCreate(@RequestPart(value = "file") file: MultipartFile): ResponseEntity<*> {
-        val image = imageUploader.upload(file)
-        return ResponseEntity.ok(image)
+        val pickture = imageUploader.upload(file)
+        return ResponseEntity.ok(pickture)
     }
 
-    @GetMapping("/images/{id}")
-    fun imageRead(@PathVariable("id") image: Image): String {
-        return "redirect:" + image.url
+    @GetMapping("/pictures/{id}")
+    fun imageRead(@PathVariable("id") picture: Picture): String {
+        return "redirect:" + picture.url
     }
 }

@@ -1,4 +1,4 @@
-package social.alone.server.image
+package social.alone.server.pickture
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
@@ -8,8 +8,8 @@ import javax.persistence.*
 
 
 @Entity
-@Table(name = "image")
-data class Image(var url: String) {
+@Table(name = "picture")
+data class Picture(var url: String) {
 
     @Id
     @Column(unique = true, columnDefinition = "VARCHAR(64)")

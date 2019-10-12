@@ -59,8 +59,8 @@
 
 
 
-[[image]]
-== 이미지 (/images)
+[[picture]]
+== 이미지 (/pictures)
 
 [[image-create]]
 

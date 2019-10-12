@@ -16,8 +16,8 @@ import org.springframework.test.context.transaction.BeforeTransaction
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
 import social.alone.server.auth.oauth2.user.TokenProvider
-import social.alone.server.image.Image
-import social.alone.server.image.ImageRepository
+import social.alone.server.pickture.Picture
+import social.alone.server.pickture.PictureRepository
 import social.alone.server.user.domain.User
 import social.alone.server.user.repository.UserRepository
 import java.util.*
@@ -47,7 +47,7 @@ class BaseIntegrateTest {
     lateinit protected var userRepository: UserRepository
 
     @Autowired
-    lateinit protected var imageRepository: ImageRepository
+    lateinit protected var pictureRepository: PictureRepository
 
     @BeforeTransaction
     fun setUp() {
@@ -59,9 +59,9 @@ class BaseIntegrateTest {
         this.userRepository.delete(this.createdUser)
     }
 
-    protected fun createImage(): Image{
-        val image = Image("https://test-image.png")
-        return imageRepository.save(image)
+    protected fun createImage(): Picture{
+        val image = Picture("https://test-picture.png")
+        return pictureRepository.save(image)
     }
 
 

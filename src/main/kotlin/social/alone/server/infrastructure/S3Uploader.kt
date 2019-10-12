@@ -20,7 +20,7 @@ import java.util.*
 @Component
 class S3Uploader(private val amazonS3Client: AmazonS3Client) {
     companion object {
-        const val bucket = "alone-social-static-image"
+        const val bucket = "alone-social-static-picture"
     }
 
     fun upload(multipartFile: MultipartFile): String {
@@ -43,7 +43,7 @@ class S3Uploader(private val amazonS3Client: AmazonS3Client) {
             val contents = IOUtils.toByteArray(inputStream)
             val stream = ByteArrayInputStream(contents)
             val meta = ObjectMetadata()
-            meta.contentType = "image/jpeg"
+            meta.contentType = "picture/jpeg"
 
             amazonS3Client
                     .putObject(
@@ -61,7 +61,7 @@ class S3Uploader(private val amazonS3Client: AmazonS3Client) {
         return try {
             val stream = ByteArrayInputStream(Base64.getDecoder().decode(base64encoded))
             val meta = ObjectMetadata()
-            meta.contentType = "image/jpeg"
+            meta.contentType = "picture/jpeg"
 
             amazonS3Client
                     .putObject(

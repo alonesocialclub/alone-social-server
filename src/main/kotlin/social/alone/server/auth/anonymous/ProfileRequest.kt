@@ -1,9 +1,9 @@
 package social.alone.server.auth.anonymous
 
-import social.alone.server.image.ImageRequest
+import social.alone.server.pickture.PictureRequest
 
 
 data class ProfileRequest(
         val name: String,
-        val image: ImageRequest? = null
+        val picture: PictureRequest? = null
 )

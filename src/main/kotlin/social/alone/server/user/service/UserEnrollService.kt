@@ -7,9 +7,7 @@ import org.springframework.util.Assert
 import social.alone.server.auth.FacebookUserInfoFetcher
 import social.alone.server.auth.anonymous.JoinByProfileRequest
 import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo
-import social.alone.server.image.Image
-import social.alone.server.image.ImageRepository
-import social.alone.server.infrastructure.S3Uploader
+import social.alone.server.pickture.PictureRepository
 import social.alone.server.user.domain.AuthProvider
 import social.alone.server.user.domain.Profile
 import social.alone.server.user.domain.User
@@ -22,7 +20,7 @@ class UserEnrollService(
         private val userRepository: UserRepository,
         private val passwordEncoder: PasswordEncoder,
         private val facebookUserInfoFetcher: FacebookUserInfoFetcher,
-        private val imageRepository: ImageRepository
+        private val pictureRepository: PictureRepository
 ) {
 
     fun enrollByEmailPassword(
@@ -63,7 +61,7 @@ class UserEnrollService(
 
 
     private fun requestToProfile(request: JoinByProfileRequest): Profile {
-        val image = request.profile.image?.id?.let { imageRepository.findById(it) } ?: Optional.empty()
+        val image = request.profile.picture?.id?.let { pictureRepository.findById(it) } ?: Optional.empty()
         return Profile(request.profile.name, image.orElse(null))
     }
 
