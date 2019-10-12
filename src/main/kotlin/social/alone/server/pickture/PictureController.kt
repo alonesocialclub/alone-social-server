@@ -19,7 +19,7 @@ class PictureController(private val imageUploader: ImageUploader) {
     }
 
     @GetMapping("/pictures/{id}")
-    fun imageRead(@PathVariable("id") picture: Picture): ResponseEntity<Picture> {
+    fun readPicture(@PathVariable("id") picture: Picture): ResponseEntity<Picture> {
         return ResponseEntity.ok(picture)
     }
 
