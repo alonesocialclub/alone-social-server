@@ -22,7 +22,11 @@ cloud:
       auto: false
 
 
+
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
   profiles:
     active: local
 
