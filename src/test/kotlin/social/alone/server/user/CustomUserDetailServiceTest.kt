@@ -10,10 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.transaction.annotation.Transactional
-import social.alone.server.interest.InterestDto
 import social.alone.server.makeUser
 import social.alone.server.user.domain.User
-import social.alone.server.user.dto.UserDto
 import social.alone.server.user.repository.UserRepository
 import social.alone.server.user.service.CustomUserDetailService
 
