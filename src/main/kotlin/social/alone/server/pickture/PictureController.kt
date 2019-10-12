@@ -13,13 +13,23 @@ import org.springframework.web.multipart.MultipartFile
 class PictureController(private val imageUploader: ImageUploader) {
 
     @PostMapping("/pictures")
-    fun imageCreate(@RequestPart(value = "file") file: MultipartFile): ResponseEntity<*> {
-        val pickture = imageUploader.upload(file)
-        return ResponseEntity.ok(pickture)
+    fun imageCreate(@RequestPart(value = "file") file: MultipartFile): ResponseEntity<Picture> {
+        val picture = imageUploader.upload(file)
+        return ResponseEntity.ok(picture)
     }
 
     @GetMapping("/pictures/{id}")
-    fun imageRead(@PathVariable("id") picture: Picture): String {
+    fun imageRead(@PathVariable("id") picture: Picture): ResponseEntity<Picture> {
+        return ResponseEntity.ok(picture)
+    }
+
+    @GetMapping("/pictures/{id}/image/{size}")
+    fun pictureReadByImageSize(
+            @PathVariable("id") picture: Picture,
+            @PathVariable("size") size :String
+    ): String {
+        // TODO image read wtih size
+        println(size)
         return "redirect:" + picture.url
     }
 }
