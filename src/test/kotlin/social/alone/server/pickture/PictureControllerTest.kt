@@ -47,7 +47,7 @@ class PictureControllerTest(
 
         val perform = mockMvc.perform(
                 MockMvcRequestBuilders
-                        .multipart("/images")
+                        .multipart("/pictures")
                         .file("file", multipartFile.bytes)
         )
 
