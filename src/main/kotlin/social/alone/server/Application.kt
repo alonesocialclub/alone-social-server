@@ -9,8 +9,7 @@ import javax.annotation.PostConstruct
 
 
 @SpringBootApplication
-
-open class Application {
+class Application {
     companion object {
 
         @PostConstruct
