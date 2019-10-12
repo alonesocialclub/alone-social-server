@@ -1,6 +1,8 @@
 package social.alone.server.post.controller
 
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import social.alone.server.auth.oauth2.user.CurrentUser
@@ -26,6 +28,7 @@ class PostController(
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     fun createPost(
             @CurrentUser user: User,
             @RequestBody postCreateRequest: PostCreateRequest
@@ -35,9 +38,14 @@ class PostController(
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     fun deletePost(
+            @CurrentUser user: User,
             @PathVariable("id") post: Post
     ): ResponseEntity<*> {
+        if (!post.isAuthor(user)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build<Any>()
+        }
         postRepository.delete(post)
         return ResponseEntity.noContent().build<Any>()
     }
