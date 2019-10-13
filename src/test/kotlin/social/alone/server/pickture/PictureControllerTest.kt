@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.multipart.MultipartFile
 import social.alone.server.RestDocsConfiguration
+import social.alone.server.pickture.service.PictureResizeService
 import java.io.FileInputStream
 
 
@@ -34,8 +35,11 @@ class PictureControllerTest {
     @MockBean
     private lateinit var imageUploader: ImageUploader
 
-//    @MockBean
-//    private lateinit var pictureRepository: PictureRepository
+    @MockBean
+    private lateinit var imageDownloader: ImageDownloader
+
+    @MockBean
+    private lateinit var pictureResizeService: PictureResizeService
 
     private fun <T> any(type: Class<T>): T = Mockito.any<T>(type)
 
