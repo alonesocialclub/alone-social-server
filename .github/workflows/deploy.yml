@@ -16,6 +16,8 @@ jobs:
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
+      env:
+        AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
