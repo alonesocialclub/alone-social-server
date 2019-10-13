@@ -56,6 +56,7 @@ src/main/resources/application-prod.yml
 server.pem
 connect.sh
 http/http-client.env.json
+update.sh
 
 src/main/generated
 
