@@ -1,4 +1,4 @@
-package social.alone.server.pickture
+package social.alone.server.picture
 
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile

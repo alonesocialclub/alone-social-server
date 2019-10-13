@@ -101,7 +101,7 @@ dependencies {
 
     compile("com.querydsl:querydsl-jpa:${queryDslVersion}")
     kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
-
+    compile('org.imgscalr:imgscalr-lib:4.2')
 
 }
 
@@ -181,4 +181,3 @@ sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
     test.java.srcDirs += 'src/test/kotlin'
 }
-

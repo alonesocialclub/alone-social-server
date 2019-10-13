@@ -1,4 +1,4 @@
-package social.alone.server.pickture
+package social.alone.server.picture
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
@@ -20,7 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.multipart.MultipartFile
 import social.alone.server.RestDocsConfiguration
+import social.alone.server.picture.service.PictureResizeService
 import java.io.FileInputStream
+import javax.imageio.ImageIO
 
 
 @RunWith(SpringRunner::class)
@@ -34,8 +35,11 @@ class PictureControllerTest {
     @MockBean
     private lateinit var imageUploader: ImageUploader
 
-//    @MockBean
-//    private lateinit var pictureRepository: PictureRepository
+    @MockBean
+    private lateinit var imageDownloader: ImageDownloader
+
+    @MockBean
+    private lateinit var pictureResizeService: PictureResizeService
 
     private fun <T> any(type: Class<T>): T = Mockito.any<T>(type)
 
@@ -72,4 +76,20 @@ class PictureControllerTest {
         perform.andDo(MockMvcResultHandlers.print())
         perform.andExpect(status().isOk)
     }
+
+//    @Test
+//    fun imageResize() {
+//        val bufferedImage = ImageIO.read(FileInputStream(createTempFile("test", ".jpg")))
+//        val picture = Picture("imageUrl")
+//        picture.id = "1234"
+//        given(
+//                imageDownloader.download(any(String::class.java))
+//        ).willReturn(bufferedImage)
+//        val perform = mockMvc.perform(
+//                MockMvcRequestBuilders.get("/pictures/" + picture.id + "/image/hd")
+//                        .contentType(MediaType.IMAGE_JPEG)
+//        )
+//
+//        perform.andExpect(status().isOk)
+//    }
 }

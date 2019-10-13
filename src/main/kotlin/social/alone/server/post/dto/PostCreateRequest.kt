@@ -1,6 +1,6 @@
 package social.alone.server.post.dto
 
-import social.alone.server.pickture.PictureRequest
+import social.alone.server.picture.PictureRequest
 
 
 data class PostCreateRequest(

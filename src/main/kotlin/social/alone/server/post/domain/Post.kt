@@ -1,7 +1,7 @@
 package social.alone.server.post.domain
 
 import org.hibernate.annotations.GenericGenerator
-import social.alone.server.pickture.Picture
+import social.alone.server.picture.Picture
 import social.alone.server.user.domain.User
 import java.time.LocalDateTime
 import javax.persistence.*

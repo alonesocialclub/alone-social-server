@@ -1,7 +1,7 @@
 package social.alone.server.user.domain
 
 import org.jetbrains.annotations.NotNull
-import social.alone.server.pickture.Picture
+import social.alone.server.picture.Picture
 import javax.persistence.Embeddable
 import javax.persistence.OneToOne
 import javax.validation.constraints.Size

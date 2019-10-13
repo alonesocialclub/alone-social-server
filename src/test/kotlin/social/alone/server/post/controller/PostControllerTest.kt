@@ -8,8 +8,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import social.alone.server.BaseIntegrateTest
-import social.alone.server.pickture.Picture
-import social.alone.server.pickture.PictureRequest
+import social.alone.server.picture.Picture
+import social.alone.server.picture.PictureRequest
 import social.alone.server.post.dto.PostCreateRequest
 
 class PostControllerTest : BaseIntegrateTest() {
