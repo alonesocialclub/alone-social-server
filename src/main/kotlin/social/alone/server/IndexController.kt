@@ -9,6 +9,6 @@ class IndexController {
 
     val index: String
         @GetMapping("/")
-        get() = "Hello world~~~~~ Im deployed with CI"
+        get() = "Hello world!"
 
 }
