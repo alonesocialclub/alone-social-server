@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-    - release/*
+    - master/*
 
 jobs:
   build:
@@ -12,12 +12,33 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
+    - name: decript production secret files
+      env:
+        ENC_PASSWORD: ${{ secrets.ENC_PASSWORD }}
+      run: |
+        gpg --quiet --batch --yes --decrypt --passphrase=$ENC_PASSWORD \
+          --output src/main/resources/application-prod.yml src/main/resources/application-prod.yml.gpg
+        gpg --quiet --batch --yes --decrypt --passphrase=$ENC_PASSWORD \
+          --output src/main/resources/alone-social-club-firebase-adminsdk.json src/main/resources/alone-social-club-firebase-adminsdk.json.gpg
+        gpg --quiet --batch --yes --decrypt --passphrase=$ENC_PASSWORD \
+           --output server.pem server.pem.gpg
+
+
+    - name: docker prepare and push to ecr
       env:
         AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         $(aws ecr get-login --no-include-email --region ap-northeast-2)
         ./gradlew clean dockerPrepare dockerPush
+
+    - name: update docker container
+      run: |
+        SSH_PATH="$HOME/.ssh"
+        mkdir -p "$SSH_PATH"
+        touch "$SSH_PATH/known_hosts"
+        chmod 700 "$SSH_PATH"
+        chmod 600 "$SSH_PATH/known_hosts"
+        ssh-keygen -R 52.78.145.107
+        chmod 400 ./server.pem
+        ssh -vvv -o StrictHostKeyChecking=no -i ./server.pem ec2-user@52.78.145.107 './update.sh'
