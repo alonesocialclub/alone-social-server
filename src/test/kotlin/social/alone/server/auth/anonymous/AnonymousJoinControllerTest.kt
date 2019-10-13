@@ -35,4 +35,25 @@ class AnonymousJoinControllerTest : BaseIntegrateTest() {
                         MockMvcRestDocumentation.document("anonymous-join")
                 )
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun join__empty_name() {
+        // Given
+        val data = JoinByProfileRequest(ProfileRequest(""))
+        // When
+        val perform = mockMvc.perform(
+                MockMvcRequestBuilders.post("/anonymous/join")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(data))
+        )
+
+        // Then
+        perform
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest)
+                .andExpect(MockMvcResultMatchers.jsonPath("errors.[0].field").value("profile.name"))
+                .andExpect(MockMvcResultMatchers.jsonPath("errors.[0].code").value("NotEmpty"))
+                .andExpect(MockMvcResultMatchers.jsonPath("errors.[0].defaultMessage").value("Name is required"))
+    }
 }

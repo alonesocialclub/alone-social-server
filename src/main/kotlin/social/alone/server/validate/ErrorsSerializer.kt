@@ -9,7 +9,7 @@ import org.springframework.validation.Errors
 import java.io.IOException
 
 
-@JsonComponent // Errors 에 대해 부트에서 Errors 를 시리얼라이즈 할 수 있게 만든다.
+@JsonComponent
 class ErrorsSerializer : JsonSerializer<Errors>() {
     @Throws(IOException::class)
     override fun serialize(errors: Errors, gen: JsonGenerator, serializers: SerializerProvider) {
