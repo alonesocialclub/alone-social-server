@@ -12,7 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.multipart.MultipartFile
 import social.alone.server.picture.service.PictureResizeService
+import java.io.ByteArrayInputStream
 import java.lang.NumberFormatException
+import java.net.URLConnection
+import java.net.URLConnection.guessContentTypeFromStream
+
+
 
 @Controller
 class PictureController(private val imageUploader: ImageUploader, private val imageDownloader: ImageDownloader, private val pictureResizeService: PictureResizeService) {
@@ -36,8 +41,6 @@ class PictureController(private val imageUploader: ImageUploader, private val im
         // TODO image read wtih size
         val pictureUrlSplit = picture.url.split("/")
         val pictureKeyName = pictureUrlSplit[pictureUrlSplit.size-1]
-        val pictureKeyNameSplit = pictureKeyName.split(".")
-        val pictureExtension = pictureKeyNameSplit[pictureKeyNameSplit.size-1]
         val splitSize = size.split("x")
 
         var width = 0
@@ -51,11 +54,11 @@ class PictureController(private val imageUploader: ImageUploader, private val im
         } catch (e: NumberFormatException) {
         }
 
-        var img = imageDownloader.download(pictureKeyName)
-        img = pictureResizeService.resize(img, width, height)
+        val imgWrapper = imageDownloader.download(pictureKeyName)
+        var img = pictureResizeService.resize(imgWrapper.bufferedImage, width, height)
 
         val bao = ByteArrayOutputStream()
-        ImageIO.write(img, pictureExtension, bao)
+        ImageIO.write(img, imgWrapper.imageType, bao)
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bao.toByteArray())
     }
 }

@@ -8,9 +8,11 @@ import javax.imageio.ImageIO
 
 @Service
 class ImageDownloader(private val s3Downloader: S3Downloader) {
-    fun download(imageName: String): BufferedImage{
+    fun download(imageName: String): BufferedImageWrapper{
         val imageObj = s3Downloader.download(imageName)
-        val bufferedImage = ImageIO.read(imageObj.objectContent)
-        return bufferedImage
+        val bufferedImageWrapper = BufferedImageWrapper.getImageAndTypeFromInputStream(
+                imageObj.objectContent
+        )
+        return bufferedImageWrapper
     }
 }
