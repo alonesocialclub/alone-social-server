@@ -8,7 +8,8 @@ server for [https://alone.social](https://alone.social)
 ## development
 ```bash
 $ ./gradlew bootRun
-```
+```FOOBAR
+
 
 ## run test
 ```bash
@@ -26,6 +27,9 @@ $ ./deploy.sh
 
 http://52.78.145.107/docs/index.html
 
-## ping status
+## how secret files (application-prod.yml) are handled
+ 
+gpg --symmetric --cipher-algo AES256 src/main/resources/application-prod.yml
 
-http://52.78.145.107/api/events
+gpg --quiet --batch --yes --decrypt --passphrase=1234  \
+--output src/main/resources/application-prod.yml src/main/resources/application-prod.yml.gpg

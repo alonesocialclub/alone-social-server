@@ -13,9 +13,14 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
+    - name: decript production secret files
+      env:
+        ENC_PASSWORD: ${{ secrets.ENC_PASSWORD }}
+      run: |
+        gpg --quiet --batch --yes --decrypt --passphrase=$ENC_PASSWORD \
+          --output src/main/resources/application-prod.yml src/main/resources/application-prod.yml.gpg
+
+    - name: docker prepare and push to ecr
       env:
         AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
