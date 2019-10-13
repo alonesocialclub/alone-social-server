@@ -22,3 +22,4 @@ jobs:
         echo Add other actions to build,
         echo test, and deploy your project.
         echo "$AWS_ACCESS_KEY_ID"
+        aws
