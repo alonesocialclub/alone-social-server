@@ -26,6 +26,6 @@ $ ./deploy.sh
 
 http://52.78.145.107/docs/index.html
 
-## ping status
+## health check
 
-http://52.78.145.107/api/events
+http://52.78.145.107/actuator/health
