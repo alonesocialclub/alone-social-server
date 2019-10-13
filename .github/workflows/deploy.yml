@@ -19,7 +19,5 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
-        echo "$AWS_ACCESS_KEY_ID"
-        aws
+        $(aws ecr get-login --no-include-email --region ap-northeast-2)
+        ./gradlew clean dockerPrepare dockerPush
