@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.multipart.MultipartFile
 import social.alone.server.picture.service.PictureResizeService
+import java.lang.NumberFormatException
 
 @Controller
 class PictureController(private val imageUploader: ImageUploader, private val imageDownloader: ImageDownloader, private val pictureResizeService: PictureResizeService) {
@@ -37,10 +38,24 @@ class PictureController(private val imageUploader: ImageUploader, private val im
         val pictureKeyName = pictureUrlSplit[pictureUrlSplit.size-1]
         val pictureKeyNameSplit = pictureKeyName.split(".")
         val pictureExtension = pictureKeyNameSplit[pictureKeyNameSplit.size-1]
+        val splitSize = size.split("x")
+
+        var width = 0
+        var height = 0
+        try {
+            width = splitSize[0].toInt()
+        } catch (e: NumberFormatException){
+        }
+        try {
+            height = splitSize[1].toInt()
+        } catch (e: NumberFormatException) {
+        }
+
         var img = imageDownloader.download(pictureKeyName)
-        img = pictureResizeService.resize(img, size)
-        val bao = ByteArrayOutputStream();
+        img = pictureResizeService.resize(img, width, height)
+
+        val bao = ByteArrayOutputStream()
         ImageIO.write(img, pictureExtension, bao)
-        return ResponseEntity.ok().contentType(MediaType.ALL).body(bao.toByteArray())
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bao.toByteArray())
     }
 }
