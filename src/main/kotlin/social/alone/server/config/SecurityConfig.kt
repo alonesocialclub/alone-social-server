@@ -113,6 +113,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .permitAll()
                 .mvcMatchers(HttpMethod.POST, "/anonymous/join")
                 .permitAll()
+                .mvcMatchers(HttpMethod.POST, "/login/**")
+                .permitAll()
                 .antMatchers("/api/auth/**", "/oauth2/**")
                 .permitAll()
                 .anyRequest()
