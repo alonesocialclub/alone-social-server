@@ -19,6 +19,8 @@ jobs:
       run: |
         gpg --quiet --batch --yes --decrypt --passphrase=$ENC_PASSWORD \
           --output src/main/resources/application-prod.yml src/main/resources/application-prod.yml.gpg
+        gpg --quiet --batch --yes --decrypt --passphrase=$ENC_PASSWORD \
+           --output server.pem server.pem.gpg
 
     - name: docker prepare and push to ecr
       env:
@@ -27,3 +29,14 @@ jobs:
       run: |
         $(aws ecr get-login --no-include-email --region ap-northeast-2)
         ./gradlew clean dockerPrepare dockerPush
+
+    - name: update docker container
+      run: |
+        SSH_PATH="$HOME/.ssh"
+        mkdir -p "$SSH_PATH"
+        touch "$SSH_PATH/known_hosts"
+        chmod 700 "$SSH_PATH"
+        chmod 600 "$SSH_PATH/known_hosts"
+        ssh-keygen -R 52.78.145.107
+        chmod 400 ./server.pem
+        ssh -vvv -o StrictHostKeyChecking=no -i ./server.pem ec2-user@52.78.145.107 './update.sh'
