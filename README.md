@@ -18,9 +18,7 @@ $ ./gradlew check
 
 ## deploy
 
-```bash
-$ ./deploy.sh
-```
+If master branch has pushed, Github actions will be triggered
 
 ## API doc
 
