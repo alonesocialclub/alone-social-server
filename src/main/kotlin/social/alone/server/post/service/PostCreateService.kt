@@ -2,7 +2,7 @@ package social.alone.server.post.service
 
 import org.springframework.stereotype.Service
 import social.alone.server.post.repository.PostRepository
-import social.alone.server.pickture.PictureRepository
+import social.alone.server.picture.PictureRepository
 import social.alone.server.user.domain.User
 import social.alone.server.post.domain.Post
 import social.alone.server.post.dto.PostCreateRequest

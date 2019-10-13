@@ -1,6 +1,6 @@
 package social.alone.server.auth.anonymous
 
-import social.alone.server.pickture.PictureRequest
+import social.alone.server.picture.PictureRequest
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Size
 

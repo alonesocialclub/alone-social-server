@@ -1,4 +1,4 @@
-package social.alone.server.pickture
+package social.alone.server.picture
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator

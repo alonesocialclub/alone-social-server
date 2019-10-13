@@ -7,7 +7,7 @@ import org.springframework.util.Assert
 import social.alone.server.auth.FacebookUserInfoFetcher
 import social.alone.server.auth.anonymous.JoinByProfileRequest
 import social.alone.server.auth.oauth2.user.FacebookOAuth2UserInfo
-import social.alone.server.pickture.PictureRepository
+import social.alone.server.picture.PictureRepository
 import social.alone.server.user.domain.AuthProvider
 import social.alone.server.user.domain.Profile
 import social.alone.server.user.domain.User

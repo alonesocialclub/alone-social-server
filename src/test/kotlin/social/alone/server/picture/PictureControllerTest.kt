@@ -1,4 +1,4 @@
-package social.alone.server.pickture
+package social.alone.server.picture
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
@@ -20,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.multipart.MultipartFile
 import social.alone.server.RestDocsConfiguration
-import social.alone.server.pickture.service.PictureResizeService
+import social.alone.server.picture.service.PictureResizeService
 import java.io.FileInputStream
 
 

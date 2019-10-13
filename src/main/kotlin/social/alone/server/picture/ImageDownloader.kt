@@ -1,4 +1,4 @@
-package social.alone.server.pickture
+package social.alone.server.picture
 
 import org.springframework.stereotype.Service
 import social.alone.server.infrastructure.S3Downloader

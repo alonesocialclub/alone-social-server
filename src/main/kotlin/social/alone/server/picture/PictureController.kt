@@ -1,7 +1,6 @@
-package social.alone.server.pickture
+package social.alone.server.picture
 
 import java.io.ByteArrayOutputStream
-import java.io.ByteArrayInputStream
 import javax.imageio.ImageIO
 
 import org.springframework.http.ResponseEntity
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.multipart.MultipartFile
-import social.alone.server.pickture.service.PictureResizeService
+import social.alone.server.picture.service.PictureResizeService
 
 @Controller
 class PictureController(private val imageUploader: ImageUploader, private val imageDownloader: ImageDownloader, private val pictureResizeService: PictureResizeService) {

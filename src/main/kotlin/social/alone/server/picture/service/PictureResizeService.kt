@@ -1,4 +1,4 @@
-package social.alone.server.pickture.service
+package social.alone.server.picture.service
 
 import java.awt.image.BufferedImage
 import org.imgscalr.Scalr

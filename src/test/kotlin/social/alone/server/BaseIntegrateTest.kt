@@ -16,12 +16,11 @@ import org.springframework.test.context.transaction.BeforeTransaction
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
 import social.alone.server.auth.oauth2.user.TokenProvider
-import social.alone.server.pickture.Picture
-import social.alone.server.pickture.PictureRepository
+import social.alone.server.picture.Picture
+import social.alone.server.picture.PictureRepository
 import social.alone.server.user.domain.User
 import social.alone.server.user.repository.UserRepository
 import java.util.*
-import java.util.concurrent.atomic.AtomicInteger
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
