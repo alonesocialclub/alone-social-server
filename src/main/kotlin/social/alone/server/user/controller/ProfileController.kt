@@ -13,7 +13,7 @@ import social.alone.server.user.dto.ProfileDto
 import social.alone.server.user.service.ProfileService
 import javax.validation.Valid
 
-@Controller
+@RestController
 @RequestMapping(value = ["/api/users"])
 class ProfileController (val userProfileService: ProfileService): BaseController() {
     @GetMapping("/{id}/profile")

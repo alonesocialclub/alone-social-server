@@ -5,11 +5,12 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.push.dto.FcmTokenRequest
 import social.alone.server.user.domain.User
 
-@Controller
+@RestController
 @RequestMapping(value = ["/api/push"])
 class PushController(
         val fcmTokenRegisterSvc: FcmTokenRegisterSvc,

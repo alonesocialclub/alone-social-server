@@ -5,11 +5,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.*
 import social.alone.server.auth.oauth2.user.CurrentUser
 import social.alone.server.controller.BaseController
 import social.alone.server.post.domain.Post
@@ -17,7 +13,7 @@ import social.alone.server.user.domain.User
 import social.alone.server.user.repository.UserRepository
 import java.util.*
 
-@Controller
+@RestController
 class PingController(
         val pingCreateService: PingCreateService,
         val pingSearchService: PingSearchService,
@@ -48,6 +44,7 @@ class PingController(
             @PathVariable("postId") postId: String,
             pageable: Pageable
     ): Page<PingView> {
+        println(postId)
         val pings = pingSearchService.findByPostId(postId, pageable)
         return pings.map { it.view() }
     }

@@ -6,10 +6,7 @@ import javax.imageio.ImageIO
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestPart
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import social.alone.server.picture.service.PictureResizeService
 import java.io.ByteArrayInputStream
@@ -19,7 +16,7 @@ import java.net.URLConnection.guessContentTypeFromStream
 
 
 
-@Controller
+@RestController
 class PictureController(private val imageUploader: ImageUploader, private val imageDownloader: ImageDownloader, private val pictureResizeService: PictureResizeService) {
 
     @PostMapping("/pictures")

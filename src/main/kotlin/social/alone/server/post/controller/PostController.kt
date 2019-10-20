@@ -14,7 +14,7 @@ import social.alone.server.post.service.PostCreateService
 import social.alone.server.user.domain.User
 import java.util.*
 
-@Controller
+@RestController
 @RequestMapping(value = ["/posts"])
 class PostController(
         val postCreateService: PostCreateService,
