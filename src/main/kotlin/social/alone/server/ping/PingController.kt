@@ -32,7 +32,24 @@ class PingController(
         if (!optionalPost.isPresent) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build<Any>()
         }
-        val optionalReceiver = userRepository.findById(request.receiverUserId)
+        val optionalReceiver = userRepository.findById(request.receiverId)
+        if (!optionalReceiver.isPresent) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build<Any>()
+        }
+        val ping = pingCreateService.create(currentUser, optionalReceiver.get(), optionalPost.get())
+        return ResponseEntity.ok(ping)
+    }
+
+    @GetMapping("/posts/{postId}/pings")
+    fun getPing(
+            @CurrentUser currentUser: User,
+            @PathVariable("postId") optionalPost: Optional<Post>,
+            @RequestBody request: PingCreateRequest
+    ): ResponseEntity<*> {
+        if (!optionalPost.isPresent) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build<Any>()
+        }
+        val optionalReceiver = userRepository.findById(request.receiverId)
         if (!optionalReceiver.isPresent) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build<Any>()
         }
