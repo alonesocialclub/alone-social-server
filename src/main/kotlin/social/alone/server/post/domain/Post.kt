@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator
 import social.alone.server.picture.Picture
 import social.alone.server.user.domain.User
 import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
