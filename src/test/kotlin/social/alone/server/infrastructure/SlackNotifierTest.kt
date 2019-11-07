@@ -13,13 +13,12 @@ import social.alone.server.slack.SlackNotifier
 @SpringBootTest
 class SlackNotifierTest {
 
-
     @Autowired
-    internal var slackNotifier: SlackNotifier? = null
+    lateinit var slackNotifier: SlackNotifier
 
     @Test
     @Ignore
     fun test() {
-        slackNotifier!!.send("Hello world")
+        slackNotifier.send("Hello world")
     }
 }
