@@ -68,7 +68,7 @@ class AuthController(private val userRepository: UserRepository, private val use
             return BadRequest(errors)
         }
 
-        if (userRepository.existsByEmail(signUpRequestDto.email)!!) {
+        if (userRepository.existsByEmail(signUpRequestDto.email)) {
             throw BadRequestException("Email address already in use.")
         }
 
