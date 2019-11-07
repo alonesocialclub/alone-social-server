@@ -22,9 +22,9 @@ data class User(
 
     @Id
     @Column(unique = true, columnDefinition = "VARCHAR(64)")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(generator = "uuid", strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    var id: String? = null
+    val id: String = ""
 
     @CreationTimestamp
     val createdAt: LocalDateTime? = null

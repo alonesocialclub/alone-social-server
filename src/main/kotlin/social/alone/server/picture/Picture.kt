@@ -15,7 +15,7 @@ data class Picture(var url: String) {
     @Column(unique = true, columnDefinition = "VARCHAR(64)")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    var id: String? = null
+    var id: String = ""
 
     @CreationTimestamp
     val createdAt: LocalDateTime? = null

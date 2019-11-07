@@ -48,7 +48,6 @@ class PictureControllerTest {
     fun imageCreate() {
         val multipartFile = MockMultipartFile("test.jpg", FileInputStream(createTempFile()))
         val image = Picture("imageUrl")
-        image.id = "1234"
         given(
                 imageUploader.upload(any(MultipartFile::class.java))
         ).willReturn(image)
