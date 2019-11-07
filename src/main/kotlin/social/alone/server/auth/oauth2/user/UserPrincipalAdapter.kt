@@ -8,19 +8,11 @@ import social.alone.server.user.domain.User
 import social.alone.server.user.domain.UserRole
 
 class UserPrincipalAdapter(val user: User) : OAuth2User, UserDetails {
-    val id: String?
-    val email: String?
-    private val password: String?
-    private val authorities: Collection<GrantedAuthority>
+    val id: String = user.id
+    val email: String? = user.email
+    private val password: String? = user.password
+    private val authorities: Collection<GrantedAuthority> = authorities(user.roles)
     private var attributes: Map<String, Any>? = null
-
-    init {
-
-        this.id = user.id
-        this.email = user.email
-        this.password = user.password
-        this.authorities = authorities(user.roles)
-    }
 
     override fun getPassword(): String? {
         return password
