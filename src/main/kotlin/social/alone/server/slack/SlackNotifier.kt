@@ -20,9 +20,10 @@ class SlackNotifier(
         if (!listOf(*env.activeProfiles).contains("prod")) {
             return
         }
+        val channel = appProperties.slack.channel ?: return
         val msg = Message(text)
-        slackClient.postForEntity(appProperties.slack.channel!! , msg, String::class.java);
+        slackClient.postForEntity(channel, msg, String::class.java)
     }
 
-    data class Message(val text: String) {}
+    data class Message(val text: String)
 }
