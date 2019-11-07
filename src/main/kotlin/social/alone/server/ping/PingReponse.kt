@@ -15,7 +15,7 @@ data class PingView(
 fun Ping.view() = PingView(
         sender = sender,
         receiver = receiver,
-        postId = post.id!!,
+        postId = post.id,
         createdAt = createdAt,
         updatedAt = updatedAt
 )

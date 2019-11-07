@@ -36,7 +36,7 @@ class CustomUserDetailServiceTest {
 
         // When
         val userDetailsService = customUserDetailService
-        val userDetails = userDetailsService.loadUserByUsername(user.email!!)
+        val userDetails = userDetailsService.loadUserByUsername(user.email ?: "")
 
         // Then
         assertThat(userDetails.password).isEqualTo(user.password)

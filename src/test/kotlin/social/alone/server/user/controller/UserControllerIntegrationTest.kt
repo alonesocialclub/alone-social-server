@@ -33,7 +33,7 @@ class UserControllerIntegrationTest : BaseIntegrateTest() {
                 )
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("id").isNotEmpty)
-                .andExpect(jsonPath("id").value(this.createdUser.id!!))
+                .andExpect(jsonPath("id").value(this.createdUser.id))
     }
 
     @Test
@@ -71,6 +71,6 @@ class UserControllerIntegrationTest : BaseIntegrateTest() {
                         document("get-user-id")
                 )
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("id").value(createdUser.id!!))
+                .andExpect(jsonPath("id").value(createdUser.id))
     }
 }

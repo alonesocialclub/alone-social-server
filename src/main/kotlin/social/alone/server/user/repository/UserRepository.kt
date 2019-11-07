@@ -11,6 +11,6 @@ interface UserRepository : JpaRepository<User, String> {
 
     fun findByEmailAndProvider(email: String, provider: AuthProvider): Optional<User>
 
-    fun existsByEmail(email: String): Boolean?
+    fun existsByEmail(email: String): Boolean
 
 }

@@ -22,7 +22,7 @@ class PostControllerTest : BaseIntegrateTest() {
     fun createPost_happy() {
         // Givens
         val picture: Picture = this.createImage()
-        val postCreateRequest = PostCreateRequest("한산한 가빈 카페", PictureRequest(picture.id!!))
+        val postCreateRequest = PostCreateRequest("한산한 가빈 카페", PictureRequest(picture.id))
 
 
         // When

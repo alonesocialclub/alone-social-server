@@ -8,16 +8,12 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import social.alone.server.auth.oauth2.user.UserPrincipalAdapter
 import social.alone.server.exception.ResourceNotFoundException
-import social.alone.server.interest.InterestUpsertService
-import social.alone.server.user.domain.User
-import social.alone.server.user.dto.UserDto
 import social.alone.server.user.repository.UserRepository
 
 @Service
 @Transactional
 class CustomUserDetailService (
-        val userRepository: UserRepository,
-        val interestUpsertService: InterestUpsertService
+        val userRepository: UserRepository
 ): UserDetailsService {
 
 
@@ -29,8 +25,8 @@ class CustomUserDetailService (
         return UserPrincipalAdapter.create(user)
     }
 
-    fun loadUserById(id: String?): UserDetails {
-        val user = userRepository.findById(id!!).orElseThrow { ResourceNotFoundException("User", "id", id) }
+    fun loadUserById(id: String): UserDetails {
+        val user = userRepository.findById(id).orElseThrow { ResourceNotFoundException("User", "id", id) }
 
         return UserPrincipalAdapter.create(user)
     }

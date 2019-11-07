@@ -4,7 +4,6 @@ import org.hibernate.annotations.GenericGenerator
 import social.alone.server.picture.Picture
 import social.alone.server.user.domain.User
 import java.time.LocalDateTime
-import java.time.ZoneId
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
@@ -17,9 +16,9 @@ class Post(@ManyToOne var author: User, @NotNull var text: String, @OneToOne var
 
     @Id
     @Column(unique = true, columnDefinition = "VARCHAR(64)")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(generator = "uuid", strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    val id: String? = null
+    val id: String = ""
 
     val createdAt: LocalDateTime = LocalDateTime.now()
 

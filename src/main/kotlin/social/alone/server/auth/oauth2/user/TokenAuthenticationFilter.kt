@@ -17,25 +17,22 @@ import javax.servlet.http.HttpServletResponse
 class TokenAuthenticationFilter : OncePerRequestFilter() {
 
     @Autowired
-    private val tokenProvider: TokenProvider? = null
+    lateinit var tokenProvider: TokenProvider
 
     @Autowired
-    private val userService: CustomUserDetailService? = null
+    lateinit var userService: CustomUserDetailService
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         try {
-            val jwt = getJwtFromRequest(request)
-
-            if (StringUtils.hasText(jwt) && jwt?.let { tokenProvider!!.validateToken(it) }!!) {
-                val userId = jwt.let { tokenProvider?.getUserIdFromToken(it) }
-
-                val userDetails = userService!!.loadUserById(userId)
-                val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities
-                )
-                authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
-
-                SecurityContextHolder.getContext().authentication = authentication
+            getJwtFromRequest(request)?.let {jwt ->
+                if (validateToken(jwt)) {
+                    val userId = tokenProvider.getUserIdFromToken(jwt)
+                    val userDetails = userService.loadUserById(userId)
+                    val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
+                    authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+                    SecurityContextHolder.getContext().authentication = authentication
+                }
             }
         } catch (ex: Exception) {
             logger.error("Could not update user authentication in security context", ex)
@@ -43,6 +40,11 @@ class TokenAuthenticationFilter : OncePerRequestFilter() {
 
         filterChain.doFilter(request, response)
     }
+
+    private fun validateToken(jwt: String): Boolean {
+        return StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)
+    }
+
 
     private fun getJwtFromRequest(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader("Authorization")

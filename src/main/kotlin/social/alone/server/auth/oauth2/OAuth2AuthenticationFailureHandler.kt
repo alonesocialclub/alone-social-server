@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse
 class OAuth2AuthenticationFailureHandler : SimpleUrlAuthenticationFailureHandler() {
 
     @Autowired
-    internal var httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository? = null
+    lateinit var httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository
 
     @Throws(IOException::class, ServletException::class)
     override fun onAuthenticationFailure(request: HttpServletRequest, response: HttpServletResponse, exception: AuthenticationException) {
@@ -27,7 +27,7 @@ class OAuth2AuthenticationFailureHandler : SimpleUrlAuthenticationFailureHandler
                 .queryParam("error", exception.localizedMessage)
                 .build().toUriString()
 
-        httpCookieOAuth2AuthorizationRequestRepository!!.removeAuthorizationRequestCookies(request, response)
+        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response)
 
         redirectStrategy.sendRedirect(request, response, targetUrl)
     }

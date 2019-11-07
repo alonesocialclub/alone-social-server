@@ -21,7 +21,7 @@ class FeedControllerTest : BaseIntegrateTest() {
     fun createPost_happy() {
         // Givens
         val picture: Picture = this.createImage()
-        val postCreateRequest = PostCreateRequest("한산한 가빈 카페", PictureRequest(picture.id!!))
+        val postCreateRequest = PostCreateRequest("한산한 가빈 카페", PictureRequest(picture.id))
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/posts/")
@@ -29,7 +29,7 @@ class FeedControllerTest : BaseIntegrateTest() {
                         .content(objectMapper.writeValueAsString(postCreateRequest))
         )
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk);
+                .andExpect(MockMvcResultMatchers.status().isOk)
 
         val perform = mockMvc
                 .perform(
